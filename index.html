@@ -7,21 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg:       #080c10;
-    --surface:  #0d1318;
-    --border:   #1a2530;
-    --green:    #00ff88;
-    --red:      #ff3366;
-    --purple:   #c213e9;
-    --yellow:   #ffd166;
-    --dim:      #4a6070;
-    --text:     #ccd6e0;
-    --mono:     'Share Tech Mono', monospace;
-    --sans:     'Barlow', sans-serif;
+    --bg:      #080c10;
+    --surface: #0d1318;
+    --border:  #1a2530;
+    --green:   #00ff88;
+    --red:     #ff3366;
+    --purple:  #c213e9;
+    --yellow:  #ffd166;
+    --blue:    #4fc3f7;
+    --dim:     #4a6070;
+    --text:    #ccd6e0;
+    --mono:    'Share Tech Mono', monospace;
+    --sans:    'Barlow', sans-serif;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -33,98 +32,69 @@
       radial-gradient(ellipse at 90% 100%, rgba(194,19,233,0.04) 0%, transparent 60%);
   }
 
-  /* ── Header ── */
   header {
     border-bottom: 1px solid var(--border);
-    padding: 18px 28px;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(13,19,24,0.9);
-    backdrop-filter: blur(8px);
+    background: rgba(13,19,24,0.95);
     position: sticky;
     top: 0;
     z-index: 100;
   }
-
-  .logo {
-    font-family: var(--mono);
-    font-size: 18px;
-    color: var(--green);
-    letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(0,255,136,0.4);
-  }
-
+  .logo { font-family: var(--mono); font-size: 16px; color: var(--green); letter-spacing: 2px; text-shadow: 0 0 20px rgba(0,255,136,0.4); }
   .logo span { color: var(--dim); }
+  #last-updated { font-family: var(--mono); font-size: 11px; color: var(--dim); }
 
-  #last-updated {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--dim);
+  main { padding: 20px; max-width: 1400px; margin: 0 auto; }
+
+  .macro-warning {
+    background: rgba(255,209,102,0.06);
+    border: 1px solid rgba(255,209,102,0.2);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: var(--yellow);
   }
 
-  /* ── Layout ── */
-  main { padding: 24px 28px; max-width: 1400px; margin: 0 auto; }
-
-  /* ── Sentiment Bar ── */
   .sentiment-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 24px;
   }
-
   .sentiment-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 14px 18px;
-    transition: border-color 0.2s;
+    padding: 12px 16px;
   }
-
-  .sentiment-card:hover { border-color: var(--green); }
-
-  .sc-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 6px;
-  }
-
-  .sc-value {
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .sc-sub {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 4px;
-  }
-
+  .sc-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+  .sc-value { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+  .sc-sub { font-size: 11px; color: var(--dim); margin-top: 4px; }
   .risk-on  { color: var(--green); }
   .risk-off { color: var(--red); }
   .neutral  { color: var(--yellow); }
 
-  /* ── Section title ── */
-  .section-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--dim);
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 14px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
   }
+  .section-title { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); }
+  .section-badge { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+  .badge-scalp { background: rgba(79,195,247,0.15); color: var(--blue); border: 1px solid rgba(79,195,247,0.3); }
+  .badge-swing { background: rgba(255,209,102,0.15); color: var(--yellow); border: 1px solid rgba(255,209,102,0.3); }
 
-  /* ── Top Setups Grid ── */
   .setups-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 14px;
+    gap: 12px;
     margin-bottom: 32px;
   }
 
@@ -132,212 +102,79 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 18px;
+    padding: 16px;
     position: relative;
     overflow: hidden;
     transition: transform 0.15s, border-color 0.15s;
     animation: fadeIn 0.4s ease both;
   }
-
-  .setup-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--green);
-  }
-
-  .setup-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-
+  .setup-card:hover { transform: translateY(-2px); border-color: var(--green); }
+  .setup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
   .setup-card.long::before  { background: linear-gradient(90deg, var(--green), transparent); }
   .setup-card.short::before { background: linear-gradient(90deg, var(--red), transparent); }
 
-  .card-ticker {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-  }
+  .card-ticker { font-family: var(--mono); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .card-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
 
-  .card-meta {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 14px;
-  }
-
-  .badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 1px;
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-weight: 700;
-  }
-
+  .badge { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
   .badge-long  { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
   .badge-short { background: rgba(255,51,102,0.15); color: var(--red);   border: 1px solid rgba(255,51,102,0.3); }
   .badge-score { background: rgba(255,209,102,0.1); color: var(--yellow); border: 1px solid rgba(255,209,102,0.2); }
+  .badge-type-scalp { background: rgba(79,195,247,0.1); color: var(--blue);   border: 1px solid rgba(79,195,247,0.2); }
+  .badge-type-swing { background: rgba(255,209,102,0.1); color: var(--yellow); border: 1px solid rgba(255,209,102,0.2); }
 
-  .card-prices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
+  .card-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .price-item .pi-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); }
+  .price-item .pi-value { font-family: var(--mono); font-size: 13px; color: var(--text); }
 
-  .price-item .pi-label {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-
-  .price-item .pi-value {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text);
-  }
-
-  .targets {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .target {
-    flex: 1;
-    background: rgba(0,255,136,0.05);
-    border: 1px solid rgba(0,255,136,0.1);
-    border-radius: 4px;
-    padding: 5px 6px;
-    text-align: center;
-  }
-
+  .targets { display: flex; gap: 5px; margin-bottom: 10px; }
+  .target { flex: 1; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); border-radius: 4px; padding: 4px 5px; text-align: center; }
   .target .t-label { font-size: 9px; color: var(--dim); }
   .target .t-value { font-family: var(--mono); font-size: 11px; color: var(--green); }
 
-  .gl-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
-
+  .gl-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid var(--border); }
   .gl-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
-
   .gl-bull { color: var(--green); font-family: var(--mono); font-size: 12px; font-weight: 700; }
   .gl-bear { color: var(--purple); font-family: var(--mono); font-size: 12px; font-weight: 700; }
+  .rr-badge { font-family: var(--mono); font-size: 11px; color: var(--yellow); }
 
-  .rr-badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--yellow);
-  }
-
-  /* ── All Signals Table ── */
-  .table-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  thead tr {
-    background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid var(--border);
-  }
-
-  th {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--dim);
-    padding: 12px 14px;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 10px 14px;
-    border-bottom: 1px solid rgba(26,37,48,0.6);
-    white-space: nowrap;
-    font-family: var(--mono);
-    font-size: 12px;
-  }
-
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
+  th { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); padding: 10px 12px; text-align: left; white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid rgba(26,37,48,0.6); white-space: nowrap; font-family: var(--mono); font-size: 11px; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(255,255,255,0.02); }
-
   .td-long  { color: var(--green); }
   .td-short { color: var(--red); }
   .td-bull  { color: var(--green); }
   .td-bear  { color: var(--purple); }
+  .td-scalp { color: var(--blue); }
+  .td-swing { color: var(--yellow); }
 
-  /* ── Macro Warning ── */
-  .macro-warning {
-    background: rgba(255,209,102,0.06);
-    border: 1px solid rgba(255,209,102,0.2);
-    border-radius: 6px;
-    padding: 12px 18px;
-    margin-bottom: 24px;
-    font-size: 12px;
-    color: var(--yellow);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .empty { text-align: center; padding: 40px 20px; color: var(--dim); font-family: var(--mono); }
 
-  /* ── Empty state ── */
-  .empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--dim);
-    font-family: var(--mono);
-  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .empty-icon { font-size: 36px; margin-bottom: 12px; }
-
-  /* ── Animations ── */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── Responsive ── */
   @media (max-width: 768px) {
     .sentiment-bar { grid-template-columns: repeat(2,1fr); }
-    main { padding: 16px; }
+    main { padding: 12px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">TRADE<span>//</span>SIGNAL <span style="font-size:12px;color:var(--dim)">v2.0</span></div>
+  <div class="logo">TRADE<span>//</span>SIGNAL <span style="font-size:11px;color:var(--dim)">v3.1</span></div>
   <div id="last-updated">Loading...</div>
 </header>
 
 <main>
 
-  <!-- Macro Warning -->
   <div class="macro-warning" id="macro-warning" style="display:none">
-    ⚠️ <span id="macro-text"></span>
+    <span id="macro-text"></span>
   </div>
 
-  <!-- Sentiment Bar -->
   <div class="sentiment-bar">
     <div class="sentiment-card">
       <div class="sc-label">Market Bias</div>
@@ -361,33 +198,46 @@
     </div>
   </div>
 
-  <!-- Top Setups -->
-  <div class="section-title">TOP SETUPS</div>
-  <div class="setups-grid" id="setups-grid">
-    <div class="empty"><div class="empty-icon">📡</div>No scan results yet.<br/>Run scanner.py to populate.</div>
+  <!-- Scalps -->
+  <div class="section-header">
+    <div class="section-title">⚡ Top Scalps</div>
+    <span class="section-badge badge-scalp">15 MIN — TRADE TODAY</span>
+  </div>
+  <div class="setups-grid" id="scalps-grid">
+    <div class="empty">Loading scalp setups...</div>
+  </div>
+
+  <!-- Swings -->
+  <div class="section-header">
+    <div class="section-title">📅 Top Swings</div>
+    <span class="section-badge badge-swing">DAILY — HOLD DAYS/WEEKS</span>
+  </div>
+  <div class="setups-grid" id="swings-grid">
+    <div class="empty">Loading swing setups...</div>
   </div>
 
   <!-- All Signals Table -->
-  <div class="section-title">ALL SIGNALS</div>
+  <div class="section-header">
+    <div class="section-title">All Signals</div>
+  </div>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
           <th>Ticker</th>
+          <th>Type</th>
           <th>Dir</th>
+          <th>Trade</th>
           <th>Score</th>
           <th>Price</th>
-          <th>Entry</th>
           <th>Stop</th>
           <th>T1</th>
           <th>T2</th>
           <th>T3</th>
           <th>R/R</th>
           <th>Green Lights</th>
-          <th>GL Slope</th>
-          <th>Vol Ratio</th>
-          <th>BB Squeeze</th>
-          <th>TF</th>
+          <th>Vol</th>
+          <th>Signal</th>
         </tr>
       </thead>
       <tbody id="signals-table"></tbody>
@@ -400,7 +250,7 @@
 async function loadResults() {
   try {
     const res = await fetch('scan_results.json?t=' + Date.now());
-    if (!res.ok) throw new Error('No results file');
+    if (!res.ok) throw new Error('no file');
     const data = await res.json();
     renderDashboard(data);
   } catch(e) {
@@ -412,18 +262,19 @@ function renderDashboard(data) {
   const s = data.market_sentiment || {};
   const bias = s.bias || '—';
 
-  // Sentiment cards
   const biasEl = document.getElementById('sent-bias');
-  biasEl.textContent = s.bias_emoji ? `${s.bias_emoji} ${bias}` : bias;
-  biasEl.className = 'sc-value ' + (bias === 'RISK-ON' ? 'risk-on' : bias === 'RISK-OFF' ? 'risk-off' : 'neutral');
+  biasEl.textContent = s.bias_emoji ? `${s.bias_emoji} ${bias}` : (s.icon ? `${s.icon} ${bias}` : bias);
+  biasEl.className = 'sc-value ' + (bias==='RISK-ON' ? 'risk-on' : bias==='RISK-OFF' ? 'risk-off' : 'neutral');
   document.getElementById('sent-bias-sub').textContent = 'composite bias';
 
-  document.getElementById('sent-fg').textContent = s.fear_greed_score ?? '—';
-  document.getElementById('sent-fg').className = 'sc-value ' + fgColor(s.fear_greed_score);
+  const fgEl = document.getElementById('sent-fg');
+  fgEl.textContent = s.fear_greed_score ?? '—';
+  fgEl.className = 'sc-value ' + fgColor(s.fear_greed_score);
   document.getElementById('sent-fg-label').textContent = s.fear_greed_label || '';
 
-  document.getElementById('sent-vix').textContent = s.vix ?? '—';
-  document.getElementById('sent-vix').className = 'sc-value ' + vixColor(s.vix);
+  const vixEl = document.getElementById('sent-vix');
+  vixEl.textContent = s.vix ?? '—';
+  vixEl.className = 'sc-value ' + vixColor(s.vix);
   document.getElementById('sent-vix-level').textContent = s.vix_level || '';
 
   document.getElementById('sent-count').textContent = data.total_signals ?? '—';
@@ -433,49 +284,53 @@ function renderDashboard(data) {
   document.getElementById('last-updated').textContent =
     'Last scan: ' + (data.generated_at ? new Date(data.generated_at).toLocaleTimeString() : '—');
 
-  // Macro warning
-  if (s.note) {
-    document.getElementById('macro-warning').style.display = 'flex';
-    document.getElementById('macro-text').textContent = s.note;
+  if (s.macro_note) {
+    document.getElementById('macro-warning').style.display = 'block';
+    document.getElementById('macro-text').textContent = s.macro_note;
   }
 
-  // Top setups
-  const grid = document.getElementById('setups-grid');
-  const tops = data.top_setups || [];
-  if (tops.length === 0) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>No qualifying setups found.</div>';
-  } else {
-    grid.innerHTML = tops.map((r, i) => setupCard(r, i)).join('');
-  }
+  // Scalps
+  const scalpsGrid = document.getElementById('scalps-grid');
+  const scalps = data.top_scalps || [];
+  scalpsGrid.innerHTML = scalps.length
+    ? scalps.map((r,i) => setupCard(r, i, 'scalp')).join('')
+    : '<div class="empty">No scalp setups this scan.</div>';
+
+  // Swings
+  const swingsGrid = document.getElementById('swings-grid');
+  const swings = data.top_swings || [];
+  swingsGrid.innerHTML = swings.length
+    ? swings.map((r,i) => setupCard(r, i, 'swing')).join('')
+    : '<div class="empty">No swing setups this scan.</div>';
 
   // All signals table
   const tbody = document.getElementById('signals-table');
   const all = data.all_signals || [];
-  if (all.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
-  } else {
-    tbody.innerHTML = all.map(r => signalRow(r)).join('');
-  }
+  tbody.innerHTML = all.length
+    ? all.map(r => signalRow(r)).join('')
+    : '<tr><td colspan="14" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
 }
 
-function setupCard(r, idx) {
+function setupCard(r, idx, kind) {
   const gl = r.green_lights || {};
   const glClass = gl.signal === 'bullish' ? 'gl-bull' : 'gl-bear';
-  const glText  = gl.signal === 'bullish' ? '🟢 BULLISH' : '🟣 BEARISH';
-  const dir = r.direction.toLowerCase();
-  const delay = idx * 80;
+  const glText  = gl.signal === 'bullish' ? '🟢 BULL' : '🟣 BEAR';
+  const dir = r.direction ? r.direction.toLowerCase() : 'long';
+  const typeClass = kind === 'scalp' ? 'badge-type-scalp' : 'badge-type-swing';
+  const typeLabel = kind === 'scalp' ? '⚡ SCALP' : '📅 SWING';
   return `
-  <div class="setup-card ${dir}" style="animation-delay:${delay}ms">
+  <div class="setup-card ${dir}" style="animation-delay:${idx*80}ms">
     <div class="card-ticker">${r.ticker}</div>
     <div class="card-meta">
       <span class="badge badge-${dir}">${r.direction}</span>
       <span class="badge badge-score">Score ${r.score}</span>
+      <span class="badge ${typeClass}">${typeLabel}</span>
     </div>
     <div class="card-prices">
       <div class="price-item"><div class="pi-label">Entry</div><div class="pi-value">${r.entry}</div></div>
       <div class="price-item"><div class="pi-label">Stop</div><div class="pi-value" style="color:var(--red)">${r.stop_loss}</div></div>
       <div class="price-item"><div class="pi-label">ATR</div><div class="pi-value">${r.atr}</div></div>
-      <div class="price-item"><div class="pi-label">Vol Ratio</div><div class="pi-value">${r.vol_ratio}x</div></div>
+      <div class="price-item"><div class="pi-label">Vol</div><div class="pi-value">${r.vol_ratio}x</div></div>
     </div>
     <div class="targets">
       <div class="target"><div class="t-label">T1</div><div class="t-value">${r.target1}</div></div>
@@ -493,42 +348,37 @@ function setupCard(r, idx) {
 function signalRow(r) {
   const gl = r.green_lights || {};
   const glClass = gl.signal === 'bullish' ? 'td-bull' : 'td-bear';
-  const glText  = gl.signal === 'bullish' ? '🟢 Bull' : '🟣 Bear';
+  const tfClass = r.timeframe === '15m' ? 'td-scalp' : 'td-swing';
+  const tfLabel = r.timeframe === '15m' ? '⚡ Scalp' : '📅 Swing';
   return `<tr>
     <td style="color:#fff;font-weight:600">${r.ticker}</td>
-    <td class="td-${r.direction.toLowerCase()}">${r.direction}</td>
+    <td style="color:var(--dim)">${r.type}</td>
+    <td class="td-${(r.direction||'').toLowerCase()}">${r.direction}</td>
+    <td class="${tfClass}">${tfLabel}</td>
     <td style="color:var(--yellow)">${r.score}</td>
     <td>${r.price}</td>
-    <td>${r.entry}</td>
     <td style="color:var(--red)">${r.stop_loss}</td>
     <td style="color:var(--green)">${r.target1}</td>
     <td style="color:var(--green)">${r.target2}</td>
     <td style="color:var(--green)">${r.target3}</td>
     <td style="color:var(--yellow)">${r.rr_ratio}</td>
-    <td class="${glClass}">${glText}</td>
-    <td class="${glClass}">${gl.slope ?? '—'}</td>
+    <td class="${glClass}">${gl.signal==='bullish' ? '🟢 Bull' : '🟣 Bear'}</td>
     <td>${r.vol_ratio}x</td>
-    <td>${r.bb_squeeze ? '✅' : '—'}</td>
-    <td style="color:var(--dim)">${r.timeframe}</td>
+    <td style="color:var(--dim)">${r.signal_type||''}</td>
   </tr>`;
 }
 
-function fgColor(score) {
-  if (!score) return '';
-  if (score >= 60) return 'risk-on';
-  if (score <= 40) return 'risk-off';
-  return 'neutral';
+function fgColor(s) {
+  if (!s && s!==0) return '';
+  return s >= 60 ? 'risk-on' : s <= 40 ? 'risk-off' : 'neutral';
 }
-
-function vixColor(vix) {
-  if (!vix) return '';
-  if (vix < 15) return 'risk-on';
-  if (vix < 25) return 'neutral';
-  return 'risk-off';
+function vixColor(v) {
+  if (!v) return '';
+  return v < 15 ? 'risk-on' : v < 25 ? 'neutral' : 'risk-off';
 }
 
 loadResults();
-setInterval(loadResults, 60000); // refresh every 60s
+setInterval(loadResults, 60000);
 </script>
 </body>
 </html>

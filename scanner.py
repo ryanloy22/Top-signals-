@@ -1,11 +1,12 @@
 """
-TradeSignal Scanner v3.1
+TradeSignal Scanner v3.2
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Indicators : EMA 5/9/50, MACD, StochRSI, Volume Surge,
              Bollinger Band Squeeze, Jedi Green Lights
 Sentiment  : VIX + CNN Fear & Greed
 Alerts     : Email (SendGrid) + SMS (Twilio)
 Outputs    : Top 5 Scalps (15m) + Top 5 Swings (1d)
+Fixed      : SHORT trades now have correct SL/TP direction
 Min R/R    : 2.5:1  |  Target R/R: 5:1
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
@@ -18,6 +19,12 @@ import math
 import datetime
 import urllib.request
 from typing import Optional
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 try:
     import numpy as np
@@ -87,9 +94,7 @@ CRYPTO = [
 ]
 
 ALL_TICKERS = STOCKS + CRYPTO
-
-# High beta tickers that get 15m timeframe
-HIGH_BETA = {"TSLA","NVDA","AMD","COIN","MSTR","PLTR","SMCI","SOXL","TQQQ"}
+HIGH_BETA   = {"TSLA","NVDA","AMD","COIN","MSTR","PLTR","SMCI","SOXL","TQQQ"}
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # JEDI GREEN LIGHTS
@@ -234,18 +239,7 @@ def analyze_ticker(ticker: str) -> Optional[dict]:
         # Jedi Green Lights
         gl = jedi_green_lights(close)
 
-        # ATR / R/R
-        atr_val   = calc_atr(high, low, close)
-        stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
-        risk      = price - stop_loss
-        if risk <= 0:
-            return None
-        t1  = round(price + risk * 2.0, 4)
-        t2  = round(price + risk * 3.5, 4)
-        t3  = round(price + risk * 5.0, 4)
-        rr  = round((t3 - price) / risk, 2)
-
-        # Score
+        # ── Score first so we know direction before calculating SL/TP ────────
         bull_score = sum([
             cross_bull * 3, trend_up * 2, macd_bull * 2, srsi_bull * 1,
             vol_surge * 1, bb_squeeze * 1, (gl["signal"] == "bullish") * 2, vol_spike * 1,
@@ -258,7 +252,31 @@ def analyze_ticker(ticker: str) -> Optional[dict]:
         direction = "LONG" if bull_score >= bear_score else "SHORT"
         score     = bull_score if direction == "LONG" else bear_score
 
-        if score < CONFIG["MIN_SCORE"] or rr < CONFIG["MIN_RR"]:
+        if score < CONFIG["MIN_SCORE"]:
+            return None
+
+        # ── Direction-aware SL/TP ─────────────────────────────────────────────
+        atr_val = calc_atr(high, low, close)
+
+        if direction == "LONG":
+            stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
+            risk      = price - stop_loss
+            if risk <= 0:
+                return None
+            t1 = round(price + risk * 2.0, 4)
+            t2 = round(price + risk * 3.5, 4)
+            t3 = round(price + risk * 5.0, 4)
+        else:  # SHORT — stop above, targets below
+            stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
+            risk      = stop_loss - price
+            if risk <= 0:
+                return None
+            t1 = round(price - risk * 2.0, 4)
+            t2 = round(price - risk * 3.5, 4)
+            t3 = round(price - risk * 5.0, 4)
+
+        rr = round(abs(t3 - price) / risk, 2)
+        if rr < CONFIG["MIN_RR"]:
             return None
 
         if vol_spike and vol_surge:    stype = "VOLATILITY SPIKE 🚨"
@@ -267,31 +285,31 @@ def analyze_ticker(ticker: str) -> Optional[dict]:
         else:                          stype = "MOMENTUM 📈"
 
         return {
-            "ticker":       ticker,
-            "type":         "crypto" if is_crypto else "stock",
-            "signal_type":  stype,
-            "trade_type":   tf_label(tf),
-            "price":        round(price, 4),
-            "direction":    direction,
-            "score":        score,
-            "rr_ratio":     rr,
-            "entry":        round(price, 4),
-            "stop_loss":    round(stop_loss, 4),
-            "target1":      t1,
-            "target2":      t2,
-            "target3":      t3,
-            "risk_per_unit":round(risk, 4),
-            "atr":          round(atr_val, 4),
-            "vol_ratio":    vol_ratio,
-            "candle_pct":   candle_pct,
-            "vol_spike":    vol_spike,
-            "bb_squeeze":   bb_squeeze,
-            "ema_cross":    cross_bull or cross_bear,
-            "macd_signal":  "bull" if macd_bull else "bear",
-            "stochrsi_k":   round(sk, 3),
-            "green_lights": gl,
-            "timeframe":    tf,
-            "scanned_at":   datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "ticker":        ticker,
+            "type":          "crypto" if is_crypto else "stock",
+            "signal_type":   stype,
+            "trade_type":    tf_label(tf),
+            "price":         round(price, 4),
+            "direction":     direction,
+            "score":         score,
+            "rr_ratio":      rr,
+            "entry":         round(price, 4),
+            "stop_loss":     round(stop_loss, 4),
+            "target1":       t1,
+            "target2":       t2,
+            "target3":       t3,
+            "risk_per_unit": round(risk, 4),
+            "atr":           round(atr_val, 4),
+            "vol_ratio":     vol_ratio,
+            "candle_pct":    candle_pct,
+            "vol_spike":     vol_spike,
+            "bb_squeeze":    bb_squeeze,
+            "ema_cross":     cross_bull or cross_bear,
+            "macd_signal":   "bull" if macd_bull else "bear",
+            "stochrsi_k":    round(sk, 3),
+            "green_lights":  gl,
+            "timeframe":     tf,
+            "scanned_at":    datetime.datetime.now(datetime.timezone.utc).isoformat(),
         }
 
     except Exception as e:
@@ -301,33 +319,6 @@ def analyze_ticker(ticker: str) -> Optional[dict]:
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ALERTS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-def format_alert(r, sentiment):
-    gl = r["green_lights"]
-    return f"""
-{'='*45}
-TRADESIGNAL ALERT
-{'='*45}
-{r['signal_type']}
-{r['trade_type']}
-Ticker    : {r['ticker']} ({r['type'].upper()})
-Direction : {r['direction']}
-Score     : {r['score']}  R/R: {r['rr_ratio']}:1
-
-ENTRY     : {r['entry']}
-STOP LOSS : {r['stop_loss']}
-TARGET 1  : {r['target1']}  (2:1)
-TARGET 2  : {r['target2']}  (3.5:1)
-TARGET 3  : {r['target3']}  (5:1)
-
-Green Lights : {'BULL' if gl['signal']=='bullish' else 'BEAR'}  slope={gl['slope']}
-Vol Ratio    : {r['vol_ratio']}x  |  Candle: {r['candle_pct']}%
-BB Squeeze   : {'Yes' if r['bb_squeeze'] else 'No'}
-
-Market: {sentiment['icon']} {sentiment['bias']}
-F&G: {sentiment['fear_greed_score']} ({sentiment['fear_greed_label']})  VIX: {sentiment['vix']}
-{sentiment['macro_note']}
-{'='*45}"""
-
 def format_digest(scalps, swings, sentiment):
     now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     lines = [
@@ -343,10 +334,13 @@ def format_digest(scalps, swings, sentiment):
     ]
     for i, r in enumerate(scalps, 1):
         gl = r["green_lights"]
+        direction_arrow = "▲ LONG" if r["direction"] == "LONG" else "▼ SHORT"
         lines += [
-            f"{i}. {r['ticker']} | {r['direction']} | {r['signal_type']}",
-            f"   Entry:{r['entry']}  Stop:{r['stop_loss']}  T3:{r['target3']}  R/R:{r['rr_ratio']}",
-            f"   GL:{'BULL' if gl['signal']=='bullish' else 'BEAR'}  Vol:{r['vol_ratio']}x  Score:{r['score']}",
+            f"{i}. {r['ticker']} | {direction_arrow} | {r['signal_type']}",
+            f"   Entry    : {r['entry']}",
+            f"   Stop Loss: {r['stop_loss']}",
+            f"   T1:{r['target1']}  T2:{r['target2']}  T3:{r['target3']}",
+            f"   R/R:{r['rr_ratio']}  GL:{'BULL' if gl['signal']=='bullish' else 'BEAR'}  Vol:{r['vol_ratio']}x  Score:{r['score']}",
             "",
         ]
     lines += [
@@ -355,10 +349,13 @@ def format_digest(scalps, swings, sentiment):
     ]
     for i, r in enumerate(swings, 1):
         gl = r["green_lights"]
+        direction_arrow = "▲ LONG" if r["direction"] == "LONG" else "▼ SHORT"
         lines += [
-            f"{i}. {r['ticker']} | {r['direction']} | {r['signal_type']}",
-            f"   Entry:{r['entry']}  Stop:{r['stop_loss']}  T3:{r['target3']}  R/R:{r['rr_ratio']}",
-            f"   GL:{'BULL' if gl['signal']=='bullish' else 'BEAR'}  Vol:{r['vol_ratio']}x  Score:{r['score']}",
+            f"{i}. {r['ticker']} | {direction_arrow} | {r['signal_type']}",
+            f"   Entry    : {r['entry']}",
+            f"   Stop Loss: {r['stop_loss']}",
+            f"   T1:{r['target1']}  T2:{r['target2']}  T3:{r['target3']}",
+            f"   R/R:{r['rr_ratio']}  GL:{'BULL' if gl['signal']=='bullish' else 'BEAR'}  Vol:{r['vol_ratio']}x  Score:{r['score']}",
             "",
         ]
     lines.append("="*45)
@@ -366,10 +363,10 @@ def format_digest(scalps, swings, sentiment):
 
 def send_sms(body):
     if not TWILIO_AVAILABLE:
-        print("  ⚠ Run: pip3 install twilio"); return
+        return
     c = CONFIG
     if not all([c["TWILIO_SID"], c["TWILIO_AUTH"], c["TWILIO_FROM"], c["TWILIO_TO"]]):
-        print("  ⚠ Twilio credentials missing"); return
+        return
     try:
         TwilioClient(c["TWILIO_SID"], c["TWILIO_AUTH"]).messages.create(
             body=body[:1600], from_=c["TWILIO_FROM"], to=c["TWILIO_TO"])
@@ -395,31 +392,25 @@ def send_email(subject, body):
     except Exception as e:
         print(f"  ⚠ Email failed: {e}")
 
-def send_alert(r, sentiment):
-    body = format_alert(r, sentiment)
-    subj = f"ALERT: {r['signal_type']} | {r['ticker']} {r['direction']} | {r['trade_type']}"
-    print(f"\n  Sending alert: {r['ticker']}...")
-    send_sms(body[:1600])
-    send_email(subj, body)
-
 def send_digest(scalps, swings, sentiment):
     total = len(scalps) + len(swings)
     body  = format_digest(scalps, swings, sentiment)
-    subj  = f"TradeSignal Digest | {total} signals | {sentiment['icon']} {sentiment['bias']}"
-    print(f"\n  Sending digest ({total} signals)...")
+    subj  = f"TradeSignal | {total} signals | {sentiment['icon']} {sentiment['bias']} | {datetime.datetime.now().strftime('%I:%M %p')}"
+    print(f"\n  📤 Sending digest ({total} signals)...")
     send_sms(body[:1600])
     send_email(subj, body)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# PRINT SETUP HELPER
+# PRINT HELPER
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def print_setup(r):
     gl = r["green_lights"]
-    print(f"\n  {r['ticker']} ({r['type'].upper()}) | {r['direction']} | {r['signal_type']}")
+    direction_arrow = "▲ LONG" if r["direction"] == "LONG" else "▼ SHORT"
+    print(f"\n  {r['ticker']} ({r['type'].upper()}) | {direction_arrow} | {r['signal_type']}")
     print(f"  {r['trade_type']}")
     print(f"  Score:{r['score']}  R/R:{r['rr_ratio']}:1")
     print(f"  Entry    : {r['entry']}")
-    print(f"  Stop Loss: {r['stop_loss']}")
+    print(f"  Stop Loss: {r['stop_loss']}  {'← above entry (short)' if r['direction']=='SHORT' else '← below entry (long)'}")
     print(f"  Target 1 : {r['target1']}  (2:1)")
     print(f"  Target 2 : {r['target2']}  (3.5:1)")
     print(f"  Target 3 : {r['target3']}  (5:1)")
@@ -430,7 +421,7 @@ def print_setup(r):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def run_scanner(send_alerts=True):
     print("\n" + "━"*55)
-    print("  TradeSignal Scanner v3.1")
+    print("  TradeSignal Scanner v3.2")
     print(f"  {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("━"*55)
 
@@ -452,11 +443,10 @@ def run_scanner(send_alerts=True):
             gl_icon = "🟢" if r["green_lights"]["signal"] == "bullish" else "🟣"
             flag    = "🚨" if r["vol_spike"] else "⚡" if r["ema_cross"] else "💥" if r["bb_squeeze"] else "📈"
             tf_tag  = "15m" if r["timeframe"] == "15m" else " 1d"
-            print(f"{flag} [{tf_tag}] {r['direction']:<5} Score:{r['score']} R/R:{r['rr_ratio']} GL:{gl_icon} Vol:{r['vol_ratio']}x")
-            if send_alerts and (r["vol_spike"] or r["ema_cross"]):
-                if r["vol_spike"]:  vol_spikes.append(r)
-                if r["ema_cross"]:  ema_crosses.append(r)
-                send_alert(r, sentiment)
+            arrow   = "▲" if r["direction"] == "LONG" else "▼"
+            print(f"{flag} [{tf_tag}] {arrow}{r['direction']:<5} Score:{r['score']} R/R:{r['rr_ratio']} GL:{gl_icon} Vol:{r['vol_ratio']}x")
+            if r["vol_spike"]:  vol_spikes.append(r)
+            if r["ema_cross"]:  ema_crosses.append(r)
         else:
             print("–")
         time.sleep(0.25)
@@ -485,7 +475,7 @@ def run_scanner(send_alerts=True):
     else:
         print("  No swing setups this scan.")
 
-    # Send digest
+    # Send single digest email
     if send_alerts and (scalps or swings):
         send_digest(scalps, swings, sentiment)
 

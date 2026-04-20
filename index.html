@@ -146,6 +146,15 @@
   .funding-neg   { color: var(--blue); }
   .funding-norm  { color: var(--yellow); }
 
+
+  /* ── Liquidation Grid ── */
+  .liq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
   /* ── Key Levels ── */
   .levels-bar {
     display: grid;
@@ -396,7 +405,19 @@
       </div>
     </div>
 
-    <!-- Key Levels -->
+    <!-- Liquidation Heatmap -->
+    <div class="section-header">
+      <div class="section-title">🔥 Liquidation Clusters</div>
+      <span class="section-badge" style="background:rgba(255,51,102,0.1);color:var(--red);border:1px solid rgba(255,51,102,0.3)">COINGLASS LIVE</span>
+    </div>
+    <div style="margin-bottom:10px;font-size:11px;color:var(--dim);font-family:var(--mono)">
+      Dense clusters act as price magnets — price tends to sweep these levels before reversing.
+    </div>
+    <div class="liq-grid" id="liq-grid">
+      <div class="empty">Loading liquidation data...</div>
+    </div>
+
+        <!-- Key Levels -->
     <div class="section-header">
       <div class="section-title">📏 Key Price Levels</div>
       <span class="section-badge" style="background:rgba(0,255,136,0.1);color:var(--green);border:1px solid rgba(0,255,136,0.2)">PREV DAY H/L</span>
@@ -448,6 +469,22 @@
     </div>
     <div class="mi-grid" id="correlation-grid">
       <div class="empty">Loading correlations...</div>
+    </div>
+
+
+    <!-- CoinGlass API Key -->
+    <div class="section-header">
+      <div class="section-title">🔑 CoinGlass API Key</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:28px;font-family:var(--mono)">
+      <input id="cg-key-input" type="password" placeholder="Paste your CoinGlass API key here..."
+        style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px 14px;color:var(--text);font-family:var(--mono);font-size:12px;"
+        value="${localStorage.getItem('cg_key')||''}"
+      />
+      <button onclick="saveCGKey()"
+        style="background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);border-radius:4px;padding:10px 20px;color:var(--green);font-family:var(--mono);font-size:12px;cursor:pointer;">
+        SAVE KEY
+      </button>
     </div>
 
   </div>
@@ -558,35 +595,53 @@ function renderROR(data) {
   document.getElementById('ror-kelly').textContent   = cryptoCalc.kelly + '% per trade';
 }
 
-// ── Funding rates from CoinGlass (free public API) ────────────
-async function loadFundingRates() {
-  try {
-    const res = await fetch('https://open-api.coinglass.com/public/v2/funding?symbol=BTC,ETH,SOL', {
-      headers: { 'coinglassSecret': '' } // add your key here
-    });
-    if (!res.ok) throw new Error('no data');
-    const data = await res.json();
-    // Parse and display
-  } catch(e) {
-    // Fall back to alternative.me or show placeholder
-    loadFundingFallback();
-  }
-}
+// ── CoinGlass API key ────────────────────────────────────────
+const CG_KEY = localStorage.getItem('cg_key') || '';
 
-async function loadFundingFallback() {
-  // Use Binance public API as fallback for funding rates
+// ── Funding rates via CoinGlass (with Binance fallback) ───────
+async function loadFundingRates() {
   const pairs = [
+    { symbol: 'ETH', elValue: 'mi-eth-funding', elLabel: 'mi-eth-funding-label' },
+    { symbol: 'BTC', elValue: 'mi-btc-funding', elLabel: 'mi-btc-funding-label' },
+    { symbol: 'SOL', elValue: 'mi-sol-funding', elLabel: 'mi-sol-funding-label' },
+  ];
+
+  // Try CoinGlass first
+  if (CG_KEY) {
+    try {
+      const res = await fetch(
+        `https://open-api.coinglass.com/public/v2/fundingRate?symbol=BTC,ETH,SOL`,
+        { headers: { 'coinglassSecret': CG_KEY } }
+      );
+      const data = await res.json();
+      if (data && data.data) {
+        for (const item of data.data) {
+          const pair = pairs.find(p => p.symbol === item.symbol);
+          if (!pair) continue;
+          const rate = parseFloat(item.fundingRate) * 100;
+          const el = document.getElementById(pair.elValue);
+          el.textContent = rate.toFixed(4) + '%';
+          el.style.color = fundingColor(rate);
+          document.getElementById(pair.elLabel).textContent = fundingLabel(rate);
+        }
+        return;
+      }
+    } catch(e) {}
+  }
+
+  // Fallback: Binance public API
+  const binancePairs = [
     { id: 'ETHUSDT', elValue: 'mi-eth-funding', elLabel: 'mi-eth-funding-label' },
     { id: 'BTCUSDT', elValue: 'mi-btc-funding', elLabel: 'mi-btc-funding-label' },
     { id: 'SOLUSDT', elValue: 'mi-sol-funding', elLabel: 'mi-sol-funding-label' },
   ];
-  for (const pair of pairs) {
+  for (const pair of binancePairs) {
     try {
       const res = await fetch(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${pair.id}&limit=1`);
       const data = await res.json();
       if (data && data[0]) {
         const rate = parseFloat(data[0].fundingRate) * 100;
-        const el   = document.getElementById(pair.elValue);
+        const el = document.getElementById(pair.elValue);
         el.textContent = rate.toFixed(4) + '%';
         el.style.color = fundingColor(rate);
         document.getElementById(pair.elLabel).textContent = fundingLabel(rate);
@@ -595,6 +650,90 @@ async function loadFundingFallback() {
       document.getElementById(pair.elValue).textContent = 'N/A';
     }
   }
+}
+
+// ── Liquidation Heatmap via CoinGlass ─────────────────────────
+async function loadLiquidationData() {
+  const container = document.getElementById('liq-grid');
+  const coins = ['BTC', 'ETH', 'SOL'];
+  const results = [];
+
+  for (const symbol of coins) {
+    try {
+      let url, headers;
+      if (CG_KEY) {
+        url = `https://open-api.coinglass.com/public/v2/liquidation_map?symbol=${symbol}USDT&interval=12h`;
+        headers = { 'coinglassSecret': CG_KEY };
+      } else {
+        // Fallback: use CoinGlass open endpoint
+        url = `https://open-api.coinglass.com/public/v2/liqHeatmap?symbol=${symbol}USDT`;
+        headers = {};
+      }
+
+      const res = await fetch(url, { headers });
+      const data = await res.json();
+
+      if (data && data.data) {
+        const d = data.data;
+        // Find nearest liquidation clusters above and below current price
+        const levels = Array.isArray(d) ? d : (d.liqLevels || d.levels || []);
+        if (levels.length > 0) {
+          const sorted = [...levels].sort((a, b) => (b.amount || b.v || 0) - (a.amount || a.v || 0));
+          const top3 = sorted.slice(0, 3);
+          results.push({ symbol, levels: top3, raw: d });
+        } else {
+          results.push({ symbol, levels: [], raw: d });
+        }
+      }
+    } catch(e) {
+      results.push({ symbol, levels: [], error: e.message });
+    }
+  }
+
+  if (results.length === 0 || results.every(r => r.levels.length === 0)) {
+    // Show message directing to CoinGlass
+    container.innerHTML = `
+      <div style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px;font-family:var(--mono);font-size:12px;">
+        <div style="color:var(--yellow);margin-bottom:8px">⚠️ Liquidation heatmap requires CoinGlass API access</div>
+        <div style="color:var(--dim);margin-bottom:12px">Your key is stored and will be used automatically. Check CoinGlass for your plan details.</div>
+        <div style="color:var(--text)">📊 View live heatmap directly: <a href="https://www.coinglass.com/pro/futures/LiquidationHeatMap" target="_blank" style="color:var(--blue)">coinglass.com/pro/futures/LiquidationHeatMap</a></div>
+        <div style="margin-top:16px;color:var(--dim)">Key liquidation levels pulled from your last scan:</div>
+        ${buildFallbackLiqLevels()}
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = results.map(r => {
+    const levels = r.levels.map(l => {
+      const price = l.price || l.p || '—';
+      const amount = l.amount || l.v || l.size || 0;
+      const amountStr = amount > 1e9 ? (amount/1e9).toFixed(2)+'B' :
+                        amount > 1e6 ? (amount/1e6).toFixed(1)+'M' : amount.toFixed(0);
+      return `<div class="level-row">
+        <span class="level-label">$${parseFloat(price).toLocaleString()}</span>
+        <span style="color:var(--red)">${amountStr}</span>
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="level-card">
+      <div class="level-ticker">${r.symbol} <span style="color:var(--dim);font-size:10px">TOP LIQ CLUSTERS</span></div>
+      ${levels || '<div style="color:var(--dim);font-size:11px">No data</div>'}
+    </div>`;
+  }).join('');
+}
+
+function buildFallbackLiqLevels() {
+  // Show scan-derived key levels as proxy for liquidation zones
+  const scanData = window._scanData;
+  if (!scanData) return '';
+  const cryptoSignals = (scanData.all_signals || []).filter(r => r.type === 'crypto').slice(0, 6);
+  return cryptoSignals.map(r => `
+    <div style="margin-top:6px;font-size:11px">
+      <span style="color:var(--text)">${r.ticker.replace('-USD','')}</span>
+      <span style="color:var(--dim);margin-left:8px">SL: </span><span style="color:var(--red)">${r.stop_loss}</span>
+      <span style="color:var(--dim);margin-left:8px">T3: </span><span style="color:var(--green)">${r.target3}</span>
+    </div>`).join('');
 }
 
 // ── CoinGecko for BTC dominance + market cap ─────────────────
@@ -738,6 +877,7 @@ async function loadResults() {
     const res = await fetch('scan_results.json?t=' + Date.now());
     if (!res.ok) throw new Error('no file');
     const data = await res.json();
+    window._scanData = data;
     renderDashboard(data);
   } catch(e) {
     document.getElementById('last-updated').textContent = 'Run scanner.py to generate results';
@@ -910,19 +1050,30 @@ function vixColor(v) {
 }
 
 // ── Init ────────────────────────────────────────────────────
+// ── Store CoinGlass key in localStorage for dashboard use ────
+function saveCGKey() {
+  const key = document.getElementById('cg-key-input')?.value;
+  if (key) {
+    localStorage.setItem('cg_key', key);
+    location.reload();
+  }
+}
+
 async function init() {
   await loadResults();
   await loadPrices();
   await loadMarketData();
-  await loadFundingFallback();
+  await loadFundingRates();
   await loadAltSeason();
+  await loadLiquidationData();
 }
 
 init();
 setInterval(loadResults, 60000);
 setInterval(loadPrices, 30000);
-setInterval(loadFundingFallback, 120000);
+setInterval(loadFundingRates, 120000);
 setInterval(loadMarketData, 300000);
+setInterval(loadLiquidationData, 300000);
 </script>
 </body>
 </html>

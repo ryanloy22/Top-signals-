@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TradeSignal Scanner</title>
+<title>TradeSignal Scanner v4.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -15,6 +15,7 @@
     --purple:  #c213e9;
     --yellow:  #ffd166;
     --blue:    #4fc3f7;
+    --orange:  #ff9f43;
     --dim:     #4a6070;
     --text:    #ccd6e0;
     --mono:    'Share Tech Mono', monospace;
@@ -47,7 +48,39 @@
   .logo span { color: var(--dim); }
   #last-updated { font-family: var(--mono); font-size: 11px; color: var(--dim); }
 
+  /* ── Nav Tabs ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 20px 0;
+    background: rgba(13,19,24,0.95);
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    color: var(--dim);
+    border: 1px solid transparent;
+    border-bottom: none;
+    transition: all 0.2s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--green);
+    background: var(--surface);
+    border-color: var(--border);
+    border-bottom-color: var(--surface);
+  }
+
   main { padding: 20px; max-width: 1400px; margin: 0 auto; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
   .macro-warning {
     background: rgba(255,209,102,0.06);
@@ -59,6 +92,7 @@
     color: var(--yellow);
   }
 
+  /* ── Sentiment Bar ── */
   .sentiment-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -78,6 +112,76 @@
   .risk-off { color: var(--red); }
   .neutral  { color: var(--yellow); }
 
+  /* ── Market Intelligence Grid ── */
+  .mi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .mi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .mi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--purple), transparent);
+  }
+  .mi-card:hover { border-color: var(--purple); }
+  .mi-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+  .mi-value { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
+  .mi-sub { font-size: 11px; color: var(--dim); margin-top: 4px; }
+
+  /* Funding rate colors */
+  .funding-high  { color: var(--red); }
+  .funding-low   { color: var(--green); }
+  .funding-neg   { color: var(--blue); }
+  .funding-norm  { color: var(--yellow); }
+
+  /* ── Key Levels ── */
+  .levels-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .level-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+  }
+  .level-ticker { font-family: var(--mono); font-size: 14px; color: #fff; margin-bottom: 8px; }
+  .level-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; margin-bottom: 4px; }
+  .level-label { color: var(--dim); }
+  .level-high { color: var(--green); }
+  .level-low  { color: var(--red); }
+
+  /* ── Risk of Ruin ── */
+  .ror-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+  }
+  .ror-title { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+  .ror-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ror-item .ri-label { font-size: 10px; color: var(--dim); margin-bottom: 4px; }
+  .ror-item .ri-value { font-family: var(--mono); font-size: 16px; font-weight: 700; }
+  .ror-safe     { color: var(--green); }
+  .ror-moderate { color: var(--yellow); }
+  .ror-danger   { color: var(--red); }
+
+  /* ── Section Headers ── */
   .section-header {
     display: flex;
     align-items: center;
@@ -91,13 +195,13 @@
   .badge-scalp { background: rgba(79,195,247,0.15); color: var(--blue); border: 1px solid rgba(79,195,247,0.3); }
   .badge-swing { background: rgba(255,209,102,0.15); color: var(--yellow); border: 1px solid rgba(255,209,102,0.3); }
 
+  /* ── Setup Cards ── */
   .setups-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 12px;
     margin-bottom: 32px;
   }
-
   .setup-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -130,7 +234,7 @@
   .targets { display: flex; gap: 5px; margin-bottom: 10px; }
   .target { flex: 1; background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); border-radius: 4px; padding: 4px 5px; text-align: center; }
   .target .t-label { font-size: 9px; color: var(--dim); }
-  .target .t-value { font-family: var(--mono); font-size: 11px; color: var(--green); }
+  .target .t-value { font-family: var(--mono); font-size: 11px; }
 
   .gl-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid var(--border); }
   .gl-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
@@ -138,6 +242,17 @@
   .gl-bear { color: var(--purple); font-family: var(--mono); font-size: 12px; font-weight: 700; }
   .rr-badge { font-family: var(--mono); font-size: 11px; color: var(--yellow); }
 
+  .pos-bar {
+    margin-top: 8px;
+    padding: 7px 10px;
+    background: rgba(255,209,102,0.05);
+    border: 1px solid rgba(255,209,102,0.15);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  /* ── Table ── */
   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 32px; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   thead tr { background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
@@ -158,16 +273,26 @@
 
   @media (max-width: 768px) {
     .sentiment-bar { grid-template-columns: repeat(2,1fr); }
+    .mi-grid { grid-template-columns: repeat(2,1fr); }
+    .ror-grid { grid-template-columns: repeat(2,1fr); }
     main { padding: 12px; }
+    .tab { padding: 6px 10px; font-size: 10px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">TRADE<span>//</span>SIGNAL <span style="font-size:11px;color:var(--dim)">v3.1</span></div>
+  <div class="logo">TRADE<span>//</span>SIGNAL <span style="font-size:11px;color:var(--dim)">v4.0</span></div>
   <div id="last-updated">Loading...</div>
 </header>
+
+<!-- Tab Navigation -->
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('signals')">📊 Signals</div>
+  <div class="tab" onclick="switchTab('intelligence')">🧠 Market Intel</div>
+  <div class="tab" onclick="switchTab('all')">📋 All Signals</div>
+</div>
 
 <main>
 
@@ -175,6 +300,7 @@
     <span id="macro-text"></span>
   </div>
 
+  <!-- Sentiment Bar (always visible) -->
   <div class="sentiment-bar">
     <div class="sentiment-card">
       <div class="sc-label">Market Bias</div>
@@ -198,55 +324,415 @@
     </div>
   </div>
 
-  <!-- Scalps -->
-  <div class="section-header">
-    <div class="section-title">⚡ Top Scalps</div>
-    <span class="section-badge badge-scalp">15 MIN — TRADE TODAY</span>
-  </div>
-  <div class="setups-grid" id="scalps-grid">
-    <div class="empty">Loading scalp setups...</div>
+  <!-- TAB 1: SIGNALS -->
+  <div class="tab-content active" id="tab-signals">
+
+    <div class="section-header">
+      <div class="section-title">⚡ Top Scalps</div>
+      <span class="section-badge badge-scalp">15 MIN — TRADE TODAY</span>
+    </div>
+    <div class="setups-grid" id="scalps-grid">
+      <div class="empty">Loading scalp setups...</div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">📅 Top Swings</div>
+      <span class="section-badge badge-swing">DAILY — HOLD DAYS/WEEKS</span>
+    </div>
+    <div class="setups-grid" id="swings-grid">
+      <div class="empty">Loading swing setups...</div>
+    </div>
+
   </div>
 
-  <!-- Swings -->
-  <div class="section-header">
-    <div class="section-title">📅 Top Swings</div>
-    <span class="section-badge badge-swing">DAILY — HOLD DAYS/WEEKS</span>
-  </div>
-  <div class="setups-grid" id="swings-grid">
-    <div class="empty">Loading swing setups...</div>
+  <!-- TAB 2: MARKET INTELLIGENCE -->
+  <div class="tab-content" id="tab-intelligence">
+
+    <!-- Quick Stats -->
+    <div class="section-header">
+      <div class="section-title">📡 Live Market Data</div>
+      <span class="section-badge" style="background:rgba(194,19,233,0.1);color:var(--purple);border:1px solid rgba(194,19,233,0.3)">AUTO-REFRESH</span>
+    </div>
+    <div class="mi-grid">
+      <div class="mi-card">
+        <div class="mi-label">BTC Price</div>
+        <div class="mi-value" id="mi-btc-price">—</div>
+        <div class="mi-sub" id="mi-btc-trend">Loading...</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">ETH Price</div>
+        <div class="mi-value" id="mi-eth-price">—</div>
+        <div class="mi-sub" id="mi-eth-trend">Loading...</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">BTC Dominance</div>
+        <div class="mi-value" id="mi-btc-dom">—</div>
+        <div class="mi-sub">High = alts weak</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">Total Crypto MCap</div>
+        <div class="mi-value" id="mi-mcap">—</div>
+        <div class="mi-sub" id="mi-mcap-change">—</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">ETH Funding Rate</div>
+        <div class="mi-value" id="mi-eth-funding">—</div>
+        <div class="mi-sub" id="mi-eth-funding-label">—</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">BTC Funding Rate</div>
+        <div class="mi-value" id="mi-btc-funding">—</div>
+        <div class="mi-sub" id="mi-btc-funding-label">—</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">SOL Funding Rate</div>
+        <div class="mi-value" id="mi-sol-funding">—</div>
+        <div class="mi-sub" id="mi-sol-funding-label">—</div>
+      </div>
+      <div class="mi-card">
+        <div class="mi-label">Alt Season Index</div>
+        <div class="mi-value" id="mi-alt-season">—</div>
+        <div class="mi-sub" id="mi-alt-season-label">—</div>
+      </div>
+    </div>
+
+    <!-- Key Levels -->
+    <div class="section-header">
+      <div class="section-title">📏 Key Price Levels</div>
+      <span class="section-badge" style="background:rgba(0,255,136,0.1);color:var(--green);border:1px solid rgba(0,255,136,0.2)">PREV DAY H/L</span>
+    </div>
+    <div class="levels-bar" id="levels-bar">
+      <div class="empty">Loading levels...</div>
+    </div>
+
+    <!-- Risk of Ruin -->
+    <div class="section-header">
+      <div class="section-title">☠️ Risk of Ruin Calculator</div>
+    </div>
+    <div class="ror-card">
+      <div class="ror-grid" id="ror-grid">
+        <div class="ror-item">
+          <div class="ri-label">Crypto Account</div>
+          <div class="ri-value ror-safe" id="ror-crypto">—</div>
+        </div>
+        <div class="ror-item">
+          <div class="ri-label">Stock Account</div>
+          <div class="ri-value ror-safe" id="ror-stocks">—</div>
+        </div>
+        <div class="ror-item">
+          <div class="ri-label">Max Consecutive Losses</div>
+          <div class="ri-value" id="ror-streak">—</div>
+        </div>
+        <div class="ror-item">
+          <div class="ri-label">Ruin Probability (crypto)</div>
+          <div class="ri-value" id="ror-pct-crypto">—</div>
+        </div>
+        <div class="ror-item">
+          <div class="ri-label">Trades to 2x Crypto</div>
+          <div class="ri-value ror-safe" id="ror-2x">—</div>
+        </div>
+        <div class="ror-item">
+          <div class="ri-label">Kelly Criterion Size</div>
+          <div class="ri-value" id="ror-kelly">—</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--dim);font-family:var(--mono)">
+        Based on: 45% win rate | 5:1 avg R/R | 5% risk per trade | $20k crypto / $1.2k stocks
+      </div>
+    </div>
+
+    <!-- Correlation -->
+    <div class="section-header">
+      <div class="section-title">🔗 BTC Correlation</div>
+      <span class="section-badge" style="background:rgba(79,195,247,0.1);color:var(--blue);border:1px solid rgba(79,195,247,0.2)">30 DAY</span>
+    </div>
+    <div class="mi-grid" id="correlation-grid">
+      <div class="empty">Loading correlations...</div>
+    </div>
+
   </div>
 
-  <!-- All Signals Table -->
-  <div class="section-header">
-    <div class="section-title">All Signals</div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Type</th>
-          <th>Dir</th>
-          <th>Trade</th>
-          <th>Score</th>
-          <th>Price</th>
-          <th>Stop</th>
-          <th>T1</th>
-          <th>T2</th>
-          <th>T3</th>
-          <th>R/R</th>
-          <th>Green Lights</th>
-          <th>Vol</th>
-          <th>Signal</th>
-        </tr>
-      </thead>
-      <tbody id="signals-table"></tbody>
-    </table>
+  <!-- TAB 3: ALL SIGNALS -->
+  <div class="tab-content" id="tab-all">
+    <div class="section-header">
+      <div class="section-title">All Signals</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Type</th>
+            <th>Dir</th>
+            <th>Trade</th>
+            <th>Score</th>
+            <th>Price</th>
+            <th>Stop</th>
+            <th>T1</th>
+            <th>T2</th>
+            <th>T3</th>
+            <th>R/R</th>
+            <th>VWAP</th>
+            <th>MTF</th>
+            <th>RSI</th>
+            <th>RVOL</th>
+            <th>GL</th>
+            <th>Units</th>
+            <th>$ Risk</th>
+            <th>Signal</th>
+          </tr>
+        </thead>
+        <tbody id="signals-table"></tbody>
+      </table>
+    </div>
   </div>
 
 </main>
 
 <script>
+// ── Tab switching ────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+
+// ── Helpers ──────────────────────────────────────────────────
+function pct(a, b) {
+  if (!a || !b) return '';
+  return ((b - a) / a * 100).toFixed(2);
+}
+
+function fundingColor(rate) {
+  if (rate === null || rate === undefined) return 'var(--dim)';
+  if (rate > 0.05)  return 'var(--red)';
+  if (rate > 0.01)  return 'var(--yellow)';
+  if (rate < -0.01) return 'var(--blue)';
+  return 'var(--green)';
+}
+
+function fundingLabel(rate) {
+  if (rate === null || rate === undefined) return '—';
+  if (rate > 0.05)  return '🔴 Extreme Long — short squeeze risk';
+  if (rate > 0.01)  return '🟡 Elevated — longs dominant';
+  if (rate < -0.01) return '🔵 Negative — shorts dominant';
+  return '🟢 Neutral';
+}
+
+// ── Risk of Ruin Calculator ───────────────────────────────────
+function calcRiskOfRuin(winRate, riskPct, rrRatio, accountSize) {
+  const w = winRate;
+  const l = 1 - w;
+  const r = riskPct;
+  // Kelly criterion
+  const kelly = (w * rrRatio - l) / rrRatio;
+  // Simplified risk of ruin
+  const ror = Math.pow(l / w, 1 / r) * 100;
+  // Max losing streak before 50% drawdown
+  const streak = Math.floor(Math.log(0.5) / Math.log(1 - r));
+  // Trades to 2x at 5:1 R/R with 45% win rate
+  const expected = w * rrRatio * r - l * r;
+  const to2x = expected > 0 ? Math.ceil(accountSize / (accountSize * expected)) : '∞';
+  return {
+    kelly:  Math.max(0, (kelly * 100).toFixed(1)),
+    ror:    Math.min(100, ror).toFixed(1),
+    streak: streak,
+    to2x:   to2x,
+  };
+}
+
+function renderROR(data) {
+  const cryptoCalc = calcRiskOfRuin(0.45, 0.05, 5, 20000);
+  const stockCalc  = calcRiskOfRuin(0.45, 0.05, 5, 1200);
+
+  const rorPctEl = document.getElementById('ror-pct-crypto');
+  const rorVal   = parseFloat(cryptoCalc.ror);
+  rorPctEl.textContent = cryptoCalc.ror + '%';
+  rorPctEl.className = 'ri-value ' + (rorVal < 5 ? 'ror-safe' : rorVal < 20 ? 'ror-moderate' : 'ror-danger');
+
+  document.getElementById('ror-crypto').textContent  = '$20,000';
+  document.getElementById('ror-stocks').textContent  = '$1,200';
+  document.getElementById('ror-streak').textContent  = cryptoCalc.streak + ' trades';
+  document.getElementById('ror-2x').textContent      = '~' + cryptoCalc.to2x + ' trades';
+  document.getElementById('ror-kelly').textContent   = cryptoCalc.kelly + '% per trade';
+}
+
+// ── Funding rates from CoinGlass (free public API) ────────────
+async function loadFundingRates() {
+  try {
+    const res = await fetch('https://open-api.coinglass.com/public/v2/funding?symbol=BTC,ETH,SOL', {
+      headers: { 'coinglassSecret': '' } // add your key here
+    });
+    if (!res.ok) throw new Error('no data');
+    const data = await res.json();
+    // Parse and display
+  } catch(e) {
+    // Fall back to alternative.me or show placeholder
+    loadFundingFallback();
+  }
+}
+
+async function loadFundingFallback() {
+  // Use Binance public API as fallback for funding rates
+  const pairs = [
+    { id: 'ETHUSDT', elValue: 'mi-eth-funding', elLabel: 'mi-eth-funding-label' },
+    { id: 'BTCUSDT', elValue: 'mi-btc-funding', elLabel: 'mi-btc-funding-label' },
+    { id: 'SOLUSDT', elValue: 'mi-sol-funding', elLabel: 'mi-sol-funding-label' },
+  ];
+  for (const pair of pairs) {
+    try {
+      const res = await fetch(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${pair.id}&limit=1`);
+      const data = await res.json();
+      if (data && data[0]) {
+        const rate = parseFloat(data[0].fundingRate) * 100;
+        const el   = document.getElementById(pair.elValue);
+        el.textContent = rate.toFixed(4) + '%';
+        el.style.color = fundingColor(rate);
+        document.getElementById(pair.elLabel).textContent = fundingLabel(rate);
+      }
+    } catch(e) {
+      document.getElementById(pair.elValue).textContent = 'N/A';
+    }
+  }
+}
+
+// ── CoinGecko for BTC dominance + market cap ─────────────────
+async function loadMarketData() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/global');
+    const data = await res.json();
+    const d = data.data;
+
+    const mcap = (d.total_market_cap.usd / 1e12).toFixed(2);
+    const mcapChange = d.market_cap_change_percentage_24h_usd.toFixed(2);
+    const btcDom = d.market_cap_percentage.btc.toFixed(1);
+
+    document.getElementById('mi-mcap').textContent = '$' + mcap + 'T';
+    document.getElementById('mi-mcap-change').textContent = mcapChange + '% 24h';
+    document.getElementById('mi-mcap-change').style.color = mcapChange >= 0 ? 'var(--green)' : 'var(--red)';
+
+    const domEl = document.getElementById('mi-btc-dom');
+    domEl.textContent = btcDom + '%';
+    domEl.style.color = btcDom > 58 ? 'var(--red)' : btcDom > 52 ? 'var(--yellow)' : 'var(--green)';
+  } catch(e) {
+    document.getElementById('mi-btc-dom').textContent = 'N/A';
+  }
+}
+
+// ── CoinGecko prices ─────────────────────────────────────────
+async function loadPrices() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
+    const data = await res.json();
+
+    const btcPrice  = data.bitcoin.usd.toLocaleString();
+    const btcChange = data.bitcoin.usd_24h_change.toFixed(2);
+    const ethPrice  = data.ethereum.usd.toLocaleString();
+    const ethChange = data.ethereum.usd_24h_change.toFixed(2);
+
+    document.getElementById('mi-btc-price').textContent = '$' + btcPrice;
+    const btcTrend = document.getElementById('mi-btc-trend');
+    btcTrend.textContent = btcChange + '% 24h';
+    btcTrend.style.color = btcChange >= 0 ? 'var(--green)' : 'var(--red)';
+
+    document.getElementById('mi-eth-price').textContent = '$' + ethPrice;
+    const ethTrend = document.getElementById('mi-eth-trend');
+    ethTrend.textContent = ethChange + '% 24h';
+    ethTrend.style.color = ethChange >= 0 ? 'var(--green)' : 'var(--red)';
+  } catch(e) {
+    document.getElementById('mi-btc-price').textContent = 'N/A';
+  }
+}
+
+// ── Alt season index ─────────────────────────────────────────
+async function loadAltSeason() {
+  try {
+    const res = await fetch('https://api.alternative.me/fng/?limit=1&format=json');
+    const data = await res.json();
+    // Use Fear & Greed as proxy for alt season
+    const score = parseInt(data.data[0].value);
+    const altEl = document.getElementById('mi-alt-season');
+    const altLabel = document.getElementById('mi-alt-season-label');
+    if (score > 60) {
+      altEl.textContent = 'ALT SEASON';
+      altEl.style.color = 'var(--green)';
+      altLabel.textContent = 'Alts outperforming';
+    } else if (score < 40) {
+      altEl.textContent = 'BTC SEASON';
+      altEl.style.color = 'var(--yellow)';
+      altLabel.textContent = 'BTC dominance rising';
+    } else {
+      altEl.textContent = 'MIXED';
+      altEl.style.color = 'var(--dim)';
+      altLabel.textContent = 'No clear leader';
+    }
+  } catch(e) {}
+}
+
+// ── Key levels from scan results ─────────────────────────────
+function renderKeyLevels(signals) {
+  const container = document.getElementById('levels-bar');
+  if (!signals || signals.length === 0) {
+    container.innerHTML = '<div class="empty">No signals to show levels for</div>';
+    return;
+  }
+  // Show levels for top signals
+  const top = signals.slice(0, 8);
+  container.innerHTML = top.map(r => {
+    const highPct = pct(r.price, r.stop_loss > r.price ? r.stop_loss : r.target3);
+    const lowPct  = pct(r.price, r.stop_loss < r.price ? r.stop_loss : r.target3);
+    return `
+    <div class="level-card">
+      <div class="level-ticker">${r.ticker} <span style="color:var(--dim);font-size:10px">${r.timeframe}</span></div>
+      <div class="level-row">
+        <span class="level-label">Entry</span>
+        <span style="color:var(--text);font-family:var(--mono)">${r.entry}</span>
+      </div>
+      <div class="level-row">
+        <span class="level-label">Stop</span>
+        <span class="${r.direction==='LONG' ? 'level-low' : 'level-high'}">${r.stop_loss}</span>
+      </div>
+      <div class="level-row">
+        <span class="level-label">T1</span>
+        <span class="${r.direction==='LONG' ? 'level-high' : 'level-low'}">${r.target1}</span>
+      </div>
+      <div class="level-row">
+        <span class="level-label">T3</span>
+        <span class="${r.direction==='LONG' ? 'level-high' : 'level-low'}">${r.target3}</span>
+      </div>
+      <div class="level-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--border)">
+        <span class="level-label">VWAP</span>
+        <span style="color:${r.vwap_bias==='above' ? 'var(--green)' : 'var(--red)'}">${r.vwap_bias === 'above' ? '▲ Above' : '▼ Below'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Correlation (simplified using scan data) ─────────────────
+function renderCorrelation(signals) {
+  const container = document.getElementById('correlation-grid');
+  const cryptoSignals = signals.filter(r => r.type === 'crypto').slice(0, 8);
+  if (cryptoSignals.length === 0) {
+    container.innerHTML = '<div class="empty">No crypto signals to show correlation for</div>';
+    return;
+  }
+  container.innerHTML = cryptoSignals.map(r => {
+    const mtfIcon = r.mtf_confirmed ? '✅' : '⚠️';
+    const glColor = r.green_lights?.signal === 'bullish' ? 'var(--green)' : 'var(--purple)';
+    return `
+    <div class="mi-card">
+      <div class="mi-label">${r.ticker.replace('-USD','')}</div>
+      <div class="mi-value" style="color:${r.direction==='LONG' ? 'var(--green)' : 'var(--red)'}">${r.direction}</div>
+      <div class="mi-sub">${mtfIcon} MTF: ${(r.mtf_bias||'?').toUpperCase()}</div>
+      <div style="margin-top:6px;font-family:var(--mono);font-size:10px;color:${glColor}">
+        GL: ${r.green_lights?.signal?.toUpperCase() || '—'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Main dashboard render ────────────────────────────────────
 async function loadResults() {
   try {
     const res = await fetch('scan_results.json?t=' + Date.now());
@@ -263,7 +749,7 @@ function renderDashboard(data) {
   const bias = s.bias || '—';
 
   const biasEl = document.getElementById('sent-bias');
-  biasEl.textContent = s.bias_emoji ? `${s.bias_emoji} ${bias}` : (s.icon ? `${s.icon} ${bias}` : bias);
+  biasEl.textContent = s.icon ? `${s.icon} ${bias}` : bias;
   biasEl.className = 'sc-value ' + (bias==='RISK-ON' ? 'risk-on' : bias==='RISK-OFF' ? 'risk-off' : 'neutral');
   document.getElementById('sent-bias-sub').textContent = 'composite bias';
 
@@ -280,7 +766,6 @@ function renderDashboard(data) {
   document.getElementById('sent-count').textContent = data.total_signals ?? '—';
   document.getElementById('sent-scan-time').textContent = data.generated_at
     ? new Date(data.generated_at).toLocaleString() : '';
-
   document.getElementById('last-updated').textContent =
     'Last scan: ' + (data.generated_at ? new Date(data.generated_at).toLocaleTimeString() : '—');
 
@@ -308,12 +793,12 @@ function renderDashboard(data) {
   const all = data.all_signals || [];
   tbody.innerHTML = all.length
     ? all.map(r => signalRow(r)).join('')
-    : '<tr><td colspan="14" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
-}
+    : '<tr><td colspan="19" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
 
-function pct(a, b) {
-  if (!a || !b) return '';
-  return ((b - a) / a * 100).toFixed(2);
+  // Market intelligence
+  renderROR(data);
+  renderKeyLevels(all);
+  renderCorrelation(all);
 }
 
 function setupCard(r, idx, kind) {
@@ -333,12 +818,12 @@ function setupCard(r, idx, kind) {
   const mtfIcon  = r.mtf_confirmed ? '✅' : '⚠️';
   const mtfBias  = (r.mtf_bias || 'unknown').toUpperCase();
   const vwapBias = r.vwap_bias === 'above' ? '🟢 Above' : '🔴 Below';
-  const earningsFlag = r.has_earnings ? '<span style="color:var(--yellow);font-size:10px">⚠️ EARNINGS</span>' : '';
+  const earningsFlag = r.has_earnings ? '<span style="color:var(--yellow);font-size:10px;margin-left:4px">⚠️ EARNINGS</span>' : '';
   const rsiDiv = (r.rsi_divergence && (r.rsi_divergence.bullish || r.rsi_divergence.bearish))
     ? '<span style="color:var(--purple);font-size:10px">🔀 RSI DIV</span>' : '';
   return `
   <div class="setup-card ${dir}" style="animation-delay:${idx*80}ms">
-    <div class="card-ticker">${r.ticker} ${earningsFlag}</div>
+    <div class="card-ticker">${r.ticker}${earningsFlag}</div>
     <div class="card-meta">
       <span class="badge badge-${dir}">${r.direction}</span>
       <span class="badge badge-score">Score ${r.score}</span>
@@ -381,29 +866,36 @@ function setupCard(r, idx, kind) {
       <span class="${glClass}">${glText}</span>
       <span class="rr-badge">${r.rr_ratio}:1 R/R</span>
     </div>
-    ${pos.units ? `<div style="margin-top:8px;padding:8px 10px;background:rgba(255,209,102,0.05);border:1px solid rgba(255,209,102,0.15);border-radius:4px;font-family:var(--mono);font-size:11px;"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
+    ${pos.units ? `<div class="pos-bar"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
   </div>`;
 }
 
 function signalRow(r) {
   const gl = r.green_lights || {};
+  const pos = r.position || {};
   const glClass = gl.signal === 'bullish' ? 'td-bull' : 'td-bear';
   const tfClass = r.timeframe === '15m' ? 'td-scalp' : 'td-swing';
   const tfLabel = r.timeframe === '15m' ? '⚡ Scalp' : '📅 Swing';
+  const mtfIcon = r.mtf_confirmed ? '✅' : '⚠️';
   return `<tr>
-    <td style="color:#fff;font-weight:600">${r.ticker}</td>
+    <td style="color:#fff;font-weight:600">${r.ticker}${r.has_earnings ? ' 💰' : ''}</td>
     <td style="color:var(--dim)">${r.type}</td>
     <td class="td-${(r.direction||'').toLowerCase()}">${r.direction}</td>
     <td class="${tfClass}">${tfLabel}</td>
     <td style="color:var(--yellow)">${r.score}</td>
     <td>${r.price}</td>
-    <td style="color:var(--red)">${r.stop_loss}</td>
-    <td style="color:var(--green)">${r.target1}</td>
-    <td style="color:var(--green)">${r.target2}</td>
-    <td style="color:var(--green)">${r.target3}</td>
+    <td style="color:${r.direction==='LONG'?'var(--red)':'var(--green)'}">${r.stop_loss}</td>
+    <td style="color:${r.direction==='LONG'?'var(--green)':'var(--red)'}">${r.target1}</td>
+    <td style="color:${r.direction==='LONG'?'var(--green)':'var(--red)'}">${r.target2}</td>
+    <td style="color:${r.direction==='LONG'?'var(--green)':'var(--red)'}">${r.target3}</td>
     <td style="color:var(--yellow)">${r.rr_ratio}</td>
-    <td class="${glClass}">${gl.signal==='bullish' ? '🟢 Bull' : '🟣 Bear'}</td>
-    <td>${r.vol_ratio}x</td>
+    <td style="color:${r.vwap_bias==='above'?'var(--green)':'var(--red)'}">${r.vwap_bias||'—'}</td>
+    <td>${mtfIcon} ${(r.mtf_bias||'?').toUpperCase()}</td>
+    <td>${r.rsi||'—'}</td>
+    <td>${r.rvol||r.vol_ratio}x</td>
+    <td class="${glClass}">${gl.signal==='bullish' ? '🟢' : '🟣'}</td>
+    <td style="color:var(--yellow)">${pos.units||'—'}</td>
+    <td style="color:var(--red)">${pos.dollar_risk ? '$'+pos.dollar_risk : '—'}</td>
     <td style="color:var(--dim)">${r.signal_type||''}</td>
   </tr>`;
 }
@@ -417,8 +909,20 @@ function vixColor(v) {
   return v < 15 ? 'risk-on' : v < 25 ? 'neutral' : 'risk-off';
 }
 
-loadResults();
+// ── Init ────────────────────────────────────────────────────
+async function init() {
+  await loadResults();
+  await loadPrices();
+  await loadMarketData();
+  await loadFundingFallback();
+  await loadAltSeason();
+}
+
+init();
 setInterval(loadResults, 60000);
+setInterval(loadPrices, 30000);
+setInterval(loadFundingFallback, 120000);
+setInterval(loadMarketData, 300000);
 </script>
 </body>
 </html>

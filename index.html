@@ -311,6 +311,11 @@ function renderDashboard(data) {
     : '<tr><td colspan="14" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
 }
 
+function pct(a, b) {
+  if (!a || !b) return '';
+  return ((b - a) / a * 100).toFixed(2);
+}
+
 function setupCard(r, idx, kind) {
   const gl = r.green_lights || {};
   const glClass = gl.signal === 'bullish' ? 'gl-bull' : 'gl-bear';
@@ -318,6 +323,12 @@ function setupCard(r, idx, kind) {
   const dir = r.direction ? r.direction.toLowerCase() : 'long';
   const typeClass = kind === 'scalp' ? 'badge-type-scalp' : 'badge-type-swing';
   const typeLabel = kind === 'scalp' ? '⚡ SCALP' : '📅 SWING';
+  const slPct  = pct(r.entry, r.stop_loss);
+  const t1Pct  = pct(r.entry, r.target1);
+  const t2Pct  = pct(r.entry, r.target2);
+  const t3Pct  = pct(r.entry, r.target3);
+  const slColor  = r.direction === 'LONG' ? 'var(--red)' : 'var(--green)';
+  const tgtColor = r.direction === 'LONG' ? 'var(--green)' : 'var(--red)';
   return `
   <div class="setup-card ${dir}" style="animation-delay:${idx*80}ms">
     <div class="card-ticker">${r.ticker}</div>
@@ -328,14 +339,29 @@ function setupCard(r, idx, kind) {
     </div>
     <div class="card-prices">
       <div class="price-item"><div class="pi-label">Entry</div><div class="pi-value">${r.entry}</div></div>
-      <div class="price-item"><div class="pi-label">Stop</div><div class="pi-value" style="color:var(--red)">${r.stop_loss}</div></div>
+      <div class="price-item">
+        <div class="pi-label">Stop Loss</div>
+        <div class="pi-value" style="color:${slColor}">${r.stop_loss} <span style="font-size:10px;opacity:0.7">(${slPct}%)</span></div>
+      </div>
       <div class="price-item"><div class="pi-label">ATR</div><div class="pi-value">${r.atr}</div></div>
       <div class="price-item"><div class="pi-label">Vol</div><div class="pi-value">${r.vol_ratio}x</div></div>
     </div>
     <div class="targets">
-      <div class="target"><div class="t-label">T1</div><div class="t-value">${r.target1}</div></div>
-      <div class="target"><div class="t-label">T2</div><div class="t-value">${r.target2}</div></div>
-      <div class="target"><div class="t-label">T3</div><div class="t-value">${r.target3}</div></div>
+      <div class="target">
+        <div class="t-label">T1</div>
+        <div class="t-value" style="color:${tgtColor}">${r.target1}</div>
+        <div style="font-size:9px;color:var(--dim)">${t1Pct}%</div>
+      </div>
+      <div class="target">
+        <div class="t-label">T2</div>
+        <div class="t-value" style="color:${tgtColor}">${r.target2}</div>
+        <div style="font-size:9px;color:var(--dim)">${t2Pct}%</div>
+      </div>
+      <div class="target">
+        <div class="t-label">T3</div>
+        <div class="t-value" style="color:${tgtColor}">${r.target3}</div>
+        <div style="font-size:9px;color:var(--dim)">${t3Pct}%</div>
+      </div>
     </div>
     <div class="gl-row">
       <span class="gl-label">Green Lights</span>

@@ -494,6 +494,45 @@
     <div class="section-header">
       <div class="section-title">All Signals</div>
     </div>
+
+    <!-- Filter Bar -->
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;">Filter:</div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="filterSignals('all')" id="filter-all"
+          style="font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--green);background:rgba(0,255,136,0.15);color:var(--green);letter-spacing:1px;">
+          ALL
+        </button>
+        <button onclick="filterSignals('stock')" id="filter-stock"
+          style="font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--dim);letter-spacing:1px;">
+          STOCKS
+        </button>
+        <button onclick="filterSignals('crypto')" id="filter-crypto"
+          style="font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--dim);letter-spacing:1px;">
+          CRYPTO
+        </button>
+      </div>
+      <div style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--dim)" id="filter-count"></div>
+
+      <!-- Sort dropdown -->
+      <select id="sort-select" onchange="sortSignals()"
+        style="font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;">
+        <option value="score">Sort: Score</option>
+        <option value="rr">Sort: R/R Ratio</option>
+        <option value="rvol">Sort: RVOL</option>
+        <option value="rsi">Sort: RSI</option>
+        <option value="ticker">Sort: Ticker A-Z</option>
+      </select>
+
+      <!-- Direction filter -->
+      <select id="dir-select" onchange="filterSignals(window._currentFilter||'all')"
+        style="font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;">
+        <option value="all">Dir: All</option>
+        <option value="LONG">Dir: LONG only</option>
+        <option value="SHORT">Dir: SHORT only</option>
+      </select>
+    </div>
+
     <div class="table-wrap">
       <table>
         <thead>
@@ -929,11 +968,9 @@ function renderDashboard(data) {
     : '<div class="empty">No swing setups this scan.</div>';
 
   // All signals table
-  const tbody = document.getElementById('signals-table');
   const all = data.all_signals || [];
-  tbody.innerHTML = all.length
-    ? all.map(r => signalRow(r)).join('')
-    : '<tr><td colspan="19" style="text-align:center;color:var(--dim);padding:30px">No signals</td></tr>';
+  window._allSignals = all;
+  renderFilteredTable();
 
   // Market intelligence
   renderROR(data);
@@ -1008,6 +1045,75 @@ function setupCard(r, idx, kind) {
     </div>
     ${pos.units ? `<div class="pos-bar"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
   </div>`;
+}
+
+// ── Filter & Sort ────────────────────────────────────────────
+window._currentFilter = 'all';
+window._allSignals = [];
+
+function filterSignals(type) {
+  window._currentFilter = type;
+
+  // Update button styles
+  ['all','stock','crypto'].forEach(t => {
+    const btn = document.getElementById('filter-' + t);
+    if (!btn) return;
+    if (t === type) {
+      btn.style.border = '1px solid var(--green)';
+      btn.style.background = 'rgba(0,255,136,0.15)';
+      btn.style.color = 'var(--green)';
+    } else {
+      btn.style.border = '1px solid var(--border)';
+      btn.style.background = 'var(--surface)';
+      btn.style.color = 'var(--dim)';
+    }
+  });
+
+  renderFilteredTable();
+}
+
+function sortSignals() {
+  renderFilteredTable();
+}
+
+function renderFilteredTable() {
+  const typeFilter = window._currentFilter || 'all';
+  const dirFilter  = document.getElementById('dir-select')?.value || 'all';
+  const sortKey    = document.getElementById('sort-select')?.value || 'score';
+  let signals = [...(window._allSignals || [])];
+
+  // Filter by type
+  if (typeFilter !== 'all') {
+    signals = signals.filter(r => r.type === typeFilter);
+  }
+
+  // Filter by direction
+  if (dirFilter !== 'all') {
+    signals = signals.filter(r => r.direction === dirFilter);
+  }
+
+  // Sort
+  signals.sort((a, b) => {
+    if (sortKey === 'score')  return (b.score || 0) - (a.score || 0);
+    if (sortKey === 'rr')     return (b.rr_ratio || 0) - (a.rr_ratio || 0);
+    if (sortKey === 'rvol')   return (b.rvol || b.vol_ratio || 0) - (a.rvol || a.vol_ratio || 0);
+    if (sortKey === 'rsi')    return (b.rsi || 0) - (a.rsi || 0);
+    if (sortKey === 'ticker') return (a.ticker||'').localeCompare(b.ticker||'');
+    return 0;
+  });
+
+  const tbody = document.getElementById('signals-table');
+  tbody.innerHTML = signals.length
+    ? signals.map(r => signalRow(r)).join('')
+    : '<tr><td colspan="19" style="text-align:center;color:var(--dim);padding:30px">No signals match filter</td></tr>';
+
+  // Update count
+  const countEl = document.getElementById('filter-count');
+  if (countEl) {
+    const stocks = signals.filter(r => r.type === 'stock').length;
+    const crypto = signals.filter(r => r.type === 'crypto').length;
+    countEl.textContent = `${signals.length} signals (${stocks} stocks, ${crypto} crypto)`;
+  }
 }
 
 function signalRow(r) {

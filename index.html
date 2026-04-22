@@ -287,6 +287,171 @@
     main { padding: 12px; }
     .tab { padding: 6px 10px; font-size: 10px; }
   }
+
+  /* ── Trade Journal ── */
+  .journal-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .stat-card::before {
+    content: '';
+    display: block;
+    height: 2px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+  }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.red::before   { background: var(--red); }
+  .stat-card.yellow::before { background: var(--yellow); }
+  .stat-card.blue::before  { background: var(--blue); }
+  .stat-card.purple::before { background: var(--purple); }
+  .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+  .stat-value { font-family: var(--mono); font-size: 20px; font-weight: 700; }
+  .stat-sub   { font-size: 10px; color: var(--dim); margin-top: 3px; }
+
+  .trade-log-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,255,136,0.4);
+    background: rgba(0,255,136,0.1);
+    color: var(--green);
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    width: 100%;
+    transition: background 0.15s;
+  }
+  .trade-log-btn:hover { background: rgba(0,255,136,0.2); }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--green);
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+  .form-row {
+    margin-bottom: 12px;
+  }
+  .form-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .form-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .form-input:focus { outline: none; border-color: var(--green); }
+  .form-select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; }
+  .btn-primary {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--green);
+    background: rgba(0,255,136,0.15);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+  .btn-cancel {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .btn-danger {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,51,102,0.4);
+    background: rgba(255,51,102,0.1);
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  .trade-row-win  td:first-child { border-left: 3px solid var(--green); }
+  .trade-row-loss td:first-child { border-left: 3px solid var(--red); }
+  .trade-row-open td:first-child { border-left: 3px solid var(--yellow); }
+
+  .asset-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .asset-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .asset-ticker { font-family: var(--mono); font-size: 14px; color: #fff; margin-bottom: 6px; }
+  .asset-stat { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; margin-bottom: 3px; }
+  .asset-stat-label { color: var(--dim); }
+
 </style>
 </head>
 <body>
@@ -301,6 +466,7 @@
   <div class="tab active" onclick="switchTab('signals')">📊 Signals</div>
   <div class="tab" onclick="switchTab('intelligence')">🧠 Market Intel</div>
   <div class="tab" onclick="switchTab('all')">📋 All Signals</div>
+  <div class="tab" onclick="switchTab('journal')">📓 Trade Journal</div>
 </div>
 
 <main>
@@ -556,12 +722,178 @@
             <th>Units</th>
             <th>$ Risk</th>
             <th>Signal</th>
+            <th>Log</th>
           </tr>
         </thead>
         <tbody id="signals-table"></tbody>
       </table>
     </div>
   </div>
+
+  <!-- TAB 4: TRADE JOURNAL -->
+  <div class="tab-content" id="tab-journal">
+
+    <!-- Stats Row -->
+    <div class="section-header">
+      <div class="section-title">📊 Performance Stats</div>
+      <button class="btn-danger" onclick="exportTrades()">⬇ Export CSV</button>
+    </div>
+    <div class="journal-stats">
+      <div class="stat-card green">
+        <div class="stat-label">Total P&L</div>
+        <div class="stat-value" id="stat-pnl">$0</div>
+        <div class="stat-sub" id="stat-pnl-sub">0 closed trades</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Win Rate</div>
+        <div class="stat-value" id="stat-winrate">0%</div>
+        <div class="stat-sub" id="stat-wr-sub">0W / 0L</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="stat-label">Avg R/R Achieved</div>
+        <div class="stat-value" id="stat-rr">0:1</div>
+        <div class="stat-sub">Target: 5:1</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Open Trades</div>
+        <div class="stat-value" id="stat-open">0</div>
+        <div class="stat-sub" id="stat-open-val">$0 at risk</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Best Trade</div>
+        <div class="stat-value" id="stat-best">—</div>
+        <div class="stat-sub" id="stat-best-sub">—</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Worst Trade</div>
+        <div class="stat-value" id="stat-worst">—</div>
+        <div class="stat-sub" id="stat-worst-sub">—</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-label">Win Streak</div>
+        <div class="stat-value" id="stat-streak">0</div>
+        <div class="stat-sub" id="stat-streak-sub">Current streak</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="stat-label">Profit Factor</div>
+        <div class="stat-value" id="stat-pf">0</div>
+        <div class="stat-sub">Gross win / Gross loss</div>
+      </div>
+    </div>
+
+    <!-- Per-Asset Breakdown -->
+    <div class="section-header">
+      <div class="section-title">🔍 Per-Asset Breakdown</div>
+    </div>
+    <div class="asset-breakdown" id="asset-breakdown">
+      <div class="empty">No trades logged yet.</div>
+    </div>
+
+    <!-- Trade Log Table -->
+    <div class="section-header">
+      <div class="section-title">📋 Trade Log</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim)" id="journal-count">0 trades</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Ticker</th>
+            <th>Dir</th>
+            <th>Type</th>
+            <th>Entry</th>
+            <th>Exit</th>
+            <th>Stop</th>
+            <th>Target</th>
+            <th>Units</th>
+            <th>P&L $</th>
+            <th>P&L %</th>
+            <th>R Multiple</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="journal-table"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Log Trade Modal -->
+  <div class="modal-overlay" id="log-modal">
+    <div class="modal">
+      <div class="modal-title">📓 LOG TRADE</div>
+      <input type="hidden" id="trade-id"/>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-row">
+          <label class="form-label">Ticker</label>
+          <input class="form-input" id="t-ticker" readonly/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Direction</label>
+          <input class="form-input" id="t-direction" readonly/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Entry Price</label>
+          <input class="form-input" id="t-entry" type="number" step="any"/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Stop Loss</label>
+          <input class="form-input" id="t-stop" type="number" step="any"/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Target (T3)</label>
+          <input class="form-input" id="t-target" type="number" step="any"/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Units / Contracts</label>
+          <input class="form-input" id="t-units" type="number" step="any"/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">$ Risk</label>
+          <input class="form-input" id="t-risk" type="number" step="any"/>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Asset Type</label>
+          <input class="form-input" id="t-type" readonly/>
+        </div>
+      </div>
+
+      <div class="form-row" style="margin-top:4px;">
+        <label class="form-label">Exit Price (leave blank if still open)</label>
+        <input class="form-input" id="t-exit" type="number" step="any" placeholder="Fill when you close the trade"/>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="t-status">
+          <option value="open">Open — trade is active</option>
+          <option value="win">Win — closed in profit</option>
+          <option value="loss">Loss — stopped out</option>
+          <option value="breakeven">Breakeven</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Notes</label>
+        <input class="form-input" id="t-notes" placeholder="e.g. Took T2, moved stop to BE..."/>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Date/Time</label>
+        <input class="form-input" id="t-date" type="datetime-local"/>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-cancel" onclick="closeModal()">CANCEL</button>
+        <button class="btn-primary" onclick="saveTrade()">SAVE TRADE</button>
+      </div>
+    </div>
+  </div>
+
 
 </main>
 
@@ -1043,6 +1375,7 @@ function setupCard(r, idx, kind) {
       <span class="${glClass}">${glText}</span>
       <span class="rr-badge">${r.rr_ratio}:1 R/R</span>
     </div>
+    <button class="trade-log-btn" onclick='openLogModal(${JSON.stringify(r).replace(/'/g, "&#39;")})'>📓 LOG TRADE</button>
     ${pos.units ? `<div class="pos-bar"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
   </div>`;
 }
@@ -1173,6 +1506,291 @@ async function init() {
   await loadAltSeason();
   await loadLiquidationData();
 }
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// TRADE JOURNAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const TRADES_KEY = 'tradesignal_trades';
+
+function loadTrades() {
+  try {
+    return JSON.parse(localStorage.getItem(TRADES_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function saveTrades(trades) {
+  localStorage.setItem(TRADES_KEY, JSON.stringify(trades));
+}
+
+function openLogModal(signal) {
+  const pos = signal.position || {};
+  const now = new Date();
+  const localISO = new Date(now - now.getTimezoneOffset() * 60000).toISOString().slice(0,16);
+
+  document.getElementById('trade-id').value = '';
+  document.getElementById('t-ticker').value    = signal.ticker || '';
+  document.getElementById('t-direction').value = signal.direction || '';
+  document.getElementById('t-entry').value     = signal.entry || signal.price || '';
+  document.getElementById('t-stop').value      = signal.stop_loss || '';
+  document.getElementById('t-target').value    = signal.target3 || '';
+  document.getElementById('t-units').value     = pos.units || '';
+  document.getElementById('t-risk').value      = pos.dollar_risk || '';
+  document.getElementById('t-type').value      = signal.type || '';
+  document.getElementById('t-exit').value      = '';
+  document.getElementById('t-status').value    = 'open';
+  document.getElementById('t-notes').value     = '';
+  document.getElementById('t-date').value      = localISO;
+
+  document.getElementById('log-modal').classList.add('open');
+}
+
+function openEditModal(tradeId) {
+  const trades = loadTrades();
+  const trade = trades.find(t => t.id === tradeId);
+  if (!trade) return;
+
+  document.getElementById('trade-id').value    = trade.id;
+  document.getElementById('t-ticker').value    = trade.ticker;
+  document.getElementById('t-direction').value = trade.direction;
+  document.getElementById('t-entry').value     = trade.entry;
+  document.getElementById('t-stop').value      = trade.stop_loss;
+  document.getElementById('t-target').value    = trade.target;
+  document.getElementById('t-units').value     = trade.units;
+  document.getElementById('t-risk').value      = trade.risk;
+  document.getElementById('t-type').value      = trade.asset_type;
+  document.getElementById('t-exit').value      = trade.exit_price || '';
+  document.getElementById('t-status').value    = trade.status || 'open';
+  document.getElementById('t-notes').value     = trade.notes || '';
+  document.getElementById('t-date').value      = trade.date ? trade.date.slice(0,16) : '';
+
+  document.getElementById('log-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('log-modal').classList.remove('open');
+}
+
+function saveTrade() {
+  const ticker    = document.getElementById('t-ticker').value;
+  const direction = document.getElementById('t-direction').value;
+  const entry     = parseFloat(document.getElementById('t-entry').value) || 0;
+  const stopLoss  = parseFloat(document.getElementById('t-stop').value) || 0;
+  const target    = parseFloat(document.getElementById('t-target').value) || 0;
+  const units     = parseFloat(document.getElementById('t-units').value) || 0;
+  const risk      = parseFloat(document.getElementById('t-risk').value) || 0;
+  const exitPrice = parseFloat(document.getElementById('t-exit').value) || null;
+  const status    = document.getElementById('t-status').value;
+  const notes     = document.getElementById('t-notes').value;
+  const date      = document.getElementById('t-date').value;
+  const assetType = document.getElementById('t-type').value;
+  const existingId = document.getElementById('trade-id').value;
+
+  // Calculate P&L
+  let pnl = 0, pnlPct = 0, rMultiple = 0;
+  if (exitPrice && entry && units) {
+    const priceDiff = direction === 'LONG' ? exitPrice - entry : entry - exitPrice;
+    pnl = priceDiff * units;
+    pnlPct = (priceDiff / entry) * 100;
+    const riskPerUnit = Math.abs(entry - stopLoss);
+    rMultiple = riskPerUnit > 0 ? priceDiff / riskPerUnit : 0;
+  }
+
+  const trade = {
+    id:          existingId || Date.now().toString(),
+    ticker,
+    direction,
+    entry,
+    stop_loss:   stopLoss,
+    target,
+    units,
+    risk,
+    exit_price:  exitPrice,
+    status,
+    notes,
+    date,
+    asset_type:  assetType,
+    pnl:         Math.round(pnl * 100) / 100,
+    pnl_pct:     Math.round(pnlPct * 100) / 100,
+    r_multiple:  Math.round(rMultiple * 100) / 100,
+  };
+
+  const trades = loadTrades();
+  if (existingId) {
+    const idx = trades.findIndex(t => t.id === existingId);
+    if (idx >= 0) trades[idx] = trade;
+  } else {
+    trades.unshift(trade);
+  }
+
+  saveTrades(trades);
+  closeModal();
+  renderJournal();
+}
+
+function deleteTrade(tradeId) {
+  if (!confirm('Delete this trade?')) return;
+  const trades = loadTrades().filter(t => t.id !== tradeId);
+  saveTrades(trades);
+  renderJournal();
+}
+
+function renderJournal() {
+  const trades = loadTrades();
+  const closed = trades.filter(t => t.status === 'win' || t.status === 'loss' || t.status === 'breakeven');
+  const wins   = trades.filter(t => t.status === 'win');
+  const losses = trades.filter(t => t.status === 'loss');
+  const open   = trades.filter(t => t.status === 'open');
+
+  // Stats
+  const totalPnl   = closed.reduce((s, t) => s + (t.pnl || 0), 0);
+  const winRate    = closed.length > 0 ? (wins.length / closed.length * 100).toFixed(1) : 0;
+  const avgRR      = closed.length > 0
+    ? (closed.reduce((s,t) => s + (t.r_multiple||0), 0) / closed.length).toFixed(2) : 0;
+  const openRisk   = open.reduce((s,t) => s + (t.risk||0), 0);
+  const bestTrade  = wins.length > 0   ? wins.reduce((a,b) => (a.pnl||0) > (b.pnl||0) ? a : b) : null;
+  const worstTrade = losses.length > 0 ? losses.reduce((a,b) => (a.pnl||0) < (b.pnl||0) ? a : b) : null;
+  const grossWin   = wins.reduce((s,t) => s + (t.pnl||0), 0);
+  const grossLoss  = Math.abs(losses.reduce((s,t) => s + (t.pnl||0), 0));
+  const profitFactor = grossLoss > 0 ? (grossWin / grossLoss).toFixed(2) : grossWin > 0 ? '∞' : '0';
+
+  // Win streak
+  let streak = 0, maxStreak = 0, curStreak = 0;
+  for (const t of [...trades].reverse()) {
+    if (t.status === 'win')  { curStreak++; maxStreak = Math.max(maxStreak, curStreak); }
+    else if (t.status === 'loss') curStreak = 0;
+  }
+  // Current streak (from most recent)
+  for (const t of trades) {
+    if (t.status === 'win') streak++;
+    else if (t.status === 'loss') break;
+  }
+
+  // Update stat cards
+  const pnlEl = document.getElementById('stat-pnl');
+  pnlEl.textContent = '$' + totalPnl.toFixed(2);
+  pnlEl.style.color = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('stat-pnl-sub').textContent = closed.length + ' closed trades';
+
+  const wrEl = document.getElementById('stat-winrate');
+  wrEl.textContent = winRate + '%';
+  wrEl.style.color = parseFloat(winRate) >= 50 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('stat-wr-sub').textContent = wins.length + 'W / ' + losses.length + 'L';
+
+  const rrEl = document.getElementById('stat-rr');
+  rrEl.textContent = avgRR + ':1';
+  rrEl.style.color = parseFloat(avgRR) >= 2.5 ? 'var(--green)' : 'var(--yellow)';
+
+  document.getElementById('stat-open').textContent = open.length;
+  document.getElementById('stat-open-val').textContent = '$' + openRisk.toFixed(0) + ' at risk';
+
+  document.getElementById('stat-best').textContent = bestTrade ? '$' + bestTrade.pnl.toFixed(2) : '—';
+  document.getElementById('stat-best').style.color = 'var(--green)';
+  document.getElementById('stat-best-sub').textContent = bestTrade ? bestTrade.ticker : '—';
+
+  document.getElementById('stat-worst').textContent = worstTrade ? '$' + worstTrade.pnl.toFixed(2) : '—';
+  document.getElementById('stat-worst').style.color = 'var(--red)';
+  document.getElementById('stat-worst-sub').textContent = worstTrade ? worstTrade.ticker : '—';
+
+  document.getElementById('stat-streak').textContent = streak;
+  document.getElementById('stat-streak-sub').textContent = 'Best: ' + maxStreak;
+
+  document.getElementById('stat-pf').textContent = profitFactor;
+  document.getElementById('stat-pf').style.color = parseFloat(profitFactor) >= 1.5 ? 'var(--green)' : 'var(--yellow)';
+
+  document.getElementById('journal-count').textContent = trades.length + ' trades';
+
+  // Per-asset breakdown
+  const assetMap = {};
+  for (const t of closed) {
+    if (!assetMap[t.ticker]) assetMap[t.ticker] = { wins:0, losses:0, pnl:0, type: t.asset_type };
+    if (t.status === 'win')  assetMap[t.ticker].wins++;
+    if (t.status === 'loss') assetMap[t.ticker].losses++;
+    assetMap[t.ticker].pnl += (t.pnl || 0);
+  }
+  const assetEl = document.getElementById('asset-breakdown');
+  const assetKeys = Object.keys(assetMap);
+  if (assetKeys.length === 0) {
+    assetEl.innerHTML = '<div class="empty">No closed trades yet.</div>';
+  } else {
+    assetEl.innerHTML = assetKeys
+      .sort((a,b) => assetMap[b].pnl - assetMap[a].pnl)
+      .map(ticker => {
+        const a = assetMap[ticker];
+        const total = a.wins + a.losses;
+        const wr = total > 0 ? (a.wins/total*100).toFixed(0) : 0;
+        const pnlColor = a.pnl >= 0 ? 'var(--green)' : 'var(--red)';
+        return `<div class="asset-card">
+          <div class="asset-ticker">${ticker} <span style="font-size:10px;color:var(--dim)">${a.type}</span></div>
+          <div class="asset-stat"><span class="asset-stat-label">P&L</span><span style="color:${pnlColor}">$${a.pnl.toFixed(2)}</span></div>
+          <div class="asset-stat"><span class="asset-stat-label">Win Rate</span><span style="color:${parseFloat(wr)>=50?'var(--green)':'var(--red)'}">${wr}%</span></div>
+          <div class="asset-stat"><span class="asset-stat-label">Trades</span><span style="color:var(--text)">${a.wins}W / ${a.losses}L</span></div>
+        </div>`;
+      }).join('');
+  }
+
+  // Trade table
+  const tbody = document.getElementById('journal-table');
+  if (trades.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--dim);padding:40px;font-family:var(--mono)">No trades logged yet.<br><br>Click LOG TRADE on any signal card to get started.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = trades.map(t => {
+    const rowClass = t.status === 'win' ? 'trade-row-win' : t.status === 'loss' ? 'trade-row-loss' : 'trade-row-open';
+    const statusColor = t.status === 'win' ? 'var(--green)' : t.status === 'loss' ? 'var(--red)' : t.status === 'open' ? 'var(--yellow)' : 'var(--dim)';
+    const pnlColor = (t.pnl || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+    const dateStr = t.date ? new Date(t.date).toLocaleDateString() : '—';
+    return `<tr class="${rowClass}">
+      <td style="color:var(--dim);font-size:10px">${dateStr}</td>
+      <td style="color:#fff;font-weight:600">${t.ticker}</td>
+      <td class="td-${(t.direction||'').toLowerCase()}">${t.direction}</td>
+      <td style="color:var(--dim)">${t.asset_type||'—'}</td>
+      <td>${t.entry}</td>
+      <td style="color:${t.exit_price ? 'var(--text)' : 'var(--dim)'}">${t.exit_price || '—'}</td>
+      <td style="color:var(--red)">${t.stop_loss}</td>
+      <td style="color:var(--green)">${t.target}</td>
+      <td style="color:var(--yellow)">${t.units||'—'}</td>
+      <td style="color:${pnlColor};font-weight:600">${t.pnl ? '$'+t.pnl.toFixed(2) : '—'}</td>
+      <td style="color:${pnlColor}">${t.pnl_pct ? t.pnl_pct.toFixed(2)+'%' : '—'}</td>
+      <td style="color:${(t.r_multiple||0)>=2.5?'var(--green)':'var(--yellow)'}">${t.r_multiple ? t.r_multiple.toFixed(2)+'R' : '—'}</td>
+      <td style="color:${statusColor};font-weight:600;text-transform:uppercase">${t.status}</td>
+      <td style="color:var(--dim);font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis">${t.notes||'—'}</td>
+      <td>
+        <div style="display:flex;gap:4px;">
+          <button onclick="openEditModal('${t.id}')" style="font-family:var(--mono);font-size:9px;padding:3px 7px;border-radius:3px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;">EDIT</button>
+          <button onclick="deleteTrade('${t.id}')" style="font-family:var(--mono);font-size:9px;padding:3px 7px;border-radius:3px;border:1px solid rgba(255,51,102,0.3);background:rgba(255,51,102,0.1);color:var(--red);cursor:pointer;">DEL</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function exportTrades() {
+  const trades = loadTrades();
+  if (trades.length === 0) { alert('No trades to export.'); return; }
+  const headers = ['Date','Ticker','Direction','Type','Entry','Exit','Stop','Target','Units','Risk','P&L $','P&L %','R Multiple','Status','Notes'];
+  const rows = trades.map(t => [
+    t.date, t.ticker, t.direction, t.asset_type,
+    t.entry, t.exit_price||'', t.stop_loss, t.target,
+    t.units, t.risk, t.pnl||'', t.pnl_pct||'', t.r_multiple||'',
+    t.status, (t.notes||'').replace(/,/g,' ')
+  ]);
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tradesignal_journal_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// Close modal on overlay click
+document.getElementById('log-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Init journal on load
+renderJournal();
 
 init();
 setInterval(loadResults, 60000);

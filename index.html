@@ -703,6 +703,7 @@
       <table>
         <thead>
           <tr>
+            <th>Log</th>
             <th>Ticker</th>
             <th>Type</th>
             <th>Dir</th>
@@ -722,7 +723,6 @@
             <th>Units</th>
             <th>$ Risk</th>
             <th>Signal</th>
-            <th>Log</th>
           </tr>
         </thead>
         <tbody id="signals-table"></tbody>
@@ -1456,7 +1456,12 @@ function signalRow(r) {
   const tfClass = r.timeframe === '15m' ? 'td-scalp' : 'td-swing';
   const tfLabel = r.timeframe === '15m' ? '⚡ Scalp' : '📅 Swing';
   const mtfIcon = r.mtf_confirmed ? '✅' : '⚠️';
+  const rJson = JSON.stringify(r).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
   return `<tr>
+    <td><button onclick="openLogModal(JSON.parse(this.dataset.r))" data-r="${rJson}"
+      style="font-family:var(--mono);font-size:9px;padding:4px 8px;border-radius:3px;border:1px solid rgba(0,255,136,0.4);background:rgba(0,255,136,0.1);color:var(--green);cursor:pointer;white-space:nowrap;">
+      📓 LOG
+    </button></td>
     <td style="color:#fff;font-weight:600">${r.ticker}${r.has_earnings ? ' 💰' : ''}</td>
     <td style="color:var(--dim)">${r.type}</td>
     <td class="td-${(r.direction||'').toLowerCase()}">${r.direction}</td>

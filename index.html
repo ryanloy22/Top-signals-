@@ -798,6 +798,7 @@
       <table>
         <thead>
           <tr>
+            <th>Actions</th>
             <th>Date</th>
             <th>Ticker</th>
             <th>Dir</th>
@@ -812,7 +813,6 @@
             <th>R Multiple</th>
             <th>Status</th>
             <th>Notes</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="journal-table"></tbody>
@@ -830,11 +830,11 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div class="form-row">
           <label class="form-label">Ticker</label>
-          <input class="form-input" id="t-ticker" readonly/>
+          <input class="form-input" id="t-ticker"/>
         </div>
         <div class="form-row">
           <label class="form-label">Direction</label>
-          <input class="form-input" id="t-direction" readonly/>
+          <input class="form-input" id="t-direction"/>
         </div>
         <div class="form-row">
           <label class="form-label">Entry Price</label>
@@ -858,7 +858,7 @@
         </div>
         <div class="form-row">
           <label class="form-label">Asset Type</label>
-          <input class="form-input" id="t-type" readonly/>
+          <input class="form-input" id="t-type"/>
         </div>
       </div>
 
@@ -1764,7 +1764,14 @@ function renderJournal() {
     const statusColor = t.status === 'win' ? 'var(--green)' : t.status === 'loss' ? 'var(--red)' : t.status === 'open' ? 'var(--yellow)' : 'var(--dim)';
     const pnlColor = (t.pnl || 0) >= 0 ? 'var(--green)' : 'var(--red)';
     const dateStr = t.date ? new Date(t.date).toLocaleDateString() : '—';
+    const tid = t.id;
     return `<tr class="${rowClass}">
+      <td>
+        <div style="display:flex;gap:4px;">
+          <button onclick="openEditModal('${tid}')" style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:3px;border:1px solid rgba(79,195,247,0.4);background:rgba(79,195,247,0.1);color:var(--blue);cursor:pointer;">✏️ EDIT</button>
+          <button onclick="deleteTrade('${tid}')" style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:3px;border:1px solid rgba(255,51,102,0.3);background:rgba(255,51,102,0.1);color:var(--red);cursor:pointer;">🗑</button>
+        </div>
+      </td>
       <td style="color:var(--dim);font-size:10px">${dateStr}</td>
       <td style="color:#fff;font-weight:600">${t.ticker}</td>
       <td class="td-${(t.direction||'').toLowerCase()}">${t.direction}</td>
@@ -1779,12 +1786,6 @@ function renderJournal() {
       <td style="color:${(t.r_multiple||0)>=2.5?'var(--green)':'var(--yellow)'}">${t.r_multiple ? t.r_multiple.toFixed(2)+'R' : '—'}</td>
       <td style="color:${statusColor};font-weight:600;text-transform:uppercase">${t.status}</td>
       <td style="color:var(--dim);font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis">${t.notes||'—'}</td>
-      <td>
-        <div style="display:flex;gap:4px;">
-          <button onclick="openEditModal('${t.id}')" style="font-family:var(--mono);font-size:9px;padding:3px 7px;border-radius:3px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;">EDIT</button>
-          <button onclick="deleteTrade('${t.id}')" style="font-family:var(--mono);font-size:9px;padding:3px 7px;border-radius:3px;border:1px solid rgba(255,51,102,0.3);background:rgba(255,51,102,0.1);color:var(--red);cursor:pointer;">DEL</button>
-        </div>
-      </td>
     </tr>`;
   }).join('');
 }

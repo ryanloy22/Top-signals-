@@ -1376,7 +1376,7 @@ function setupCard(r, idx, kind) {
       <span class="${glClass}">${glText}</span>
       <span class="rr-badge">${r.rr_ratio}:1 R/R</span>
     </div>
-    <button class="trade-log-btn" onclick="openLogModal(window._signalStore['${r.ticker}_${r.timeframe||\'\'}'])">📓 LOG TRADE</button>
+    <button class="trade-log-btn" onclick="logFromCard(this)" data-ticker="${r.ticker}" data-tf="${r.timeframe||''}">📓 LOG TRADE</button>
     ${pos.units ? `<div class="pos-bar"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
   </div>`;
 }
@@ -1464,7 +1464,7 @@ function signalRow(r) {
   const storeKey = r.ticker + '_' + (r.timeframe||'');
   window._signalStore[storeKey] = r;
   return `<tr>
-    <td><button onclick="openLogModal(window._signalStore['${storeKey}'])"
+    <td><button onclick="logFromCard(this)" data-ticker="${r.ticker}" data-tf="${r.timeframe||''}"
       style="font-family:var(--mono);font-size:9px;padding:4px 8px;border-radius:3px;border:1px solid rgba(0,255,136,0.4);background:rgba(0,255,136,0.1);color:var(--green);cursor:pointer;white-space:nowrap;">
       📓 LOG
     </button></td>
@@ -1532,6 +1532,18 @@ function loadTrades() {
 
 function saveTrades(trades) {
   localStorage.setItem(TRADES_KEY, JSON.stringify(trades));
+}
+
+function logFromCard(btn) {
+  const ticker = btn.dataset.ticker;
+  const tf = btn.dataset.tf;
+  const key = ticker + '_' + tf;
+  const signal = window._signalStore[key];
+  if (signal) {
+    openLogModal(signal);
+  } else {
+    alert('Signal data not loaded yet. Please wait for the dashboard to refresh.');
+  }
 }
 
 function openLogModal(signal) {

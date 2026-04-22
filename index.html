@@ -1302,6 +1302,7 @@ function renderDashboard(data) {
   // All signals table
   const all = data.all_signals || [];
   window._allSignals = all;
+  window._signalStore = {};
   renderFilteredTable();
 
   // Market intelligence
@@ -1375,7 +1376,7 @@ function setupCard(r, idx, kind) {
       <span class="${glClass}">${glText}</span>
       <span class="rr-badge">${r.rr_ratio}:1 R/R</span>
     </div>
-    <button class="trade-log-btn" onclick='openLogModal(${JSON.stringify(r).replace(/'/g, "&#39;")})'>📓 LOG TRADE</button>
+    <button class="trade-log-btn" onclick="openLogModal(window._signalStore['${r.ticker}_${r.timeframe||\'\'}'])">📓 LOG TRADE</button>
     ${pos.units ? `<div class="pos-bar"><span style="color:var(--dim)">POS:</span><span style="color:var(--yellow);margin-left:6px">${pos.units} units</span><span style="color:var(--dim);margin-left:8px">Risk:</span><span style="color:var(--red);margin-left:4px">$${pos.dollar_risk}</span><span style="color:var(--dim);margin-left:8px">Val:</span><span style="color:var(--text);margin-left:4px">$${pos.pos_value}</span></div>` : ''}
   </div>`;
 }
@@ -1449,6 +1450,9 @@ function renderFilteredTable() {
   }
 }
 
+// Signal store for log buttons
+window._signalStore = {};
+
 function signalRow(r) {
   const gl = r.green_lights || {};
   const pos = r.position || {};
@@ -1456,9 +1460,11 @@ function signalRow(r) {
   const tfClass = r.timeframe === '15m' ? 'td-scalp' : 'td-swing';
   const tfLabel = r.timeframe === '15m' ? '⚡ Scalp' : '📅 Swing';
   const mtfIcon = r.mtf_confirmed ? '✅' : '⚠️';
-  const rJson = JSON.stringify(r).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  // Store signal by ticker for safe retrieval
+  const storeKey = r.ticker + '_' + (r.timeframe||'');
+  window._signalStore[storeKey] = r;
   return `<tr>
-    <td><button onclick="openLogModal(JSON.parse(this.dataset.r))" data-r="${rJson}"
+    <td><button onclick="openLogModal(window._signalStore['${storeKey}'])"
       style="font-family:var(--mono);font-size:9px;padding:4px 8px;border-radius:3px;border:1px solid rgba(0,255,136,0.4);background:rgba(0,255,136,0.1);color:var(--green);cursor:pointer;white-space:nowrap;">
       📓 LOG
     </button></td>

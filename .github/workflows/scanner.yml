@@ -1,45 +1,56 @@
 name: TradeSignal Scanner
- 
+
 on:
   schedule:
-    # Every 2 hours from 8am-8pm EST (13:00-01:00 UTC) weekdays
+    # Every 2 hours 8am-6pm EST weekdays (13:00-23:00 UTC)
     - cron: '0 13 * * 1-5'
     - cron: '0 15 * * 1-5'
     - cron: '0 17 * * 1-5'
     - cron: '0 19 * * 1-5'
     - cron: '0 21 * * 1-5'
     - cron: '0 23 * * 1-5'
-  workflow_dispatch:  # allows manual trigger from GitHub
- 
+    # Every 4 hours weekends for crypto
+    - cron: '0 13 * * 0,6'
+    - cron: '0 17 * * 0,6'
+    - cron: '0 21 * * 0,6'
+  workflow_dispatch:
+
 permissions:
   contents: write
- 
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   scan:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
- 
+        with:
+          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
- 
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install numpy pandas yfinance ta python-dotenv twilio sendgrid
- 
+
       - name: Run scanner
         run: python scanner.py
- 
+
       - name: Commit scan results
         run: |
           git config --global user.name  "TradeSignal Bot"
           git config --global user.email "bot@tradesignal"
-          git add scan_results.json
+          # Always pull latest before committing to avoid conflicts
+          git fetch origin main
+          git reset --soft origin/main
+          git add scan_results.json scan_history.json 2>/dev/null || true
           git diff --cached --quiet || git commit -m "scan: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git push
- 
+          git push origin main

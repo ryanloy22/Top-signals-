@@ -1245,18 +1245,7 @@ function renderCorrelation(signals) {
 // ── Main dashboard render ────────────────────────────────────
 async function loadResults() {
   try {
-    // Use GitHub raw content URL to bypass Pages caching
-    const urls = [
-      'https://raw.githubusercontent.com/ryanloy22/Top-signals-/main/scan_results.json?t=' + Date.now(),
-      'scan_results.json?t=' + Date.now()  // fallback
-    ];
-    let res = null;
-    for (const url of urls) {
-      try {
-        res = await fetch(url, { cache: 'no-store' });
-        if (res.ok) break;
-      } catch(e) { continue; }
-    }
+    const res = await fetch('scan_results.json?nocache=' + Date.now(), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache, no-store' } });
     if (!res.ok) throw new Error('no file');
     const data = await res.json();
     window._scanData = data;

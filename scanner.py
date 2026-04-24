@@ -763,17 +763,35 @@ def run_scanner(send_alerts=True):
         "top_setups":       top,
         "all_signals":      results,
     }
-    class NumpyEncoder(json.JSONEncoder):
+    class SafeEncoder(json.JSONEncoder):
         def default(self, obj):
             import numpy as np
             if isinstance(obj, (np.integer,)): return int(obj)
-            if isinstance(obj, (np.floating,)): return float(obj)
+            if isinstance(obj, (np.floating,)): return None if np.isnan(obj) else float(obj)
             if isinstance(obj, (np.ndarray,)): return obj.tolist()
             if isinstance(obj, (np.bool_,)): return bool(obj)
             return super().default(obj)
+        def encode(self, obj):
+            # Replace float nan/inf with null
+            import math
+            if isinstance(obj, float):
+                if math.isnan(obj) or math.isinf(obj):
+                    return 'null'
+            return super().encode(obj)
+
+    # Clean NaN values before saving
+    import math
+    def clean_nan(obj):
+        if isinstance(obj, dict):
+            return {k: clean_nan(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [clean_nan(v) for v in obj]
+        elif isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+            return None
+        return obj
 
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, cls=NumpyEncoder)
+        json.dump(clean_nan(output), f, indent=2, cls=SafeEncoder)
 
     # Save history
     save_history(results, output_dir)

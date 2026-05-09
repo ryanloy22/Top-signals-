@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-08T23:45:35.493562+00:00",
+  "generated_at": "2026-05-09T14:14:37.933515+00:00",
   "scanner_version": "4.0",
   "market_sentiment": {
     "bias": "RISK-OFF",
@@ -15,10 +15,60 @@
     "stocks": "$1,200 @ 1x",
     "risk_pct": "5%"
   },
-  "total_signals": 48,
+  "total_signals": 65,
   "vol_spikes": 1,
-  "ema_crossovers": 4,
+  "ema_crossovers": 8,
   "top_scalps": [
+    {
+      "ticker": "TSLA",
+      "type": "stock",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 428.32,
+      "direction": "LONG",
+      "score": 12,
+      "rr_ratio": 5.0,
+      "entry": 428.32,
+      "stop_loss": 424.6913,
+      "target1": 435.5774,
+      "target2": 441.0205,
+      "target3": 446.4636,
+      "risk_per_unit": 3.6287,
+      "atr": 2.4191,
+      "vwap": 426.9855,
+      "vwap_bias": "above",
+      "rsi": 63.39,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 2.62,
+      "vol_ratio": 2.62,
+      "candle_pct": 0.78,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": true,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.174,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 423.4845,
+        "slope": 0.401854,
+        "strength": 0.401854
+      },
+      "position": {
+        "units": 0.8405,
+        "dollar_risk": 3.05,
+        "pos_value": 360.0,
+        "account": "stocks",
+        "leverage": 1
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:13:11.944340+00:00"
+    },
     {
       "ticker": "SMCI",
       "type": "stock",
@@ -35,7 +85,7 @@
       "target3": 38.2351,
       "risk_per_unit": 0.573,
       "atr": 0.449,
-      "vwap": 35.0069,
+      "vwap": 35.007,
       "vwap_bias": "above",
       "rsi": 59.4,
       "rsi_divergence": {
@@ -67,207 +117,157 @@
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:48.589140+00:00"
+      "scanned_at": "2026-05-09T14:13:33.136834+00:00"
     },
     {
-      "ticker": "TSLA",
-      "type": "stock",
+      "ticker": "ONDO-USD",
+      "type": "crypto",
       "signal_type": "EMA CROSSOVER \u26a1",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 428.32,
-      "direction": "LONG",
+      "price": 0.4212,
+      "direction": "SHORT",
       "score": 11,
       "rr_ratio": 5.0,
-      "entry": 428.32,
-      "stop_loss": 424.6913,
-      "target1": 435.5774,
-      "target2": 441.0205,
-      "target3": 446.4636,
-      "risk_per_unit": 3.6287,
-      "atr": 2.4191,
-      "vwap": 427.2542,
-      "vwap_bias": "above",
-      "rsi": 63.39,
+      "entry": 0.4212,
+      "stop_loss": 0.4263,
+      "target1": 0.4111,
+      "target2": 0.4034,
+      "target3": 0.3958,
+      "risk_per_unit": 0.0051,
+      "atr": 0.0046,
+      "vwap": 0.4252,
+      "vwap_bias": "below",
+      "rsi": 40.45,
       "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
+        "bullish": true,
+        "bearish": false
       },
-      "rvol": 0.26,
-      "vol_ratio": 0.26,
-      "candle_pct": 0.78,
+      "rvol": 0.23,
+      "vol_ratio": 0.23,
+      "candle_pct": 0.85,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": true,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.174,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 423.4845,
-        "slope": 0.401854,
-        "strength": 0.401854
-      },
-      "position": {
-        "units": 0.8405,
-        "dollar_risk": 3.05,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:33.488274+00:00"
-    },
-    {
-      "ticker": "VIRTUAL-USD",
-      "type": "crypto",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.9268,
-      "direction": "LONG",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 0.9268,
-      "stop_loss": 0.9218,
-      "target1": 0.9368,
-      "target2": 0.9444,
-      "target3": 0.9519,
-      "risk_per_unit": 0.005,
-      "atr": 0.0033,
-      "vwap": 0.9219,
-      "vwap_bias": "above",
-      "rsi": 56.11,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 1.5,
-      "vol_ratio": 1.5,
-      "candle_pct": 0.16,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
       "macd_signal": "bull",
-      "stochrsi_k": 0.839,
-      "mtf_bias": "bullish",
+      "stochrsi_k": 0.721,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.9223,
-        "slope": 0.000258,
-        "strength": 0.000258
+        "signal": "bearish",
+        "smoothed": 0.4276,
+        "slope": -0.000496,
+        "strength": 0.000496
       },
       "position": {
-        "units": 32368.6289,
-        "dollar_risk": 32.44,
+        "units": 71218.3075,
+        "dollar_risk": 72.54,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:25.286171+00:00"
+      "scanned_at": "2026-05-09T14:14:35.916232+00:00"
     },
     {
-      "ticker": "POLYX-USD",
+      "ticker": "DOT-USD",
       "type": "crypto",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.0551,
-      "direction": "LONG",
-      "score": 9,
-      "rr_ratio": 5.04,
-      "entry": 0.0551,
-      "stop_loss": 0.0548,
-      "target1": 0.0557,
-      "target2": 0.0561,
-      "target3": 0.0566,
-      "risk_per_unit": 0.0003,
-      "atr": 0.0002,
-      "vwap": 0.0544,
-      "vwap_bias": "above",
-      "rsi": 79.83,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 2.69,
-      "vol_ratio": 2.69,
-      "candle_pct": 1.21,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.747,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.0538,
-        "slope": 8e-05,
-        "strength": 8e-05
-      },
-      "position": {
-        "units": 544440.9275,
-        "dollar_risk": 32.38,
-        "pos_value": 30000.0,
-        "account": "crypto",
-        "leverage": 5
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:35.218584+00:00"
-    },
-    {
-      "ticker": "COIN",
-      "type": "stock",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 201.215,
-      "direction": "LONG",
-      "score": 9,
+      "price": 1.349,
+      "direction": "SHORT",
+      "score": 10,
       "rr_ratio": 5.0,
-      "entry": 201.215,
-      "stop_loss": 198.2078,
-      "target1": 207.2294,
-      "target2": 211.7403,
-      "target3": 216.2511,
-      "risk_per_unit": 3.0072,
-      "atr": 2.0048,
-      "vwap": 193.913,
-      "vwap_bias": "above",
-      "rsi": 69.9,
+      "entry": 1.349,
+      "stop_loss": 1.3548,
+      "target1": 1.3374,
+      "target2": 1.3288,
+      "target3": 1.3201,
+      "risk_per_unit": 0.0058,
+      "atr": 0.0039,
+      "vwap": 1.3561,
+      "vwap_bias": "below",
+      "rsi": 31.46,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 2.16,
-      "vol_ratio": 2.16,
-      "candle_pct": 1.66,
+      "rvol": 0.0,
+      "vol_ratio": 0.0,
+      "candle_pct": 0.3,
       "vol_spike": false,
-      "bb_squeeze": false,
+      "bb_squeeze": true,
       "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.903,
-      "mtf_bias": "bullish",
+      "macd_signal": "bear",
+      "stochrsi_k": 0.213,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 193.6515,
-        "slope": 0.372187,
-        "strength": 0.372187
+        "signal": "bearish",
+        "smoothed": 1.3605,
+        "slope": -0.000711,
+        "strength": 0.000711
       },
       "position": {
-        "units": 1.7891,
-        "dollar_risk": 5.38,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
+        "units": 22238.6957,
+        "dollar_risk": 25.72,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:39.275934+00:00"
+      "scanned_at": "2026-05-09T14:14:20.113787+00:00"
+    },
+    {
+      "ticker": "ARB11841-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.1408,
+      "direction": "SHORT",
+      "score": 10,
+      "rr_ratio": 4.98,
+      "entry": 0.1408,
+      "stop_loss": 0.1424,
+      "target1": 0.1376,
+      "target2": 0.1352,
+      "target3": 0.1329,
+      "risk_per_unit": 0.0016,
+      "atr": 0.0011,
+      "vwap": 0.1411,
+      "vwap_bias": "below",
+      "rsi": 35.04,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.42,
+      "vol_ratio": 0.42,
+      "candle_pct": 0.42,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.295,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.1435,
+        "slope": -0.000157,
+        "strength": 0.000157
+      },
+      "position": {
+        "units": 213068.183,
+        "dollar_risk": 67.62,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:16.701106+00:00"
     }
   ],
   "top_swings": [
@@ -287,15 +287,15 @@
       "target3": 161.1087,
       "risk_per_unit": 11.1277,
       "atr": 7.4185,
-      "vwap": 86.2148,
+      "vwap": 86.3482,
       "vwap_bias": "above",
       "rsi": 68.75,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 3.09,
-      "vol_ratio": 3.09,
+      "rvol": 3.21,
+      "vol_ratio": 3.21,
       "candle_pct": 34.22,
       "vol_spike": true,
       "bb_squeeze": false,
@@ -319,7 +319,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:49.975158+00:00"
+      "scanned_at": "2026-05-09T14:13:34.537422+00:00"
     },
     {
       "ticker": "MARA",
@@ -337,7 +337,7 @@
       "target3": 16.9035,
       "risk_per_unit": 0.7927,
       "atr": 0.8193,
-      "vwap": 11.8525,
+      "vwap": 11.853,
       "vwap_bias": "above",
       "rsi": 67.13,
       "rsi_divergence": {
@@ -369,7 +369,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:41.769854+00:00"
+      "scanned_at": "2026-05-09T14:13:22.111291+00:00"
     },
     {
       "ticker": "ARKK",
@@ -387,15 +387,15 @@
       "target3": 88.5329,
       "risk_per_unit": 1.8826,
       "atr": 2.422,
-      "vwap": 76.8962,
+      "vwap": 76.8978,
       "vwap_bias": "above",
       "rsi": 58.96,
       "rsi_divergence": {
         "bullish": false,
         "bearish": true
       },
-      "rvol": 0.75,
-      "vol_ratio": 0.75,
+      "rvol": 0.77,
+      "vol_ratio": 0.77,
       "candle_pct": 1.53,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -419,7 +419,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:00.151196+00:00"
+      "scanned_at": "2026-05-09T14:13:46.776313+00:00"
     },
     {
       "ticker": "AMZN",
@@ -437,15 +437,15 @@
       "target3": 299.952,
       "risk_per_unit": 5.4544,
       "atr": 6.9933,
-      "vwap": 264.7177,
+      "vwap": 264.7188,
       "vwap_bias": "above",
       "rsi": 75.14,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.7,
-      "vol_ratio": 0.7,
+      "rvol": 0.71,
+      "vol_ratio": 0.71,
       "candle_pct": 0.56,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -469,7 +469,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:34.157792+00:00"
+      "scanned_at": "2026-05-09T14:13:12.599258+00:00"
     },
     {
       "ticker": "HUT",
@@ -486,8 +486,8 @@
       "target2": 133.3996,
       "target3": 148.3737,
       "risk_per_unit": 9.9827,
-      "atr": 7.389,
-      "vwap": 89.1326,
+      "atr": 7.3926,
+      "vwap": 89.1328,
       "vwap_bias": "above",
       "rsi": 69.39,
       "rsi_divergence": {
@@ -519,7 +519,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:44.081564+00:00"
+      "scanned_at": "2026-05-09T14:13:25.176215+00:00"
     }
   ],
   "top_setups": [
@@ -539,15 +539,15 @@
       "target3": 161.1087,
       "risk_per_unit": 11.1277,
       "atr": 7.4185,
-      "vwap": 86.2148,
+      "vwap": 86.3482,
       "vwap_bias": "above",
       "rsi": 68.75,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 3.09,
-      "vol_ratio": 3.09,
+      "rvol": 3.21,
+      "vol_ratio": 3.21,
       "candle_pct": 34.22,
       "vol_spike": true,
       "bb_squeeze": false,
@@ -571,7 +571,57 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:49.975158+00:00"
+      "scanned_at": "2026-05-09T14:13:34.537422+00:00"
+    },
+    {
+      "ticker": "TSLA",
+      "type": "stock",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 428.32,
+      "direction": "LONG",
+      "score": 12,
+      "rr_ratio": 5.0,
+      "entry": 428.32,
+      "stop_loss": 424.6913,
+      "target1": 435.5774,
+      "target2": 441.0205,
+      "target3": 446.4636,
+      "risk_per_unit": 3.6287,
+      "atr": 2.4191,
+      "vwap": 426.9855,
+      "vwap_bias": "above",
+      "rsi": 63.39,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 2.62,
+      "vol_ratio": 2.62,
+      "candle_pct": 0.78,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": true,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.174,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 423.4845,
+        "slope": 0.401854,
+        "strength": 0.401854
+      },
+      "position": {
+        "units": 0.8405,
+        "dollar_risk": 3.05,
+        "pos_value": 360.0,
+        "account": "stocks",
+        "leverage": 1
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:13:11.944340+00:00"
     },
     {
       "ticker": "SMCI",
@@ -589,7 +639,7 @@
       "target3": 38.2351,
       "risk_per_unit": 0.573,
       "atr": 0.449,
-      "vwap": 35.0069,
+      "vwap": 35.007,
       "vwap_bias": "above",
       "rsi": 59.4,
       "rsi_divergence": {
@@ -621,57 +671,57 @@
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:48.589140+00:00"
+      "scanned_at": "2026-05-09T14:13:33.136834+00:00"
     },
     {
-      "ticker": "TSLA",
-      "type": "stock",
+      "ticker": "ONDO-USD",
+      "type": "crypto",
       "signal_type": "EMA CROSSOVER \u26a1",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 428.32,
-      "direction": "LONG",
+      "price": 0.4212,
+      "direction": "SHORT",
       "score": 11,
       "rr_ratio": 5.0,
-      "entry": 428.32,
-      "stop_loss": 424.6913,
-      "target1": 435.5774,
-      "target2": 441.0205,
-      "target3": 446.4636,
-      "risk_per_unit": 3.6287,
-      "atr": 2.4191,
-      "vwap": 427.2542,
-      "vwap_bias": "above",
-      "rsi": 63.39,
+      "entry": 0.4212,
+      "stop_loss": 0.4263,
+      "target1": 0.4111,
+      "target2": 0.4034,
+      "target3": 0.3958,
+      "risk_per_unit": 0.0051,
+      "atr": 0.0046,
+      "vwap": 0.4252,
+      "vwap_bias": "below",
+      "rsi": 40.45,
       "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
+        "bullish": true,
+        "bearish": false
       },
-      "rvol": 0.26,
-      "vol_ratio": 0.26,
-      "candle_pct": 0.78,
+      "rvol": 0.23,
+      "vol_ratio": 0.23,
+      "candle_pct": 0.85,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": true,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.174,
-      "mtf_bias": "bullish",
+      "macd_signal": "bull",
+      "stochrsi_k": 0.721,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 423.4845,
-        "slope": 0.401854,
-        "strength": 0.401854
+        "signal": "bearish",
+        "smoothed": 0.4276,
+        "slope": -0.000496,
+        "strength": 0.000496
       },
       "position": {
-        "units": 0.8405,
-        "dollar_risk": 3.05,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
+        "units": 71218.3075,
+        "dollar_risk": 72.54,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:33.488274+00:00"
+      "scanned_at": "2026-05-09T14:14:35.916232+00:00"
     },
     {
       "ticker": "MARA",
@@ -689,7 +739,7 @@
       "target3": 16.9035,
       "risk_per_unit": 0.7927,
       "atr": 0.8193,
-      "vwap": 11.8525,
+      "vwap": 11.853,
       "vwap_bias": "above",
       "rsi": 67.13,
       "rsi_divergence": {
@@ -721,57 +771,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:41.769854+00:00"
-    },
-    {
-      "ticker": "ARKK",
-      "type": "stock",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
-      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
-      "price": 79.12,
-      "direction": "LONG",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 79.12,
-      "stop_loss": 77.2374,
-      "target1": 82.8851,
-      "target2": 85.709,
-      "target3": 88.5329,
-      "risk_per_unit": 1.8826,
-      "atr": 2.422,
-      "vwap": 76.8962,
-      "vwap_bias": "above",
-      "rsi": 58.96,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
-      },
-      "rvol": 0.75,
-      "vol_ratio": 0.75,
-      "candle_pct": 1.53,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.539,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 74.7372,
-        "slope": 0.275239,
-        "strength": 0.275239
-      },
-      "position": {
-        "units": 4.5501,
-        "dollar_risk": 8.57,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
-      },
-      "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:00.151196+00:00"
+      "scanned_at": "2026-05-09T14:13:22.111291+00:00"
     }
   ],
   "all_signals": [
@@ -791,15 +791,15 @@
       "target3": 161.1087,
       "risk_per_unit": 11.1277,
       "atr": 7.4185,
-      "vwap": 86.2148,
+      "vwap": 86.3482,
       "vwap_bias": "above",
       "rsi": 68.75,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 3.09,
-      "vol_ratio": 3.09,
+      "rvol": 3.21,
+      "vol_ratio": 3.21,
       "candle_pct": 34.22,
       "vol_spike": true,
       "bb_squeeze": false,
@@ -823,7 +823,57 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:49.975158+00:00"
+      "scanned_at": "2026-05-09T14:13:34.537422+00:00"
+    },
+    {
+      "ticker": "TSLA",
+      "type": "stock",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 428.32,
+      "direction": "LONG",
+      "score": 12,
+      "rr_ratio": 5.0,
+      "entry": 428.32,
+      "stop_loss": 424.6913,
+      "target1": 435.5774,
+      "target2": 441.0205,
+      "target3": 446.4636,
+      "risk_per_unit": 3.6287,
+      "atr": 2.4191,
+      "vwap": 426.9855,
+      "vwap_bias": "above",
+      "rsi": 63.39,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 2.62,
+      "vol_ratio": 2.62,
+      "candle_pct": 0.78,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": true,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.174,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 423.4845,
+        "slope": 0.401854,
+        "strength": 0.401854
+      },
+      "position": {
+        "units": 0.8405,
+        "dollar_risk": 3.05,
+        "pos_value": 360.0,
+        "account": "stocks",
+        "leverage": 1
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:13:11.944340+00:00"
     },
     {
       "ticker": "SMCI",
@@ -841,7 +891,7 @@
       "target3": 38.2351,
       "risk_per_unit": 0.573,
       "atr": 0.449,
-      "vwap": 35.0069,
+      "vwap": 35.007,
       "vwap_bias": "above",
       "rsi": 59.4,
       "rsi_divergence": {
@@ -873,57 +923,57 @@
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:48.589140+00:00"
+      "scanned_at": "2026-05-09T14:13:33.136834+00:00"
     },
     {
-      "ticker": "TSLA",
-      "type": "stock",
+      "ticker": "ONDO-USD",
+      "type": "crypto",
       "signal_type": "EMA CROSSOVER \u26a1",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 428.32,
-      "direction": "LONG",
+      "price": 0.4212,
+      "direction": "SHORT",
       "score": 11,
       "rr_ratio": 5.0,
-      "entry": 428.32,
-      "stop_loss": 424.6913,
-      "target1": 435.5774,
-      "target2": 441.0205,
-      "target3": 446.4636,
-      "risk_per_unit": 3.6287,
-      "atr": 2.4191,
-      "vwap": 427.2542,
-      "vwap_bias": "above",
-      "rsi": 63.39,
+      "entry": 0.4212,
+      "stop_loss": 0.4263,
+      "target1": 0.4111,
+      "target2": 0.4034,
+      "target3": 0.3958,
+      "risk_per_unit": 0.0051,
+      "atr": 0.0046,
+      "vwap": 0.4252,
+      "vwap_bias": "below",
+      "rsi": 40.45,
       "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
+        "bullish": true,
+        "bearish": false
       },
-      "rvol": 0.26,
-      "vol_ratio": 0.26,
-      "candle_pct": 0.78,
+      "rvol": 0.23,
+      "vol_ratio": 0.23,
+      "candle_pct": 0.85,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": true,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.174,
-      "mtf_bias": "bullish",
+      "macd_signal": "bull",
+      "stochrsi_k": 0.721,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 423.4845,
-        "slope": 0.401854,
-        "strength": 0.401854
+        "signal": "bearish",
+        "smoothed": 0.4276,
+        "slope": -0.000496,
+        "strength": 0.000496
       },
       "position": {
-        "units": 0.8405,
-        "dollar_risk": 3.05,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
+        "units": 71218.3075,
+        "dollar_risk": 72.54,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:33.488274+00:00"
+      "scanned_at": "2026-05-09T14:14:35.916232+00:00"
     },
     {
       "ticker": "MARA",
@@ -941,7 +991,7 @@
       "target3": 16.9035,
       "risk_per_unit": 0.7927,
       "atr": 0.8193,
-      "vwap": 11.8525,
+      "vwap": 11.853,
       "vwap_bias": "above",
       "rsi": 67.13,
       "rsi_divergence": {
@@ -973,7 +1023,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:41.769854+00:00"
+      "scanned_at": "2026-05-09T14:13:22.111291+00:00"
     },
     {
       "ticker": "ARKK",
@@ -991,15 +1041,15 @@
       "target3": 88.5329,
       "risk_per_unit": 1.8826,
       "atr": 2.422,
-      "vwap": 76.8962,
+      "vwap": 76.8978,
       "vwap_bias": "above",
       "rsi": 58.96,
       "rsi_divergence": {
         "bullish": false,
         "bearish": true
       },
-      "rvol": 0.75,
-      "vol_ratio": 0.75,
+      "rvol": 0.77,
+      "vol_ratio": 0.77,
       "candle_pct": 1.53,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -1023,107 +1073,207 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:00.151196+00:00"
+      "scanned_at": "2026-05-09T14:13:46.776313+00:00"
     },
     {
-      "ticker": "VIRTUAL-USD",
+      "ticker": "DOT-USD",
       "type": "crypto",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.9268,
-      "direction": "LONG",
+      "price": 1.349,
+      "direction": "SHORT",
       "score": 10,
       "rr_ratio": 5.0,
-      "entry": 0.9268,
-      "stop_loss": 0.9218,
-      "target1": 0.9368,
-      "target2": 0.9444,
-      "target3": 0.9519,
-      "risk_per_unit": 0.005,
-      "atr": 0.0033,
-      "vwap": 0.9219,
-      "vwap_bias": "above",
-      "rsi": 56.11,
+      "entry": 1.349,
+      "stop_loss": 1.3548,
+      "target1": 1.3374,
+      "target2": 1.3288,
+      "target3": 1.3201,
+      "risk_per_unit": 0.0058,
+      "atr": 0.0039,
+      "vwap": 1.3561,
+      "vwap_bias": "below",
+      "rsi": 31.46,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.5,
-      "vol_ratio": 1.5,
-      "candle_pct": 0.16,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.839,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.9223,
-        "slope": 0.000258,
-        "strength": 0.000258
-      },
-      "position": {
-        "units": 32368.6289,
-        "dollar_risk": 32.44,
-        "pos_value": 30000.0,
-        "account": "crypto",
-        "leverage": 5
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:25.286171+00:00"
-    },
-    {
-      "ticker": "POLYX-USD",
-      "type": "crypto",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.0551,
-      "direction": "LONG",
-      "score": 9,
-      "rr_ratio": 5.04,
-      "entry": 0.0551,
-      "stop_loss": 0.0548,
-      "target1": 0.0557,
-      "target2": 0.0561,
-      "target3": 0.0566,
-      "risk_per_unit": 0.0003,
-      "atr": 0.0002,
-      "vwap": 0.0544,
-      "vwap_bias": "above",
-      "rsi": 79.83,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 2.69,
-      "vol_ratio": 2.69,
-      "candle_pct": 1.21,
+      "rvol": 0.0,
+      "vol_ratio": 0.0,
+      "candle_pct": 0.3,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
       "macd_signal": "bear",
-      "stochrsi_k": 0.747,
-      "mtf_bias": "bullish",
+      "stochrsi_k": 0.213,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.0538,
-        "slope": 8e-05,
-        "strength": 8e-05
+        "signal": "bearish",
+        "smoothed": 1.3605,
+        "slope": -0.000711,
+        "strength": 0.000711
       },
       "position": {
-        "units": 544440.9275,
-        "dollar_risk": 32.38,
+        "units": 22238.6957,
+        "dollar_risk": 25.72,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:35.218584+00:00"
+      "scanned_at": "2026-05-09T14:14:20.113787+00:00"
+    },
+    {
+      "ticker": "ARB11841-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.1408,
+      "direction": "SHORT",
+      "score": 10,
+      "rr_ratio": 4.98,
+      "entry": 0.1408,
+      "stop_loss": 0.1424,
+      "target1": 0.1376,
+      "target2": 0.1352,
+      "target3": 0.1329,
+      "risk_per_unit": 0.0016,
+      "atr": 0.0011,
+      "vwap": 0.1411,
+      "vwap_bias": "below",
+      "rsi": 35.04,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.42,
+      "vol_ratio": 0.42,
+      "candle_pct": 0.42,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.295,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.1435,
+        "slope": -0.000157,
+        "strength": 0.000157
+      },
+      "position": {
+        "units": 213068.183,
+        "dollar_risk": 67.62,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:16.701106+00:00"
+    },
+    {
+      "ticker": "POLYX-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.0531,
+      "direction": "SHORT",
+      "score": 9,
+      "rr_ratio": 5.04,
+      "entry": 0.0531,
+      "stop_loss": 0.0534,
+      "target1": 0.0526,
+      "target2": 0.0523,
+      "target3": 0.0519,
+      "risk_per_unit": 0.0002,
+      "atr": 0.0002,
+      "vwap": 0.0534,
+      "vwap_bias": "below",
+      "rsi": 34.39,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.55,
+      "vol_ratio": 0.55,
+      "candle_pct": 0.37,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.37,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.0538,
+        "slope": -3.9e-05,
+        "strength": 3.9e-05
+      },
+      "position": {
+        "units": 564565.444,
+        "dollar_risk": 27.75,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:37.662234+00:00"
+    },
+    {
+      "ticker": "FET-USD",
+      "type": "crypto",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.2373,
+      "direction": "SHORT",
+      "score": 9,
+      "rr_ratio": 5.02,
+      "entry": 0.2373,
+      "stop_loss": 0.2395,
+      "target1": 0.2329,
+      "target2": 0.2296,
+      "target3": 0.2263,
+      "risk_per_unit": 0.0022,
+      "atr": 0.0015,
+      "vwap": 0.2389,
+      "vwap_bias": "below",
+      "rsi": 46.25,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 0.7,
+      "vol_ratio": 0.7,
+      "candle_pct": 0.67,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": true,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.367,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.2381,
+        "slope": -2.3e-05,
+        "strength": 2.3e-05
+      },
+      "position": {
+        "units": 126422.2537,
+        "dollar_risk": 55.46,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:20.937907+00:00"
     },
     {
       "ticker": "AMZN",
@@ -1141,15 +1291,15 @@
       "target3": 299.952,
       "risk_per_unit": 5.4544,
       "atr": 6.9933,
-      "vwap": 264.7177,
+      "vwap": 264.7188,
       "vwap_bias": "above",
       "rsi": 75.14,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.7,
-      "vol_ratio": 0.7,
+      "rvol": 0.71,
+      "vol_ratio": 0.71,
       "candle_pct": 0.56,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -1173,57 +1323,57 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:34.157792+00:00"
+      "scanned_at": "2026-05-09T14:13:12.599258+00:00"
     },
     {
-      "ticker": "COIN",
+      "ticker": "AMD",
       "type": "stock",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 201.215,
+      "price": 455.0,
       "direction": "LONG",
       "score": 9,
       "rr_ratio": 5.0,
-      "entry": 201.215,
-      "stop_loss": 198.2078,
-      "target1": 207.2294,
-      "target2": 211.7403,
-      "target3": 216.2511,
-      "risk_per_unit": 3.0072,
-      "atr": 2.0048,
-      "vwap": 193.913,
+      "entry": 455.0,
+      "stop_loss": 448.7339,
+      "target1": 467.5322,
+      "target2": 476.9314,
+      "target3": 486.3305,
+      "risk_per_unit": 6.2661,
+      "atr": 4.1774,
+      "vwap": 447.6883,
       "vwap_bias": "above",
-      "rsi": 69.9,
+      "rsi": 75.33,
       "rsi_divergence": {
         "bullish": false,
-        "bearish": false
+        "bearish": true
       },
-      "rvol": 2.16,
-      "vol_ratio": 2.16,
-      "candle_pct": 1.66,
+      "rvol": 3.26,
+      "vol_ratio": 3.26,
+      "candle_pct": 0.94,
       "vol_spike": false,
-      "bb_squeeze": false,
+      "bb_squeeze": true,
       "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.903,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.308,
       "mtf_bias": "bullish",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
         "signal": "bullish",
-        "smoothed": 193.6515,
-        "slope": 0.372187,
-        "strength": 0.372187
+        "smoothed": 437.163,
+        "slope": 1.174995,
+        "strength": 1.174995
       },
       "position": {
-        "units": 1.7891,
-        "dollar_risk": 5.38,
+        "units": 0.7912,
+        "dollar_risk": 4.96,
         "pos_value": 360.0,
         "account": "stocks",
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:39.275934+00:00"
+      "scanned_at": "2026-05-09T14:13:14.988519+00:00"
     },
     {
       "ticker": "MSTR",
@@ -1241,7 +1391,7 @@
       "target3": 200.1894,
       "risk_per_unit": 2.5319,
       "atr": 1.6879,
-      "vwap": 184.5754,
+      "vwap": 184.5753,
       "vwap_bias": "above",
       "rsi": 65.74,
       "rsi_divergence": {
@@ -1273,7 +1423,7 @@
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:40.291280+00:00"
+      "scanned_at": "2026-05-09T14:13:20.728620+00:00"
     },
     {
       "ticker": "HUT",
@@ -1290,8 +1440,8 @@
       "target2": 133.3996,
       "target3": 148.3737,
       "risk_per_unit": 9.9827,
-      "atr": 7.389,
-      "vwap": 89.1326,
+      "atr": 7.3926,
+      "vwap": 89.1328,
       "vwap_bias": "above",
       "rsi": 69.39,
       "rsi_divergence": {
@@ -1323,7 +1473,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:44.081564+00:00"
+      "scanned_at": "2026-05-09T14:13:25.176215+00:00"
     },
     {
       "ticker": "PLTR",
@@ -1348,8 +1498,8 @@
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.75,
-      "vol_ratio": 1.75,
+      "rvol": 3.35,
+      "vol_ratio": 3.35,
       "candle_pct": 0.36,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -1373,7 +1523,7 @@
         "leverage": 1
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:47.639919+00:00"
+      "scanned_at": "2026-05-09T14:13:31.198973+00:00"
     },
     {
       "ticker": "UPST",
@@ -1391,7 +1541,7 @@
       "target3": 20.482,
       "risk_per_unit": 1.6956,
       "atr": 1.9038,
-      "vwap": 31.3489,
+      "vwap": 31.3487,
       "vwap_bias": "below",
       "rsi": 43.77,
       "rsi_divergence": {
@@ -1423,7 +1573,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:51.288924+00:00"
+      "scanned_at": "2026-05-09T14:13:35.980688+00:00"
     },
     {
       "ticker": "DDOG",
@@ -1441,7 +1591,7 @@
       "target3": 279.7178,
       "risk_per_unit": 15.9116,
       "atr": 10.6077,
-      "vwap": 156.7566,
+      "vwap": 156.7627,
       "vwap_bias": "above",
       "rsi": 85.84,
       "rsi_divergence": {
@@ -1473,7 +1623,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:54.453932+00:00"
+      "scanned_at": "2026-05-09T14:13:39.872577+00:00"
     },
     {
       "ticker": "SPY",
@@ -1485,21 +1635,21 @@
       "score": 9,
       "rr_ratio": 5.0,
       "entry": 737.62,
-      "stop_loss": 726.0635,
-      "target1": 760.7329,
-      "target2": 778.0676,
-      "target3": 795.4023,
-      "risk_per_unit": 11.5565,
-      "atr": 7.7043,
-      "vwap": 718.0934,
+      "stop_loss": 726.0625,
+      "target1": 760.7351,
+      "target2": 778.0714,
+      "target3": 795.4077,
+      "risk_per_unit": 11.5575,
+      "atr": 7.705,
+      "vwap": 718.1242,
       "vwap_bias": "above",
       "rsi": 75.5,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.91,
-      "vol_ratio": 0.91,
+      "rvol": 0.93,
+      "vol_ratio": 0.93,
       "candle_pct": 0.83,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -1523,7 +1673,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:55.271962+00:00"
+      "scanned_at": "2026-05-09T14:13:40.645346+00:00"
     },
     {
       "ticker": "IWM",
@@ -1541,7 +1691,7 @@
       "target3": 309.0145,
       "risk_per_unit": 4.9689,
       "atr": 4.6595,
-      "vwap": 278.1211,
+      "vwap": 278.1229,
       "vwap_bias": "above",
       "rsi": 66.16,
       "rsi_divergence": {
@@ -1573,30 +1723,380 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:57.282284+00:00"
+      "scanned_at": "2026-05-09T14:13:42.149843+00:00"
+    },
+    {
+      "ticker": "SOXL",
+      "type": "stock",
+      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 177.44,
+      "direction": "LONG",
+      "score": 9,
+      "rr_ratio": 5.0,
+      "entry": 177.44,
+      "stop_loss": 174.4167,
+      "target1": 183.4865,
+      "target2": 188.0214,
+      "target3": 192.5564,
+      "risk_per_unit": 3.0233,
+      "atr": 2.4094,
+      "vwap": 175.0201,
+      "vwap_bias": "above",
+      "rsi": 67.61,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 2.7,
+      "vol_ratio": 2.7,
+      "candle_pct": 0.79,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.208,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 169.3055,
+        "slope": 0.57813,
+        "strength": 0.57813
+      },
+      "position": {
+        "units": 2.0289,
+        "dollar_risk": 6.13,
+        "pos_value": 360.0,
+        "account": "stocks",
+        "leverage": 1
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:13:43.106420+00:00"
+    },
+    {
+      "ticker": "TQQQ",
+      "type": "stock",
+      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 76.28,
+      "direction": "LONG",
+      "score": 9,
+      "rr_ratio": 5.0,
+      "entry": 76.28,
+      "stop_loss": 75.6882,
+      "target1": 77.4636,
+      "target2": 78.3513,
+      "target3": 79.239,
+      "risk_per_unit": 0.5918,
+      "atr": 0.3945,
+      "vwap": 75.8089,
+      "vwap_bias": "above",
+      "rsi": 70.06,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 2.61,
+      "vol_ratio": 2.61,
+      "candle_pct": 0.4,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.21,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 74.748,
+        "slope": 0.111465,
+        "strength": 0.111465
+      },
+      "position": {
+        "units": 4.7195,
+        "dollar_risk": 2.79,
+        "pos_value": 360.0,
+        "account": "stocks",
+        "leverage": 1
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:13:45.091060+00:00"
+    },
+    {
+      "ticker": "BTC-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 80392.1875,
+      "direction": "LONG",
+      "score": 9,
+      "rr_ratio": 5.0,
+      "entry": 80392.1875,
+      "stop_loss": 80274.3523,
+      "target1": 80627.8579,
+      "target2": 80804.6108,
+      "target3": 80981.3636,
+      "risk_per_unit": 117.8352,
+      "atr": 78.5568,
+      "vwap": 80360.8636,
+      "vwap_bias": "above",
+      "rsi": 55.13,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.07,
+      "vol_ratio": 0.07,
+      "candle_pct": 0.0,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.687,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 80329.3306,
+        "slope": 2.927613,
+        "strength": 2.927613
+      },
+      "position": {
+        "units": 0.3732,
+        "dollar_risk": 8.79,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:08.270255+00:00"
+    },
+    {
+      "ticker": "TIA-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.4334,
+      "direction": "SHORT",
+      "score": 9,
+      "rr_ratio": 5.0,
+      "entry": 0.4334,
+      "stop_loss": 0.4382,
+      "target1": 0.4237,
+      "target2": 0.4164,
+      "target3": 0.4092,
+      "risk_per_unit": 0.0048,
+      "atr": 0.0032,
+      "vwap": 0.4389,
+      "vwap_bias": "below",
+      "rsi": 38.52,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 3.92,
+      "vol_ratio": 3.92,
+      "candle_pct": 0.39,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.089,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.4393,
+        "slope": -0.000324,
+        "strength": 0.000324
+      },
+      "position": {
+        "units": 69220.1192,
+        "dollar_risk": 67.06,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:34.395541+00:00"
     },
     {
       "ticker": "OCEAN-USD",
       "type": "crypto",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.1224,
-      "direction": "SHORT",
-      "score": 8,
-      "rr_ratio": 5.03,
-      "entry": 0.1224,
-      "stop_loss": 0.1239,
-      "target1": 0.1193,
-      "target2": 0.117,
-      "target3": 0.1147,
-      "risk_per_unit": 0.0015,
-      "atr": 0.001,
-      "vwap": 0.1244,
-      "vwap_bias": "below",
-      "rsi": 41.62,
+      "price": 0.1242,
+      "direction": "LONG",
+      "score": 9,
+      "rr_ratio": 4.96,
+      "entry": 0.1242,
+      "stop_loss": 0.1232,
+      "target1": 0.1263,
+      "target2": 0.1278,
+      "target3": 0.1293,
+      "risk_per_unit": 0.001,
+      "atr": 0.0007,
+      "vwap": 0.124,
+      "vwap_bias": "above",
+      "rsi": 54.24,
       "rsi_divergence": {
         "bullish": false,
-        "bearish": true
+        "bearish": false
+      },
+      "rvol": 1.31,
+      "vol_ratio": 1.31,
+      "candle_pct": 0.0,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.691,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 0.1236,
+        "slope": 2.3e-05,
+        "strength": 2.3e-05
+      },
+      "position": {
+        "units": 241545.8911,
+        "dollar_risk": 49.64,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:24.836054+00:00"
+    },
+    {
+      "ticker": "SEI-USD",
+      "type": "crypto",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.0668,
+      "direction": "LONG",
+      "score": 9,
+      "rr_ratio": 4.94,
+      "entry": 0.0668,
+      "stop_loss": 0.0664,
+      "target1": 0.0676,
+      "target2": 0.0682,
+      "target3": 0.0688,
+      "risk_per_unit": 0.0004,
+      "atr": 0.0003,
+      "vwap": 0.0668,
+      "vwap_bias": "below",
+      "rsi": 49.29,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.46,
+      "vol_ratio": 0.46,
+      "candle_pct": 0.06,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": true,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.72,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.0669,
+        "slope": -1.5e-05,
+        "strength": 1.5e-05
+      },
+      "position": {
+        "units": 448900.1826,
+        "dollar_risk": 35.78,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:35.132678+00:00"
+    },
+    {
+      "ticker": "PEPE24478-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.0,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 167.84,
+      "entry": 0.0,
+      "stop_loss": 0.0,
+      "target1": 0.0,
+      "target2": 0.0,
+      "target3": 0.0,
+      "risk_per_unit": 0.0,
+      "atr": 0.0,
+      "vwap": 0.0,
+      "vwap_bias": "below",
+      "rsi": 37.86,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.36,
+      "vol_ratio": 1.36,
+      "candle_pct": 0.23,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.168,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.0,
+        "slope": -0.0,
+        "strength": 0.0
+      },
+      "position": {
+        "units": 7009345447.1675,
+        "dollar_risk": 35.75,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:30.120528+00:00"
+    },
+    {
+      "ticker": "AGIX-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.1033,
+      "direction": "LONG",
+      "score": 8,
+      "rr_ratio": 5.22,
+      "entry": 0.1033,
+      "stop_loss": 0.1032,
+      "target1": 0.1035,
+      "target2": 0.1037,
+      "target3": 0.1039,
+      "risk_per_unit": 0.0001,
+      "atr": 0.0001,
+      "vwap": 0.1029,
+      "vwap_bias": "above",
+      "rsi": 68.4,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
       },
       "rvol": 0.0,
       "vol_ratio": 0.0,
@@ -1604,26 +2104,26 @@
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
+      "macd_signal": "bull",
+      "stochrsi_k": 0.941,
+      "mtf_bias": "bullish",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bearish",
-        "smoothed": 0.1237,
-        "slope": -4.1e-05,
-        "strength": 4.1e-05
+        "signal": "bullish",
+        "smoothed": 0.103,
+        "slope": 1.9e-05,
+        "strength": 1.9e-05
       },
       "position": {
-        "units": 245098.0378,
-        "dollar_risk": 75.06,
+        "units": 290416.7514,
+        "dollar_risk": 6.67,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:24.201542+00:00"
+      "scanned_at": "2026-05-09T14:14:21.683409+00:00"
     },
     {
       "ticker": "AAPL",
@@ -1641,15 +2141,15 @@
       "target3": 343.553,
       "risk_per_unit": 10.0466,
       "atr": 6.6977,
-      "vwap": 276.9883,
+      "vwap": 277.1435,
       "vwap_bias": "above",
       "rsi": 72.94,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.94,
-      "vol_ratio": 0.94,
+      "rvol": 1.08,
+      "vol_ratio": 1.08,
       "candle_pct": 2.05,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -1673,7 +2173,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:30.735873+00:00"
+      "scanned_at": "2026-05-09T14:13:09.559134+00:00"
     },
     {
       "ticker": "MSFT",
@@ -1691,15 +2191,15 @@
       "target3": 400.0404,
       "risk_per_unit": 3.0159,
       "atr": 10.957,
-      "vwap": 417.9933,
+      "vwap": 417.9919,
       "vwap_bias": "below",
       "rsi": 53.9,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.92,
-      "vol_ratio": 0.92,
+      "rvol": 0.93,
+      "vol_ratio": 0.93,
       "candle_pct": 1.34,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -1723,7 +2223,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:31.618954+00:00"
+      "scanned_at": "2026-05-09T14:13:10.301727+00:00"
     },
     {
       "ticker": "META",
@@ -1741,15 +2241,15 @@
       "target3": 527.4493,
       "risk_per_unit": 16.4361,
       "atr": 18.7508,
-      "vwap": 632.095,
+      "vwap": 632.074,
       "vwap_bias": "below",
       "rsi": 42.19,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.83,
-      "vol_ratio": 0.83,
+      "rvol": 0.85,
+      "vol_ratio": 0.85,
       "candle_pct": 1.16,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -1773,7 +2273,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:35.107253+00:00"
+      "scanned_at": "2026-05-09T14:13:13.342638+00:00"
     },
     {
       "ticker": "GOOGL",
@@ -1791,7 +2291,7 @@
       "target3": 471.7765,
       "risk_per_unit": 14.1953,
       "atr": 9.4635,
-      "vwap": 368.2634,
+      "vwap": 368.2836,
       "vwap_bias": "above",
       "rsi": 84.04,
       "rsi_divergence": {
@@ -1823,57 +2323,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:35.961102+00:00"
-    },
-    {
-      "ticker": "AMD",
-      "type": "stock",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 455.0,
-      "direction": "LONG",
-      "score": 8,
-      "rr_ratio": 5.0,
-      "entry": 455.0,
-      "stop_loss": 448.7339,
-      "target1": 467.5322,
-      "target2": 476.9314,
-      "target3": 486.3305,
-      "risk_per_unit": 6.2661,
-      "atr": 4.1774,
-      "vwap": 447.0602,
-      "vwap_bias": "above",
-      "rsi": 75.33,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
-      },
-      "rvol": 1.24,
-      "vol_ratio": 1.24,
-      "candle_pct": 0.94,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.308,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 437.163,
-        "slope": 1.174995,
-        "strength": 1.174995
-      },
-      "position": {
-        "units": 0.7912,
-        "dollar_risk": 4.96,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:36.955166+00:00"
+      "scanned_at": "2026-05-09T14:13:14.051400+00:00"
     },
     {
       "ticker": "NFLX",
@@ -1891,15 +2341,15 @@
       "target3": 72.4985,
       "risk_per_unit": 2.9983,
       "atr": 2.5723,
-      "vwap": 91.2599,
+      "vwap": 91.2283,
       "vwap_bias": "below",
       "rsi": 33.89,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.73,
-      "vol_ratio": 0.73,
+      "rvol": 0.83,
+      "vol_ratio": 0.83,
       "candle_pct": 0.86,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -1923,7 +2373,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:37.607649+00:00"
+      "scanned_at": "2026-05-09T14:13:17.763311+00:00"
     },
     {
       "ticker": "RIOT",
@@ -1935,21 +2385,21 @@
       "score": 8,
       "rr_ratio": 5.0,
       "entry": 24.08,
-      "stop_loss": 21.9315,
-      "target1": 28.377,
-      "target2": 31.5997,
-      "target3": 34.8224,
-      "risk_per_unit": 2.1485,
-      "atr": 1.4323,
-      "vwap": 19.5601,
+      "stop_loss": 21.9305,
+      "target1": 28.3791,
+      "target2": 31.6034,
+      "target3": 34.8277,
+      "risk_per_unit": 2.1495,
+      "atr": 1.433,
+      "vwap": 19.5633,
       "vwap_bias": "above",
       "rsi": 75.08,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.82,
-      "vol_ratio": 0.82,
+      "rvol": 0.83,
+      "vol_ratio": 0.83,
       "candle_pct": 0.12,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -1967,13 +2417,13 @@
       },
       "position": {
         "units": 14.9502,
-        "dollar_risk": 32.12,
+        "dollar_risk": 32.14,
         "pos_value": 360.0,
         "account": "stocks",
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:42.521250+00:00"
+      "scanned_at": "2026-05-09T14:13:22.792442+00:00"
     },
     {
       "ticker": "CLSK",
@@ -1991,7 +2441,7 @@
       "target3": 19.147,
       "risk_per_unit": 0.9894,
       "atr": 0.8828,
-      "vwap": 12.7281,
+      "vwap": 12.7284,
       "vwap_bias": "above",
       "rsi": 67.38,
       "rsi_divergence": {
@@ -2023,7 +2473,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:43.380201+00:00"
+      "scanned_at": "2026-05-09T14:13:23.475359+00:00"
     },
     {
       "ticker": "CORZ",
@@ -2041,15 +2491,15 @@
       "target3": 28.5268,
       "risk_per_unit": 1.1214,
       "atr": 1.4146,
-      "vwap": 21.5717,
+      "vwap": 21.5733,
       "vwap_bias": "above",
       "rsi": 64.1,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.86,
-      "vol_ratio": 0.86,
+      "rvol": 0.88,
+      "vol_ratio": 0.88,
       "candle_pct": 2.5,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2073,7 +2523,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:44.902719+00:00"
+      "scanned_at": "2026-05-09T14:13:25.903177+00:00"
     },
     {
       "ticker": "CIFR",
@@ -2091,15 +2541,15 @@
       "target3": 25.1604,
       "risk_per_unit": 0.9221,
       "atr": 1.6991,
-      "vwap": 19.3715,
+      "vwap": 19.3724,
       "vwap_bias": "above",
       "rsi": 60.67,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.9,
-      "vol_ratio": 0.9,
+      "rvol": 0.91,
+      "vol_ratio": 0.91,
       "candle_pct": 0.65,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2123,7 +2573,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:45.734116+00:00"
+      "scanned_at": "2026-05-09T14:13:28.650845+00:00"
     },
     {
       "ticker": "IONQ",
@@ -2141,15 +2591,15 @@
       "target3": 60.5165,
       "risk_per_unit": 2.2553,
       "atr": 3.5874,
-      "vwap": 46.5106,
+      "vwap": 46.5111,
       "vwap_bias": "above",
       "rsi": 62.69,
       "rsi_divergence": {
         "bullish": false,
         "bearish": true
       },
-      "rvol": 0.65,
-      "vol_ratio": 0.65,
+      "rvol": 0.66,
+      "vol_ratio": 0.66,
       "candle_pct": 3.27,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2173,7 +2623,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:49.304671+00:00"
+      "scanned_at": "2026-05-09T14:13:33.879251+00:00"
     },
     {
       "ticker": "SOFI",
@@ -2191,15 +2641,15 @@
       "target3": 11.9103,
       "risk_per_unit": 0.7679,
       "atr": 0.8337,
-      "vwap": 16.9286,
+      "vwap": 16.9268,
       "vwap_bias": "below",
       "rsi": 38.49,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.79,
-      "vol_ratio": 0.79,
+      "rvol": 0.81,
+      "vol_ratio": 0.81,
       "candle_pct": 1.56,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2223,7 +2673,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:50.620984+00:00"
+      "scanned_at": "2026-05-09T14:13:35.286758+00:00"
     },
     {
       "ticker": "SHOP",
@@ -2241,15 +2691,15 @@
       "target3": 80.8515,
       "risk_per_unit": 5.9117,
       "atr": 6.5439,
-      "vwap": 116.1692,
+      "vwap": 116.1653,
       "vwap_bias": "below",
       "rsi": 40.72,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.3,
-      "vol_ratio": 1.3,
+      "rvol": 1.31,
+      "vol_ratio": 1.31,
       "candle_pct": 1.19,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2273,7 +2723,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:52.918395+00:00"
+      "scanned_at": "2026-05-09T14:13:37.433489+00:00"
     },
     {
       "ticker": "QQQ",
@@ -2291,15 +2741,15 @@
       "target3": 789.5687,
       "risk_per_unit": 15.6677,
       "atr": 10.4452,
-      "vwap": 670.5918,
+      "vwap": 670.6304,
       "vwap_bias": "above",
       "rsi": 82.84,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.08,
-      "vol_ratio": 1.08,
+      "rvol": 1.1,
+      "vol_ratio": 1.1,
       "candle_pct": 2.34,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2323,107 +2773,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:56.216407+00:00"
-    },
-    {
-      "ticker": "SOXL",
-      "type": "stock",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 177.44,
-      "direction": "LONG",
-      "score": 8,
-      "rr_ratio": 5.0,
-      "entry": 177.44,
-      "stop_loss": 174.4167,
-      "target1": 183.4865,
-      "target2": 188.0214,
-      "target3": 192.5564,
-      "risk_per_unit": 3.0233,
-      "atr": 2.4094,
-      "vwap": 175.0201,
-      "vwap_bias": "above",
-      "rsi": 67.61,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
-      },
-      "rvol": 1.29,
-      "vol_ratio": 1.29,
-      "candle_pct": 0.79,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.208,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 169.3055,
-        "slope": 0.57813,
-        "strength": 0.57813
-      },
-      "position": {
-        "units": 2.0289,
-        "dollar_risk": 6.13,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:58.357300+00:00"
-    },
-    {
-      "ticker": "TQQQ",
-      "type": "stock",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 76.28,
-      "direction": "LONG",
-      "score": 8,
-      "rr_ratio": 5.0,
-      "entry": 76.28,
-      "stop_loss": 75.6882,
-      "target1": 77.4636,
-      "target2": 78.3513,
-      "target3": 79.239,
-      "risk_per_unit": 0.5918,
-      "atr": 0.3945,
-      "vwap": 75.6435,
-      "vwap_bias": "above",
-      "rsi": 70.06,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
-      },
-      "rvol": 0.56,
-      "vol_ratio": 0.56,
-      "candle_pct": 0.4,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.21,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 74.748,
-        "slope": 0.111465,
-        "strength": 0.111465
-      },
-      "position": {
-        "units": 4.7195,
-        "dollar_risk": 2.79,
-        "pos_value": 360.0,
-        "account": "stocks",
-        "leverage": 1
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:44:59.392836+00:00"
+      "scanned_at": "2026-05-09T14:13:41.404164+00:00"
     },
     {
       "ticker": "PYPL",
@@ -2441,15 +2791,15 @@
       "target3": 33.1857,
       "risk_per_unit": 2.4369,
       "atr": 1.6246,
-      "vwap": 48.5796,
+      "vwap": 48.562,
       "vwap_bias": "below",
       "rsi": 37.82,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.91,
-      "vol_ratio": 0.91,
+      "rvol": 0.99,
+      "vol_ratio": 0.99,
       "candle_pct": 1.84,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2473,7 +2823,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:03.284697+00:00"
+      "scanned_at": "2026-05-09T14:13:53.653799+00:00"
     },
     {
       "ticker": "MA",
@@ -2490,16 +2840,16 @@
       "target2": 468.8416,
       "target3": 457.4252,
       "risk_per_unit": 7.611,
-      "atr": 12.3884,
-      "vwap": 505.1637,
+      "atr": 12.3883,
+      "vwap": 505.0198,
       "vwap_bias": "below",
       "rsi": 45.01,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.9,
-      "vol_ratio": 0.9,
+      "rvol": 1.12,
+      "vol_ratio": 1.12,
       "candle_pct": 1.09,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2523,7 +2873,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:05.283580+00:00"
+      "scanned_at": "2026-05-09T14:13:58.878200+00:00"
     },
     {
       "ticker": "GS",
@@ -2540,8 +2890,8 @@
       "target2": 991.028,
       "target3": 1014.4057,
       "risk_per_unit": 15.5851,
-      "atr": 23.2292,
-      "vwap": 927.0413,
+      "atr": 23.2506,
+      "vwap": 927.0516,
       "vwap_bias": "above",
       "rsi": 58.38,
       "rsi_divergence": {
@@ -2573,157 +2923,357 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:06.844207+00:00"
+      "scanned_at": "2026-05-09T14:14:01.397746+00:00"
     },
     {
-      "ticker": "MKR-USD",
+      "ticker": "ETH-USD",
       "type": "crypto",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 1776.3838,
+      "price": 2313.29,
       "direction": "SHORT",
       "score": 8,
       "rr_ratio": 5.0,
-      "entry": 1776.3838,
-      "stop_loss": 1792.4101,
-      "target1": 1744.3311,
-      "target2": 1720.2916,
-      "target3": 1696.2521,
-      "risk_per_unit": 16.0263,
-      "atr": 19.0309,
-      "vwap": 1779.7202,
+      "entry": 2313.29,
+      "stop_loss": 2317.538,
+      "target1": 2304.7941,
+      "target2": 2298.4222,
+      "target3": 2292.0503,
+      "risk_per_unit": 4.2479,
+      "atr": 2.832,
+      "vwap": 2315.6091,
       "vwap_bias": "below",
-      "rsi": 41.8,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.02,
-      "vol_ratio": 0.02,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.005,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 1817.3284,
-        "slope": -2.169194,
-        "strength": 2.169194
-      },
-      "position": {
-        "units": 16.8882,
-        "dollar_risk": 54.13,
-        "pos_value": 30000.0,
-        "account": "crypto",
-        "leverage": 5
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:28.331155+00:00"
-    },
-    {
-      "ticker": "AGIX-USD",
-      "type": "crypto",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.1003,
-      "direction": "LONG",
-      "score": 8,
-      "rr_ratio": 4.99,
-      "entry": 0.1003,
-      "stop_loss": 0.0999,
-      "target1": 0.1011,
-      "target2": 0.1017,
-      "target3": 0.1023,
-      "risk_per_unit": 0.0004,
-      "atr": 0.0003,
-      "vwap": 0.0995,
-      "vwap_bias": "above",
-      "rsi": 69.26,
+      "rsi": 47.05,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
       "rvol": 0.0,
       "vol_ratio": 0.0,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.836,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.0992,
-        "slope": 6.6e-05,
-        "strength": 6.6e-05
-      },
-      "position": {
-        "units": 299146.5598,
-        "dollar_risk": 24.13,
-        "pos_value": 30000.0,
-        "account": "crypto",
-        "leverage": 5
-      },
-      "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:22.987974+00:00"
-    },
-    {
-      "ticker": "ONDO-USD",
-      "type": "crypto",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 0.4489,
-      "direction": "LONG",
-      "score": 7,
-      "rr_ratio": 5.0,
-      "entry": 0.4489,
-      "stop_loss": 0.4452,
-      "target1": 0.4561,
-      "target2": 0.4616,
-      "target3": 0.467,
-      "risk_per_unit": 0.0036,
-      "atr": 0.0077,
-      "vwap": 0.4454,
-      "vwap_bias": "above",
-      "rsi": 57.55,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.07,
+      "candle_pct": 0.04,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
       "macd_signal": "bear",
-      "stochrsi_k": 0.759,
-      "mtf_bias": "bullish",
+      "stochrsi_k": 0.279,
+      "mtf_bias": "neutral",
       "mtf_confirmed": true,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 0.4405,
-        "slope": 0.000647,
-        "strength": 0.000647
+        "signal": "bearish",
+        "smoothed": 2314.5728,
+        "slope": -0.066225,
+        "strength": 0.066225
       },
       "position": {
-        "units": 66835.986,
-        "dollar_risk": 48.53,
+        "units": 12.9685,
+        "dollar_risk": 11.02,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:34.273076+00:00"
+      "scanned_at": "2026-05-09T14:14:08.994761+00:00"
+    },
+    {
+      "ticker": "UNI7083-USD",
+      "type": "crypto",
+      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 3.636,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 5.0,
+      "entry": 3.636,
+      "stop_loss": 3.6555,
+      "target1": 3.5971,
+      "target2": 3.5679,
+      "target3": 3.5386,
+      "risk_per_unit": 0.0195,
+      "atr": 0.013,
+      "vwap": 3.6586,
+      "vwap_bias": "below",
+      "rsi": 34.51,
+      "rsi_divergence": {
+        "bullish": true,
+        "bearish": false
+      },
+      "rvol": 0.0,
+      "vol_ratio": 0.0,
+      "candle_pct": 0.22,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.263,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 3.6649,
+        "slope": -0.001963,
+        "strength": 0.001963
+      },
+      "position": {
+        "units": 8250.8253,
+        "dollar_risk": 32.13,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:26.363450+00:00"
+    },
+    {
+      "ticker": "AAVE-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 94.75,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 5.0,
+      "entry": 94.75,
+      "stop_loss": 95.3498,
+      "target1": 93.5504,
+      "target2": 92.6507,
+      "target3": 91.7509,
+      "risk_per_unit": 0.5998,
+      "atr": 0.3999,
+      "vwap": 95.2739,
+      "vwap_bias": "below",
+      "rsi": 27.68,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.43,
+      "vol_ratio": 0.43,
+      "candle_pct": 0.37,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.052,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 96.056,
+        "slope": -0.07658,
+        "strength": 0.07658
+      },
+      "position": {
+        "units": 316.6227,
+        "dollar_risk": 37.98,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:27.092706+00:00"
+    },
+    {
+      "ticker": "SUI20947-USD",
+      "type": "crypto",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 1.054,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 4.99,
+      "entry": 1.054,
+      "stop_loss": 1.0599,
+      "target1": 1.0421,
+      "target2": 1.0333,
+      "target3": 1.0244,
+      "risk_per_unit": 0.0059,
+      "atr": 0.0059,
+      "vwap": 1.0541,
+      "vwap_bias": "below",
+      "rsi": 45.1,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.1,
+      "vol_ratio": 0.1,
+      "candle_pct": 0.19,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": true,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.714,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 1.0594,
+        "slope": -0.000486,
+        "strength": 0.000486
+      },
+      "position": {
+        "units": 28462.9976,
+        "dollar_risk": 33.75,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:14.569226+00:00"
+    },
+    {
+      "ticker": "CRV-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.2475,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 4.97,
+      "entry": 0.2475,
+      "stop_loss": 0.2487,
+      "target1": 0.245,
+      "target2": 0.2432,
+      "target3": 0.2414,
+      "risk_per_unit": 0.0012,
+      "atr": 0.0008,
+      "vwap": 0.249,
+      "vwap_bias": "below",
+      "rsi": 31.18,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.0,
+      "vol_ratio": 0.0,
+      "candle_pct": 0.44,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.278,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.2504,
+        "slope": -0.000187,
+        "strength": 0.000187
+      },
+      "position": {
+        "units": 121212.12,
+        "dollar_risk": 29.75,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:27.827364+00:00"
+    },
+    {
+      "ticker": "BNB-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 648.78,
+      "direction": "SHORT",
+      "score": 7,
+      "rr_ratio": 5.0,
+      "entry": 648.78,
+      "stop_loss": 650.0064,
+      "target1": 646.3273,
+      "target2": 644.4878,
+      "target3": 642.6482,
+      "risk_per_unit": 1.2264,
+      "atr": 0.8176,
+      "vwap": 649.7017,
+      "vwap_bias": "below",
+      "rsi": 40.29,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 4.0,
+      "vol_ratio": 4.0,
+      "candle_pct": 0.08,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.219,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 650.0248,
+        "slope": -0.079426,
+        "strength": 0.079426
+      },
+      "position": {
+        "units": 46.2406,
+        "dollar_risk": 11.34,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:11.703696+00:00"
+    },
+    {
+      "ticker": "OP-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.166,
+      "direction": "LONG",
+      "score": 6,
+      "rr_ratio": 5.02,
+      "entry": 0.166,
+      "stop_loss": 0.1647,
+      "target1": 0.1685,
+      "target2": 0.1704,
+      "target3": 0.1723,
+      "risk_per_unit": 0.0013,
+      "atr": 0.0015,
+      "vwap": 0.1651,
+      "vwap_bias": "above",
+      "rsi": 50.54,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.55,
+      "vol_ratio": 0.55,
+      "candle_pct": 0.61,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.49,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.1659,
+        "slope": -2.7e-05,
+        "strength": 2.7e-05
+      },
+      "position": {
+        "units": 180722.8984,
+        "dollar_risk": 45.37,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:17.453429+00:00"
     },
     {
       "ticker": "HOOD",
@@ -2741,7 +3291,7 @@
       "target3": 72.3788,
       "risk_per_unit": 0.9302,
       "atr": 4.2631,
-      "vwap": 78.8495,
+      "vwap": 78.8491,
       "vwap_bias": "below",
       "rsi": 48.33,
       "rsi_divergence": {
@@ -2773,7 +3323,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:41.083731+00:00"
+      "scanned_at": "2026-05-09T14:13:21.398762+00:00"
     },
     {
       "ticker": "SLV",
@@ -2790,16 +3340,16 @@
       "target2": 86.8187,
       "target3": 92.7367,
       "risk_per_unit": 3.9453,
-      "atr": 2.8261,
-      "vwap": 68.7697,
+      "atr": 2.8264,
+      "vwap": 68.7769,
       "vwap_bias": "above",
       "rsi": 58.58,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.84,
-      "vol_ratio": 0.84,
+      "rvol": 0.86,
+      "vol_ratio": 0.86,
       "candle_pct": 1.97,
       "vol_spike": false,
       "bb_squeeze": false,
@@ -2823,7 +3373,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:01.240970+00:00"
+      "scanned_at": "2026-05-09T14:13:49.838453+00:00"
     },
     {
       "ticker": "XOM",
@@ -2841,15 +3391,15 @@
       "target3": 115.6445,
       "risk_per_unit": 5.7851,
       "atr": 4.4577,
-      "vwap": 149.9931,
+      "vwap": 149.9851,
       "vwap_bias": "below",
       "rsi": 37.07,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.12,
-      "vol_ratio": 1.12,
+      "rvol": 1.14,
+      "vol_ratio": 1.14,
       "candle_pct": 1.37,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -2873,7 +3423,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:07.811429+00:00"
+      "scanned_at": "2026-05-09T14:14:02.400817+00:00"
     },
     {
       "ticker": "CVX",
@@ -2890,16 +3440,16 @@
       "target2": 160.3333,
       "target3": 151.2104,
       "risk_per_unit": 6.0819,
-      "atr": 5.0808,
-      "vwap": 187.1676,
+      "atr": 5.0812,
+      "vwap": 187.1224,
       "vwap_bias": "below",
       "rsi": 38.18,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.18,
-      "vol_ratio": 1.18,
+      "rvol": 1.28,
+      "vol_ratio": 1.28,
       "candle_pct": 0.48,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -2923,57 +3473,157 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:45:08.758349+00:00"
+      "scanned_at": "2026-05-09T14:14:04.425580+00:00"
     },
     {
-      "ticker": "BTC-USD",
+      "ticker": "AVAX-USD",
       "type": "crypto",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 80132.6328,
+      "price": 9.9,
       "direction": "SHORT",
       "score": 6,
       "rr_ratio": 5.0,
-      "entry": 80132.6328,
-      "stop_loss": 80315.5356,
-      "target1": 79766.8272,
-      "target2": 79492.4729,
-      "target3": 79218.1187,
-      "risk_per_unit": 182.9028,
-      "atr": 121.9352,
-      "vwap": 80228.0494,
+      "entry": 9.9,
+      "stop_loss": 9.9515,
+      "target1": 9.797,
+      "target2": 9.7197,
+      "target3": 9.6424,
+      "risk_per_unit": 0.0515,
+      "atr": 0.0343,
+      "vwap": 9.9094,
       "vwap_bias": "below",
-      "rsi": 48.27,
+      "rsi": 41.43,
       "rsi_divergence": {
         "bullish": false,
-        "bearish": true
+        "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.02,
+      "rvol": 10.3,
+      "vol_ratio": 10.3,
+      "candle_pct": 0.0,
       "vol_spike": false,
-      "bb_squeeze": false,
+      "bb_squeeze": true,
       "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.017,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.305,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 80146.1159,
-        "slope": 2.773745,
-        "strength": 2.773745
+        "signal": "bearish",
+        "smoothed": 9.9358,
+        "slope": -0.002136,
+        "strength": 0.002136
       },
       "position": {
-        "units": 0.3744,
-        "dollar_risk": 13.7,
+        "units": 3030.3031,
+        "dollar_risk": 31.22,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:11.771482+00:00"
+      "scanned_at": "2026-05-09T14:14:18.573135+00:00"
+    },
+    {
+      "ticker": "WIF-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.226,
+      "direction": "SHORT",
+      "score": 6,
+      "rr_ratio": 4.97,
+      "entry": 0.226,
+      "stop_loss": 0.2271,
+      "target1": 0.2237,
+      "target2": 0.2221,
+      "target3": 0.2204,
+      "risk_per_unit": 0.0011,
+      "atr": 0.0008,
+      "vwap": 0.2269,
+      "vwap_bias": "below",
+      "rsi": 43.0,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 2.71,
+      "vol_ratio": 2.71,
+      "candle_pct": 0.0,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.2271,
+        "slope": -5.6e-05,
+        "strength": 5.6e-05
+      },
+      "position": {
+        "units": 132743.3651,
+        "dollar_risk": 29.94,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:30.828091+00:00"
+    },
+    {
+      "ticker": "BONK-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.0,
+      "direction": "SHORT",
+      "score": 5,
+      "rr_ratio": 128.9,
+      "entry": 0.0,
+      "stop_loss": 0.0,
+      "target1": 0.0,
+      "target2": 0.0,
+      "target3": 0.0,
+      "risk_per_unit": 0.0,
+      "atr": 0.0,
+      "vwap": 0.0,
+      "vwap_bias": "below",
+      "rsi": 39.8,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.08,
+      "vol_ratio": 0.08,
+      "candle_pct": 0.42,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.114,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.0,
+        "slope": -0.0,
+        "strength": 0.0
+      },
+      "position": {
+        "units": 4178272973.8494,
+        "dollar_risk": 46.55,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:32.618654+00:00"
     },
     {
       "ticker": "BTBT",
@@ -2991,7 +3641,7 @@
       "target3": 2.2199,
       "risk_per_unit": 0.084,
       "atr": 0.1134,
-      "vwap": 1.6813,
+      "vwap": 1.6814,
       "vwap_bias": "above",
       "rsi": 60.23,
       "rsi_divergence": {
@@ -3023,7 +3673,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:46.550299+00:00"
+      "scanned_at": "2026-05-09T14:13:30.344958+00:00"
     },
     {
       "ticker": "AFRM",
@@ -3041,7 +3691,7 @@
       "target3": 56.1111,
       "risk_per_unit": 1.5798,
       "atr": 3.479,
-      "vwap": 65.5938,
+      "vwap": 65.594,
       "vwap_bias": "below",
       "rsi": 57.0,
       "rsi_divergence": {
@@ -3073,7 +3723,7 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:52.043685+00:00"
+      "scanned_at": "2026-05-09T14:13:36.735106+00:00"
     },
     {
       "ticker": "SNOW",
@@ -3090,16 +3740,16 @@
       "target2": 177.8477,
       "target3": 188.7325,
       "risk_per_unit": 7.2565,
-      "atr": 8.738,
-      "vwap": 144.7735,
+      "atr": 8.7415,
+      "vwap": 144.8022,
       "vwap_bias": "above",
       "rsi": 53.88,
       "rsi_divergence": {
         "bullish": true,
         "bearish": false
       },
-      "rvol": 0.87,
-      "vol_ratio": 0.87,
+      "rvol": 0.95,
+      "vol_ratio": 0.95,
       "candle_pct": 0.83,
       "vol_spike": false,
       "bb_squeeze": true,
@@ -3123,57 +3773,257 @@
         "leverage": 1
       },
       "timeframe": "1d",
-      "scanned_at": "2026-05-08T23:44:53.733983+00:00"
+      "scanned_at": "2026-05-09T14:13:38.127152+00:00"
     },
     {
-      "ticker": "ETH-USD",
+      "ticker": "SOL-USD",
       "type": "crypto",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
       "trade_type": "\u26a1 Scalp (mins-hours)",
-      "price": 2304.1001,
+      "price": 93.24,
       "direction": "SHORT",
       "score": 5,
       "rr_ratio": 5.0,
-      "entry": 2304.1001,
-      "stop_loss": 2311.2907,
-      "target1": 2289.7188,
-      "target2": 2278.9328,
-      "target3": 2268.1469,
-      "risk_per_unit": 7.1906,
-      "atr": 4.7938,
-      "vwap": 2310.4931,
+      "entry": 93.24,
+      "stop_loss": 93.5988,
+      "target1": 92.5224,
+      "target2": 91.9842,
+      "target3": 91.446,
+      "risk_per_unit": 0.3588,
+      "atr": 0.2392,
+      "vwap": 93.4146,
       "vwap_bias": "below",
-      "rsi": 45.74,
+      "rsi": 44.38,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.01,
+      "rvol": 3.41,
+      "vol_ratio": 3.41,
+      "candle_pct": 0.24,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
       "macd_signal": "bear",
-      "stochrsi_k": 0.025,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
+      "stochrsi_k": 0.239,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
       "has_earnings": false,
       "green_lights": {
-        "signal": "bullish",
-        "smoothed": 2307.112,
-        "slope": 0.089596,
-        "strength": 0.089596
+        "signal": "bearish",
+        "smoothed": 93.4771,
+        "slope": -0.01091,
+        "strength": 0.01091
       },
       "position": {
-        "units": 13.0203,
-        "dollar_risk": 18.72,
+        "units": 321.7503,
+        "dollar_risk": 23.09,
         "pos_value": 30000.0,
         "account": "crypto",
         "leverage": 5
       },
       "timeframe": "15m",
-      "scanned_at": "2026-05-08T23:45:12.578961+00:00"
+      "scanned_at": "2026-05-09T14:14:09.745014+00:00"
+    },
+    {
+      "ticker": "XRP-USD",
+      "type": "crypto",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 1.42,
+      "direction": "SHORT",
+      "score": 5,
+      "rr_ratio": 5.0,
+      "entry": 1.42,
+      "stop_loss": 1.4234,
+      "target1": 1.4133,
+      "target2": 1.4082,
+      "target3": 1.4032,
+      "risk_per_unit": 0.0034,
+      "atr": 0.0022,
+      "vwap": 1.4199,
+      "vwap_bias": "above",
+      "rsi": 43.79,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 4.85,
+      "vol_ratio": 4.85,
+      "candle_pct": 0.0,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.447,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 1.4222,
+        "slope": -0.000168,
+        "strength": 0.000168
+      },
+      "position": {
+        "units": 21126.7612,
+        "dollar_risk": 14.19,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:13.465453+00:00"
+    },
+    {
+      "ticker": "LINK-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 10.383,
+      "direction": "SHORT",
+      "score": 5,
+      "rr_ratio": 5.0,
+      "entry": 10.383,
+      "stop_loss": 10.4254,
+      "target1": 10.2983,
+      "target2": 10.2348,
+      "target3": 10.1712,
+      "risk_per_unit": 0.0424,
+      "atr": 0.0282,
+      "vwap": 10.4503,
+      "vwap_bias": "below",
+      "rsi": 33.62,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.16,
+      "vol_ratio": 0.16,
+      "candle_pct": 0.2,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.007,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 10.4488,
+        "slope": -0.003664,
+        "strength": 0.003664
+      },
+      "position": {
+        "units": 2889.3382,
+        "dollar_risk": 24.47,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:19.309205+00:00"
+    },
+    {
+      "ticker": "VIRTUAL-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 0.9316,
+      "direction": "SHORT",
+      "score": 5,
+      "rr_ratio": 5.0,
+      "entry": 0.9316,
+      "stop_loss": 0.9375,
+      "target1": 0.9199,
+      "target2": 0.9112,
+      "target3": 0.9024,
+      "risk_per_unit": 0.0058,
+      "atr": 0.0039,
+      "vwap": 0.9366,
+      "vwap_bias": "below",
+      "rsi": 46.35,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.17,
+      "vol_ratio": 0.17,
+      "candle_pct": 0.04,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.2,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 0.9345,
+        "slope": -0.000154,
+        "strength": 0.000154
+      },
+      "position": {
+        "units": 32202.0449,
+        "dollar_risk": 37.61,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:25.622801+00:00"
+    },
+    {
+      "ticker": "MKR-USD",
+      "type": "crypto",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Scalp (mins-hours)",
+      "price": 1857.6848,
+      "direction": "SHORT",
+      "score": 5,
+      "rr_ratio": 5.0,
+      "entry": 1857.6848,
+      "stop_loss": 1863.5949,
+      "target1": 1845.8646,
+      "target2": 1836.9995,
+      "target3": 1828.1344,
+      "risk_per_unit": 5.9101,
+      "atr": 3.9401,
+      "vwap": 1873.9721,
+      "vwap_bias": "below",
+      "rsi": 27.75,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.06,
+      "vol_ratio": 0.06,
+      "candle_pct": 0.0,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.039,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 1881.1197,
+        "slope": -1.16491,
+        "strength": 1.16491
+      },
+      "position": {
+        "units": 16.1491,
+        "dollar_risk": 19.09,
+        "pos_value": 30000.0,
+        "account": "crypto",
+        "leverage": 5
+      },
+      "timeframe": "15m",
+      "scanned_at": "2026-05-09T14:14:28.542335+00:00"
     }
   ]
 }

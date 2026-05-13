@@ -1,6 +1,10 @@
 """
-TradeSignal Scanner v5.0
+TradeSignal Scanner v5.1
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+New in v5.1:
+  - High Conviction tier (score ≥ 9, R/R ≥ 3) — instant Telegram alert
+  - Telegram alerts replace Twilio SMS
+
 New in v5.0:
   - Weighted penalty system (no hard blocks)
   - BTC correlation penalty for altcoin longs/shorts
@@ -45,12 +49,6 @@ except ImportError:
     raise ImportError("Run: pip3 install ta")
 
 try:
-    from twilio.rest import Client as TwilioClient
-    TWILIO_AVAILABLE = True
-except ImportError:
-    TWILIO_AVAILABLE = False
-
-try:
     import sendgrid
     from sendgrid.helpers.mail import Mail
     SENDGRID_AVAILABLE = True
@@ -65,9 +63,10 @@ CONFIG = {
     "STOCK_ACCOUNT":        1200,
     "RISK_PCT":             0.05,
     "CRYPTO_LEVERAGE":      5,
-    "MIN_SCORE_STOCK":      5,
-    "MIN_SCORE_CRYPTO":     6,
-    "MIN_SCORE_HIGH_LEV":   7,    # for 5x+ leverage crypto
+    "MIN_SCORE_STOCK":            5,
+    "MIN_SCORE_CRYPTO":           6,
+    "MIN_SCORE_HIGH_LEV":         7,    # for 5x+ leverage crypto
+    "MIN_SCORE_HIGH_CONVICTION":  9,    # score ≥ 9 + R/R ≥ 3 → Telegram alert
     "MIN_RR":               2.5,
     "VOL_SPIKE_PCT":        15.0,
     "VOL_SURGE_RATIO":      1.5,
@@ -82,10 +81,8 @@ CONFIG = {
     "BONUS_FUNDING_NEG":    1,    # bonus when funding negative (short squeeze setup)
 
     # Alerts
-    "TWILIO_SID":           os.getenv("TWILIO_SID", ""),
-    "TWILIO_AUTH":          os.getenv("TWILIO_AUTH", ""),
-    "TWILIO_FROM":          os.getenv("TWILIO_FROM", ""),
-    "TWILIO_TO":            os.getenv("TWILIO_TO",   ""),
+    "TELEGRAM_BOT_TOKEN":   os.getenv("TELEGRAM_BOT_TOKEN", ""),
+    "TELEGRAM_CHAT_ID":     os.getenv("TELEGRAM_CHAT_ID",   ""),
     "SENDGRID_API_KEY":     os.getenv("SENDGRID_API_KEY", ""),
     "ALERT_EMAIL_FROM":     os.getenv("ALERT_EMAIL_FROM", ""),
     "ALERT_EMAIL_TO":       os.getenv("ALERT_EMAIL_TO",   ""),
@@ -713,9 +710,10 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
             "sr_levels":      sr_levels,
             "has_earnings":   has_earnings,
             "green_lights":   gl,
-            "position":       pos,
-            "timeframe":      tf,
-            "scanned_at":     datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "position":         pos,
+            "timeframe":        tf,
+            "high_conviction":  score >= CONFIG["MIN_SCORE_HIGH_CONVICTION"] and rr >= 3.0,
+            "scanned_at":       datetime.datetime.now(datetime.timezone.utc).isoformat(),
         }
 
     except Exception as e:
@@ -792,16 +790,50 @@ def send_email(subject, body):
     except Exception as e:
         print(f"  ⚠ Email failed: {e}")
 
-def send_sms(body):
-    if not TWILIO_AVAILABLE: return
-    c = CONFIG
-    if not all([c["TWILIO_SID"], c["TWILIO_AUTH"], c["TWILIO_FROM"], c["TWILIO_TO"]]): return
+def send_telegram(message: str):
+    token   = CONFIG.get("TELEGRAM_BOT_TOKEN", "")
+    chat_id = CONFIG.get("TELEGRAM_CHAT_ID",   "")
+    if not token or not chat_id:
+        print("  ⚠ Telegram credentials missing (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID)")
+        return
     try:
-        TwilioClient(c["TWILIO_SID"], c["TWILIO_AUTH"]).messages.create(
-            body=body[:1600], from_=c["TWILIO_FROM"], to=c["TWILIO_TO"])
-        print("  ✅ SMS sent")
+        url     = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = json.dumps({"chat_id": chat_id, "text": message, "parse_mode": "HTML"}).encode()
+        req     = urllib.request.Request(url, data=payload,
+                                         headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            resp = json.loads(r.read().decode())
+            if resp.get("ok"):
+                print("  ✅ Telegram sent")
+            else:
+                print(f"  ⚠ Telegram error: {resp}")
     except Exception as e:
-        print(f"  ⚠ SMS failed: {e}")
+        print(f"  ⚠ Telegram failed: {e}")
+
+def format_hc_telegram(r: dict) -> str:
+    arr  = "▲" if r["direction"] == "LONG" else "▼"
+    earn = "  ⚠️ EARNINGS WEEK" if r.get("has_earnings") else ""
+    pos  = r.get("position") or {}
+    lines = [
+        f"🔥 <b>HIGH CONVICTION TRADE</b>",
+        f"<b>{r['ticker']}</b>  {arr}{r['direction']}  |  {r['signal_type']}{earn}",
+        f"Score: {r['score']}  |  R/R: {r['rr_ratio']}:1",
+        f"Session: {r.get('session','?')}  |  MTF: {r.get('mtf_bias','?').upper()}",
+        f"",
+        f"Entry:   {r['entry']}",
+        f"Stop:    {r['stop_loss']}",
+        f"T1:      {r['target1']}",
+        f"T2:      {r['target2']}",
+        f"T3:      {r['target3']}",
+    ]
+    if pos:
+        lines.append(f"Size:    {pos.get('units','?')} units  |  Risk: ${pos.get('dollar_risk','?')}")
+    if r.get("funding_rate") is not None:
+        lines.append(f"Funding: {r['funding_rate']:.4f}%  |  BTC: {r.get('btc_trend','?')}")
+    pen = r.get("penalty_notes", [])
+    if pen:
+        lines.append(f"Adj:     {', '.join(pen)}")
+    return "\n".join(lines)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # HISTORY
@@ -889,7 +921,7 @@ def run_scanner(send_alerts=True):
     print("\n" + "━"*60)
     print("  TradeSignal Scanner v5.0")
     print(f"  {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"  Stocks min:{CONFIG['MIN_SCORE_STOCK']} | Crypto min:{CONFIG['MIN_SCORE_CRYPTO']} | High-lev min:{CONFIG['MIN_SCORE_HIGH_LEV']}")
+    print(f"  Stocks min:{CONFIG['MIN_SCORE_STOCK']} | Crypto min:{CONFIG['MIN_SCORE_CRYPTO']} | High-lev min:{CONFIG['MIN_SCORE_HIGH_LEV']} | HC min:{CONFIG['MIN_SCORE_HIGH_CONVICTION']}")
     print("━"*60)
 
     # Context
@@ -950,12 +982,18 @@ def run_scanner(send_alerts=True):
     else:
         print("  No swing setups this scan.")
 
+    # High Conviction Telegram alerts
+    hc_signals = [r for r in results if r.get("high_conviction")]
+    if send_alerts and hc_signals:
+        print(f"\n  🔥 {len(hc_signals)} HIGH CONVICTION signal(s) — sending Telegram alerts...")
+        for r in hc_signals:
+            send_telegram(format_hc_telegram(r))
+
     # Email digest
     if send_alerts and (scalps or swings):
         body  = format_digest(scalps, swings, sentiment, session, events)
-        subj  = f"TradeSignal v5 | {len(scalps)+len(swings)} signals | {session['session']} | {sentiment['icon']} {sentiment['bias']} | {session['time_denver']}"
+        subj  = f"TradeSignal v5.1 | {len(scalps)+len(swings)} signals | {session['session']} | {sentiment['icon']} {sentiment['bias']} | {session['time_denver']}"
         print(f"\n  📤 Sending digest...")
-        send_sms(body[:1600])
         send_email(subj, body)
 
     # Save JSON
@@ -976,6 +1014,7 @@ def run_scanner(send_alerts=True):
             "risk_pct": f"{int(CONFIG['RISK_PCT']*100)}%",
         },
         "total_signals":    len(results),
+        "high_conviction":  len(hc_signals),
         "vol_spikes":       len(vol_spikes),
         "ema_crossovers":   len(ema_crosses),
         "top_scalps":       scalps,
@@ -989,7 +1028,7 @@ def run_scanner(send_alerts=True):
 
     save_history(results, output_dir)
 
-    print(f"\n✅ {len(results)} signals | ⚡ Scalps:{len(scalps)}  📅 Swings:{len(swings)}")
+    print(f"\n✅ {len(results)} signals | ⚡ Scalps:{len(scalps)}  📅 Swings:{len(swings)}  🔥 HC:{len(hc_signals)}")
     print(f"   🚨 Spikes:{len(vol_spikes)}  ⚡ Crosses:{len(ema_crosses)}")
     print(f"   📁 {output_path}")
     print("━"*60 + "\n")

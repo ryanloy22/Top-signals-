@@ -24,6 +24,11 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+  SENDGRID_API_KEY:   ${{ secrets.SENDGRID_API_KEY }}
+  ALERT_EMAIL_FROM:   ${{ secrets.ALERT_EMAIL_FROM }}
+  ALERT_EMAIL_TO:     ${{ secrets.ALERT_EMAIL_TO }}
 
 jobs:
   scan:

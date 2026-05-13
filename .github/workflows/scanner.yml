@@ -2,17 +2,21 @@ name: TradeSignal Scanner
 
 on:
   schedule:
-    # Every 2 hours 8am-6pm EST weekdays (13:00-23:00 UTC)
-    - cron: '0 13 * * 1-5'
-    - cron: '0 15 * * 1-5'
-    - cron: '0 17 * * 1-5'
-    - cron: '0 19 * * 1-5'
-    - cron: '0 21 * * 1-5'
-    - cron: '0 23 * * 1-5'
-    # Every 4 hours weekends for crypto
-    - cron: '0 13 * * 0,6'
-    - cron: '0 17 * * 0,6'
-    - cron: '0 21 * * 0,6'
+    # Every hour 6am-6pm Denver MDT (UTC-6) = 12:00-00:00 UTC
+    # Monday through Sunday
+    - cron: '0 12 * * *'
+    - cron: '0 13 * * *'
+    - cron: '0 14 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 16 * * *'
+    - cron: '0 17 * * *'
+    - cron: '0 18 * * *'
+    - cron: '0 19 * * *'
+    - cron: '0 20 * * *'
+    - cron: '0 21 * * *'
+    - cron: '0 22 * * *'
+    - cron: '0 23 * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -48,7 +52,6 @@ jobs:
         run: |
           git config --global user.name  "TradeSignal Bot"
           git config --global user.email "bot@tradesignal"
-          # Always pull latest before committing to avoid conflicts
           git fetch origin main
           git reset --soft origin/main
           git add scan_results.json scan_history.json 2>/dev/null || true

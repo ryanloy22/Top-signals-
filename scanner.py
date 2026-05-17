@@ -1,8 +1,13 @@
 """
-TradeSignal Scanner v5.1
+TradeSignal Scanner v5.2
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+New in v5.2:
+  - HC Telegram alerts show % move + dollar P&L at each target
+  - Daily HC accuracy summary sent at 01:00 UTC via Telegram
+  - Updated account balances: crypto $23k, stocks $2.1k
+
 New in v5.1:
-  - High Conviction tier (score ≥ 9, R/R ≥ 3) — instant Telegram alert
+  - High Conviction tier (score ≥ 10, R/R ≥ 3) — instant Telegram alert
   - Telegram alerts replace Twilio SMS
 
 New in v5.0:
@@ -19,8 +24,8 @@ New in v5.0:
   - Runs every hour 6am-6pm Denver (MST/MDT) Mon-Sun
 
 Accounts:
-  Crypto (BloFin) : $20,000 | 5x leverage | 5% risk = $1,000
-  Stocks (Webull) : $1,200  | 1x          | 5% risk = $60
+  Crypto (BloFin) : $23,000 | 5x leverage | 5% risk = $1,150
+  Stocks (Webull) : $2,100  | 1x          | 5% risk = $105
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
@@ -59,8 +64,8 @@ except ImportError:
 # CONFIGURATION
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CONFIG = {
-    "CRYPTO_ACCOUNT":       20000,
-    "STOCK_ACCOUNT":        1200,
+    "CRYPTO_ACCOUNT":       23000,
+    "STOCK_ACCOUNT":        2100,
     "RISK_PCT":             0.05,
     "CRYPTO_LEVERAGE":      5,
     "MIN_SCORE_STOCK":            5,
@@ -780,29 +785,157 @@ def send_telegram(message: str):
         print(f"  ⚠ Telegram failed: {e}")
 
 def format_hc_telegram(r: dict) -> str:
-    arr  = "▲" if r["direction"] == "LONG" else "▼"
-    earn = "  ⚠️ EARNINGS WEEK" if r.get("has_earnings") else ""
-    pos  = r.get("position") or {}
+    arr   = "▲" if r["direction"] == "LONG" else "▼"
+    earn  = "  ⚠️ EARNINGS WEEK" if r.get("has_earnings") else ""
+    pos   = r.get("position") or {}
+    dr    = pos.get("dollar_risk", 0) or 0
+    acct  = CONFIG["CRYPTO_ACCOUNT"] if pos.get("account") == "crypto" else CONFIG["STOCK_ACCOUNT"]
+    entry = r["entry"]
+    direction = r["direction"]
+
+    def pct(target):
+        if direction == "LONG":
+            return (target - entry) / entry * 100
+        return (entry - target) / entry * 100
+
+    def fmt_target(label, target, rr):
+        profit   = dr * rr
+        acct_pct = profit / acct * 100 if acct else 0
+        move     = pct(target)
+        return f"{label}:     {target}  (+{move:.1f}% | +${profit:.0f} | +{acct_pct:.2f}% acct)"
+
+    stop_move    = abs(pct(r["stop_loss"]))
+    stop_acct    = dr / acct * 100 if acct else 0
+
     lines = [
         f"🔥 <b>HIGH CONVICTION TRADE</b>",
         f"<b>{r['ticker']}</b>  {arr}{r['direction']}  |  {r['signal_type']}{earn}",
-        f"Score: {r['score']}  |  R/R: {r['rr_ratio']}:1",
-        f"Session: {r.get('session','?')}  |  MTF: {r.get('mtf_bias','?').upper()}",
+        f"Score: {r['score']}  |  R/R: {r['rr_ratio']}:1  |  {r.get('session','?')}",
         f"",
-        f"Entry:   {r['entry']}",
-        f"Stop:    {r['stop_loss']}",
-        f"T1:      {r['target1']}",
-        f"T2:      {r['target2']}",
-        f"T3:      {r['target3']}",
+        f"Entry:   {entry}",
+        f"Stop:    {r['stop_loss']}  (-{stop_move:.1f}% | -${dr:.0f} | -{stop_acct:.2f}% acct)",
+        fmt_target("T1", r["target1"], 2.0),
+        fmt_target("T2", r["target2"], 3.5),
+        fmt_target("T3", r["target3"], 5.0),
     ]
     if pos:
-        lines.append(f"Size:    {pos.get('units','?')} units  |  Risk: ${pos.get('dollar_risk','?')}")
+        lines.append(f"Size:    {pos.get('units','?')} units  |  Risk: ${dr:.0f}")
     if r.get("funding_rate") is not None:
         lines.append(f"Funding: {r['funding_rate']:.4f}%  |  BTC: {r.get('btc_trend','?')}")
-    pen = r.get("penalty_notes", [])
-    if pen:
-        lines.append(f"Adj:     {', '.join(pen)}")
     return "\n".join(lines)
+
+def save_hc_alert(signal: dict, output_dir: str):
+    path   = os.path.join(output_dir, "hc_alerts.json")
+    alerts = []
+    if os.path.exists(path):
+        try:
+            with open(path) as f:
+                alerts = json.load(f)
+        except Exception:
+            alerts = []
+    alerts.append({
+        "alerted_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "ticker":     signal["ticker"],
+        "direction":  signal["direction"],
+        "entry":      signal["entry"],
+        "stop_loss":  signal["stop_loss"],
+        "target1":    signal["target1"],
+        "target2":    signal["target2"],
+        "target3":    signal["target3"],
+        "score":      signal["score"],
+        "rr_ratio":   signal["rr_ratio"],
+        "signal_type": signal["signal_type"],
+        "position":   signal.get("position"),
+    })
+    alerts = alerts[-300:]
+    with open(path, "w") as f:
+        json.dump(alerts, f, indent=2)
+
+def check_outcome(alert: dict) -> dict:
+    ticker     = alert["ticker"]
+    direction  = alert["direction"]
+    entry      = float(alert["entry"])
+    stop       = float(alert["stop_loss"])
+    t1, t2, t3 = float(alert["target1"]), float(alert["target2"]), float(alert["target3"])
+    alerted_at = datetime.datetime.fromisoformat(alert["alerted_at"])
+    try:
+        df = yf.download(ticker, start=alerted_at.strftime("%Y-%m-%d"),
+                         interval="15m", progress=False, auto_adjust=True)
+        if df is None or df.empty:
+            return {"outcome": "no data"}
+        df.index = pd.to_datetime(df.index, utc=True)
+        df = df[df.index >= alerted_at]
+        if df.empty:
+            return {"outcome": "no data"}
+        hi  = float(df["High"].max())
+        lo  = float(df["Low"].min())
+        cur = float(df["Close"].squeeze().iloc[-1])
+        if direction == "LONG":
+            hit_t3, hit_t2, hit_t1 = hi >= t3, hi >= t2, hi >= t1
+            hit_stop = lo <= stop
+        else:
+            hit_t3, hit_t2, hit_t1 = lo <= t3, lo <= t2, lo <= t1
+            hit_stop = hi >= stop
+        if hit_t3:        label = "T3 ✅✅✅"
+        elif hit_t2:      label = "T2 ✅✅"
+        elif hit_t1:      label = "T1 ✅"
+        elif hit_stop:    label = "Stop ❌"
+        else:             label = "Open ⏳"
+        return {"outcome": label, "current": round(cur, 4), "high": round(hi, 4), "low": round(lo, 4)}
+    except Exception:
+        return {"outcome": "error"}
+
+def send_daily_hc_summary(output_dir: str):
+    path = os.path.join(output_dir, "hc_alerts.json")
+    if not os.path.exists(path):
+        print("  No hc_alerts.json found.")
+        return
+    with open(path) as f:
+        alerts = json.load(f)
+    cutoff      = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
+    day_alerts  = [a for a in alerts
+                   if datetime.datetime.fromisoformat(a["alerted_at"]) >= cutoff]
+    if not day_alerts:
+        send_telegram("📊 <b>Daily HC Summary</b>\nNo High Conviction alerts in the last 24 hours.")
+        return
+    print(f"\n  📊 Checking outcomes for {len(day_alerts)} HC alert(s)...")
+    wins = losses = opens = 0
+    lines = [
+        f"📊 <b>DAILY HC SUMMARY</b>",
+        f"{datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d')}  —  {len(day_alerts)} alert(s)",
+        "",
+    ]
+    for i, alert in enumerate(day_alerts, 1):
+        result = check_outcome(alert)
+        outcome = result.get("outcome", "?")
+        pos  = alert.get("position") or {}
+        dr   = (pos.get("dollar_risk") or 0)
+        acct = CONFIG["CRYPTO_ACCOUNT"] if (pos.get("account") == "crypto") else CONFIG["STOCK_ACCOUNT"]
+        if "T3" in outcome:
+            profit = dr * 5.0;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
+        elif "T2" in outcome:
+            profit = dr * 3.5;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
+        elif "T1" in outcome:
+            profit = dr * 2.0;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
+        elif "Stop" in outcome:
+            pnl = f"-${dr:.0f} (-{dr/acct*100:.2f}% acct)"; losses += 1
+        else:
+            pnl = "—"; opens += 1
+        arr  = "▲" if alert["direction"] == "LONG" else "▼"
+        time_str = datetime.datetime.fromisoformat(alert["alerted_at"]).strftime("%H:%M UTC")
+        lines += [
+            f"{i}. <b>{alert['ticker']}</b> {arr}{alert['direction']}  Score:{alert['score']}  {time_str}",
+            f"   {outcome}  |  P&L: {pnl}",
+            f"   Entry:{alert['entry']}  Now:{result.get('current','?')}  H:{result.get('high','?')}  L:{result.get('low','?')}",
+            "",
+        ]
+    resolved = wins + losses
+    if resolved:
+        lines.append(f"Win rate: {wins}/{resolved} ({round(wins/resolved*100)}%)  |  {opens} still open")
+    else:
+        lines.append(f"All {opens} alert(s) still open / no data yet")
+    send_telegram("\n".join(lines))
+    print(f"  ✅ Summary sent — {wins}W / {losses}L / {opens} open")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # HISTORY
@@ -931,9 +1064,10 @@ def run_scanner(send_alerts=True):
         time.sleep(0.25)
 
     results.sort(key=lambda x: (x["score"], x["rr_ratio"]), reverse=True)
-    scalps = [r for r in results if r["timeframe"] == "15m"][:CONFIG["TOP_N"]]
-    swings = [r for r in results if r["timeframe"] == "1d"][:CONFIG["TOP_N"]]
-    top    = results[:CONFIG["TOP_N"]]
+    scalps     = [r for r in results if r["timeframe"] == "15m"][:CONFIG["TOP_N"]]
+    swings     = [r for r in results if r["timeframe"] == "1d"][:CONFIG["TOP_N"]]
+    top        = results[:CONFIG["TOP_N"]]
+    output_dir = os.path.dirname(os.path.abspath(__file__))
 
     print(f"\n{'━'*60}")
     print(f"  ⚡ TOP {len(scalps)} SCALP SETUPS")
@@ -957,6 +1091,7 @@ def run_scanner(send_alerts=True):
         print(f"\n  🔥 {len(hc_signals)} HIGH CONVICTION signal(s) — sending Telegram alerts...")
         for r in hc_signals:
             send_telegram(format_hc_telegram(r))
+            save_hc_alert(r, output_dir)
 
     # Email digest
     if send_alerts and (scalps or swings):
@@ -967,7 +1102,6 @@ def run_scanner(send_alerts=True):
 
     # Save JSON
     gc.collect()
-    output_dir  = os.path.dirname(os.path.abspath(__file__))
     output_path = os.path.join(output_dir, "scan_results.json")
 
     output = {
@@ -1006,4 +1140,7 @@ def run_scanner(send_alerts=True):
 
 if __name__ == "__main__":
     import sys
-    run_scanner(send_alerts=True)
+    if "--summary" in sys.argv:
+        send_daily_hc_summary(os.path.dirname(os.path.abspath(__file__)))
+    else:
+        run_scanner(send_alerts=True)

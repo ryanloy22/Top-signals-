@@ -65,7 +65,7 @@ CONFIG = {
     "CRYPTO_LEVERAGE":      5,
     "MIN_SCORE_STOCK":            5,
     "MIN_SCORE_CRYPTO":           5,
-    "MIN_SCORE_HIGH_LEV":         6,    # for 5x+ leverage crypto
+    "MIN_SCORE_HIGH_LEV":         5,    # for 5x+ leverage crypto
     "MIN_SCORE_HIGH_CONVICTION":  10,   # score ≥ 10 + R/R ≥ 3 → Telegram alert
     "MIN_RR":               2.5,
     "VOL_SPIKE_PCT":        15.0,

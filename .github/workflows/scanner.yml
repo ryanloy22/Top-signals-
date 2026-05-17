@@ -2,33 +2,21 @@ name: TradeSignal Scanner
 
 on:
   schedule:
-    # Every 30 min 6am-6pm Denver MDT (UTC-6) = 12:00-00:00 UTC
-    # Monday through Sunday
-    - cron: '0  12 * * *'
-    - cron: '30 12 * * *'
-    - cron: '0  13 * * *'
-    - cron: '30 13 * * *'
-    - cron: '0  14 * * *'
-    - cron: '30 14 * * *'
-    - cron: '0  15 * * *'
-    - cron: '30 15 * * *'
-    - cron: '0  16 * * *'
-    - cron: '30 16 * * *'
-    - cron: '0  17 * * *'
-    - cron: '30 17 * * *'
-    - cron: '0  18 * * *'
-    - cron: '30 18 * * *'
-    - cron: '0  19 * * *'
-    - cron: '30 19 * * *'
-    - cron: '0  20 * * *'
-    - cron: '30 20 * * *'
-    - cron: '0  21 * * *'
-    - cron: '30 21 * * *'
-    - cron: '0  22 * * *'
-    - cron: '30 22 * * *'
-    - cron: '0  23 * * *'
-    - cron: '30 23 * * *'
-    - cron: '0  0  * * *'
+    # Hourly 12:00-00:00 UTC (6am-6pm MDT), plus 02:00 UTC (8pm MDT)
+    - cron: '0 12 * * *'
+    - cron: '0 13 * * *'
+    - cron: '0 14 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 16 * * *'
+    - cron: '0 17 * * *'
+    - cron: '0 18 * * *'
+    - cron: '0 19 * * *'
+    - cron: '0 20 * * *'
+    - cron: '0 21 * * *'
+    - cron: '0 22 * * *'
+    - cron: '0 23 * * *'
+    - cron: '0  0 * * *'
+    - cron: '0  2 * * *'
   workflow_dispatch:
 
 permissions:

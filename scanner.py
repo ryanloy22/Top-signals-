@@ -559,65 +559,33 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
         direction = "LONG" if bull_score >= bear_score else "SHORT"
         score     = bull_score if direction == "LONG" else bear_score
 
-        # ── Weighted Penalties & Bonuses ──────────────────────────────────
+        # ── Bonuses ───────────────────────────────────────────────────────
         penalty_notes = []
 
+        # Funding rate (still fetched for display, no penalty)
         if is_crypto and ticker != "BTC-USD":
-            # BTC correlation penalty
-            if direction == "LONG" and btc_trend == "bearish":
-                score -= CONFIG["PENALTY_BTC_BEAR"]
-                penalty_notes.append(f"BTC bearish -{CONFIG['PENALTY_BTC_BEAR']}")
-            elif direction == "SHORT" and btc_trend == "bullish":
-                score -= CONFIG["PENALTY_BTC_BEAR"]
-                penalty_notes.append(f"BTC bullish -{CONFIG['PENALTY_BTC_BEAR']}")
-
-            # Funding rate penalty/bonus
-            binance_sym = CRYPTO_FUNDING_MAP.get(ticker)
+            binance_sym  = CRYPTO_FUNDING_MAP.get(ticker)
             funding_rate = get_funding_rate(binance_sym) if binance_sym else None
-            if funding_rate is not None:
-                if direction == "LONG" and funding_rate > 0.05:
-                    score -= CONFIG["PENALTY_FUNDING_HIGH"]
-                    penalty_notes.append(f"Funding {funding_rate:.3f}% -{CONFIG['PENALTY_FUNDING_HIGH']}")
-                elif direction == "LONG" and funding_rate < -0.01:
-                    score += CONFIG["BONUS_FUNDING_NEG"]
-                    penalty_notes.append(f"Neg funding +{CONFIG['BONUS_FUNDING_NEG']}")
-                elif direction == "SHORT" and funding_rate > 0.05:
-                    score += CONFIG["BONUS_FUNDING_NEG"]
-                    penalty_notes.append(f"High funding short +{CONFIG['BONUS_FUNDING_NEG']}")
         else:
             funding_rate = None
-
-        # Volume penalty
-        if vol_ratio < 0.3:
-            score -= CONFIG["PENALTY_LOW_VOLUME"]
-            penalty_notes.append(f"Low vol -{CONFIG['PENALTY_LOW_VOLUME']}")
 
         # Session bonus
         if session["prime"]:
             score += CONFIG["BONUS_PRIME_SESSION"]
             penalty_notes.append(f"Prime session +{CONFIG['BONUS_PRIME_SESSION']}")
 
-        # ── Daily trend filter for 15m scalps ────────────────────────────
+        # ── Daily trend (info only, no penalty) ───────────────────────────
         daily_trend = "neutral"
         if tf == "15m":
             daily_trend = get_daily_trend(ticker)
-            if direction == "LONG" and daily_trend == "bearish":
-                score -= 2
-                penalty_notes.append("Daily downtrend -2")
-            elif direction == "SHORT" and daily_trend == "bullish":
-                score -= 2
-                penalty_notes.append("Daily uptrend -2")
 
-        # ── MTF Confirmation ──────────────────────────────────────────────
+        # ── MTF Confirmation (info only, no penalty) ──────────────────────
         htf_bias = get_higher_tf_bias(ticker, tf)
         mtf_confirmed = (
             (direction == "LONG"  and htf_bias == "bullish") or
             (direction == "SHORT" and htf_bias == "bearish") or
             htf_bias == "neutral"
         )
-        if not mtf_confirmed:
-            score = max(0, score - 2)
-            penalty_notes.append("MTF conflict -2")
 
         # ── Score threshold check ─────────────────────────────────────────
         if is_high_lev:

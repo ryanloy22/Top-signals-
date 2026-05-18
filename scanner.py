@@ -825,31 +825,34 @@ def format_hc_telegram(r: dict) -> str:
     return "\n".join(lines)
 
 def save_hc_alert(signal: dict, output_dir: str):
-    path   = os.path.join(output_dir, "hc_alerts.json")
-    alerts = []
-    if os.path.exists(path):
-        try:
-            with open(path) as f:
-                alerts = json.load(f)
-        except Exception:
-            alerts = []
-    alerts.append({
-        "alerted_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "ticker":     signal["ticker"],
-        "direction":  signal["direction"],
-        "entry":      signal["entry"],
-        "stop_loss":  signal["stop_loss"],
-        "target1":    signal["target1"],
-        "target2":    signal["target2"],
-        "target3":    signal["target3"],
-        "score":      signal["score"],
-        "rr_ratio":   signal["rr_ratio"],
-        "signal_type": signal["signal_type"],
-        "position":   signal.get("position"),
-    })
-    alerts = alerts[-300:]
-    with open(path, "w") as f:
-        json.dump(alerts, f, indent=2)
+    try:
+        path   = os.path.join(output_dir, "hc_alerts.json")
+        alerts = []
+        if os.path.exists(path):
+            try:
+                with open(path) as f:
+                    alerts = json.load(f)
+            except Exception:
+                alerts = []
+        alerts.append(clean_nan({
+            "alerted_at":  datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "ticker":      signal["ticker"],
+            "direction":   signal["direction"],
+            "entry":       signal["entry"],
+            "stop_loss":   signal["stop_loss"],
+            "target1":     signal["target1"],
+            "target2":     signal["target2"],
+            "target3":     signal["target3"],
+            "score":       signal["score"],
+            "rr_ratio":    signal["rr_ratio"],
+            "signal_type": signal["signal_type"],
+            "position":    signal.get("position"),
+        }))
+        alerts = alerts[-300:]
+        with open(path, "w") as f:
+            json.dump(alerts, f, indent=2, cls=SafeEncoder)
+    except Exception as e:
+        print(f"  ⚠ save_hc_alert: {e}")
 
 def check_outcome(alert: dict) -> dict:
     ticker     = alert["ticker"]
@@ -1090,7 +1093,10 @@ def run_scanner(send_alerts=True):
     if send_alerts and hc_signals:
         print(f"\n  🔥 {len(hc_signals)} HIGH CONVICTION signal(s) — sending Telegram alerts...")
         for r in hc_signals:
-            send_telegram(format_hc_telegram(r))
+            try:
+                send_telegram(format_hc_telegram(r))
+            except Exception as e:
+                print(f"  ⚠ HC alert format error: {e}")
             save_hc_alert(r, output_dir)
 
     # Email digest

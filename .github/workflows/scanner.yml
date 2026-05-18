@@ -29,6 +29,8 @@ env:
   SENDGRID_API_KEY:   ${{ secrets.SENDGRID_API_KEY }}
   ALERT_EMAIL_FROM:   ${{ secrets.ALERT_EMAIL_FROM }}
   ALERT_EMAIL_TO:     ${{ secrets.ALERT_EMAIL_TO }}
+  ALPACA_API_KEY:     ${{ secrets.ALPACA_API_KEY }}
+  ALPACA_SECRET_KEY:  ${{ secrets.ALPACA_SECRET_KEY }}
 
 jobs:
   scan:
@@ -48,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install numpy pandas yfinance ta python-dotenv twilio sendgrid
+          pip install numpy pandas yfinance ta python-dotenv twilio sendgrid alpaca-py
 
       - name: Run scanner
         run: python scanner.py

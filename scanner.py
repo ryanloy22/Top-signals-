@@ -91,6 +91,12 @@ CONFIG = {
     "SENDGRID_API_KEY":     os.getenv("SENDGRID_API_KEY", ""),
     "ALERT_EMAIL_FROM":     os.getenv("ALERT_EMAIL_FROM", ""),
     "ALERT_EMAIL_TO":       os.getenv("ALERT_EMAIL_TO",   ""),
+
+    # Alpaca paper trading
+    "ALPACA_API_KEY":          os.getenv("ALPACA_API_KEY",    ""),
+    "ALPACA_SECRET_KEY":       os.getenv("ALPACA_SECRET_KEY", ""),
+    "ALPACA_DAILY_LOSS_LIMIT": 3.0,   # stop trading if paper account down 3% today
+    "ALPACA_MAX_POSITIONS":    3,      # max concurrent open positions
 }
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1020,6 +1026,105 @@ class SafeEncoder(json.JSONEncoder):
         return super().default(obj)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ALPACA PAPER TRADING
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# yfinance → Alpaca symbol map for special crypto tickers
+_CRYPTO_SYMBOL_MAP = {
+    "SUI20947-USD": "SUI/USD", "UNI7083-USD": "UNI/USD",
+    "PEPE24478-USD": "PEPE/USD", "ARB11841-USD": "ARB/USD",
+}
+
+def alpaca_symbol(ticker: str) -> str:
+    if ticker in _CRYPTO_SYMBOL_MAP:
+        return _CRYPTO_SYMBOL_MAP[ticker]
+    if ticker.endswith("-USD"):
+        return ticker.replace("-USD", "/USD")
+    return ticker
+
+def get_alpaca_client():
+    key    = CONFIG.get("ALPACA_API_KEY", "")
+    secret = CONFIG.get("ALPACA_SECRET_KEY", "")
+    if not key or not secret:
+        return None
+    try:
+        from alpaca.trading.client import TradingClient
+        return TradingClient(key, secret, paper=True)
+    except Exception as e:
+        print(f"  ⚠ Alpaca client error: {e}")
+        return None
+
+def get_alpaca_account_state(client) -> dict:
+    try:
+        acct       = client.get_account()
+        equity     = float(acct.equity)
+        last_eq    = float(acct.last_equity)
+        daily_pnl  = (equity - last_eq) / last_eq * 100 if last_eq else 0
+        positions  = {p.symbol for p in client.get_all_positions()}
+        return {"equity": equity, "daily_pnl": daily_pnl, "open_symbols": positions}
+    except Exception as e:
+        print(f"  ⚠ Alpaca account fetch error: {e}")
+        return {"equity": 0, "daily_pnl": 0, "open_symbols": set()}
+
+def place_alpaca_trade(client, signal: dict) -> bool:
+    try:
+        from alpaca.trading.requests import MarketOrderRequest, TakeProfitRequest, StopLossRequest
+        from alpaca.trading.enums import OrderSide, TimeInForce
+
+        ticker    = signal["ticker"]
+        is_crypto = ticker.endswith("-USD")
+        direction = signal["direction"]
+        symbol    = alpaca_symbol(ticker)
+
+        # Alpaca spot doesn't support crypto shorts
+        if is_crypto and direction == "SHORT":
+            print(f"  ⚠ Alpaca: skipping crypto short ({symbol}) — spot only")
+            return False
+
+        side             = OrderSide.BUY if direction == "LONG" else OrderSide.SELL
+        entry            = float(signal["entry"])
+        stop_price       = round(float(signal["stop_loss"]), 6)
+        take_profit_price = round(float(signal["target1"]), 6)
+        pos              = signal.get("position") or {}
+        dollar_risk      = float(pos.get("dollar_risk") or 0)
+
+        # Calculate unlevered qty from dollar risk and per-unit risk
+        risk_per = abs(entry - stop_price)
+        if risk_per <= 0 or dollar_risk <= 0:
+            print(f"  ⚠ Alpaca: invalid sizing for {symbol}")
+            return False
+        qty = round(dollar_risk / risk_per, 6 if is_crypto else 2)
+        if qty <= 0:
+            print(f"  ⚠ Alpaca: qty is 0 for {symbol}")
+            return False
+
+        req = MarketOrderRequest(
+            symbol         = symbol,
+            qty            = qty,
+            side           = side,
+            time_in_force  = TimeInForce.GTC,
+            order_class    = "bracket",
+            take_profit    = TakeProfitRequest(limit_price=take_profit_price),
+            stop_loss      = StopLossRequest(stop_price=stop_price),
+        )
+        order = client.submit_order(req)
+        print(f"  ✅ Alpaca: {symbol} {direction} {qty} | TP:{take_profit_price} SL:{stop_price} | #{order.id}")
+
+        # Notify via Telegram
+        send_telegram(
+            f"📈 <b>PAPER TRADE PLACED</b>\n"
+            f"<b>{symbol}</b>  {'▲' if direction=='LONG' else '▼'}{direction}\n"
+            f"Qty: {qty}  |  Entry: ~{entry}\n"
+            f"Stop: {stop_price}  |  T1: {take_profit_price}\n"
+            f"Risk: ${dollar_risk:.0f}  |  Score: {signal['score']}"
+        )
+        return True
+
+    except Exception as e:
+        print(f"  ⚠ Alpaca order failed: {e}")
+        return False
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # MAIN SCANNER
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def run_scanner(send_alerts=True):
@@ -1098,6 +1203,30 @@ def run_scanner(send_alerts=True):
             except Exception as e:
                 print(f"  ⚠ HC alert format error: {e}")
             save_hc_alert(r, output_dir)
+
+    # Alpaca paper trading
+    alpaca = get_alpaca_client()
+    if alpaca and hc_signals:
+        state = get_alpaca_account_state(alpaca)
+        print(f"\n  💰 Alpaca paper | Equity:${state['equity']:,.2f} | Day P&L:{state['daily_pnl']:+.2f}%")
+        if state["daily_pnl"] <= -CONFIG["ALPACA_DAILY_LOSS_LIMIT"]:
+            print(f"  🛑 Daily loss limit hit ({state['daily_pnl']:.2f}%) — no new trades")
+            send_telegram(f"🛑 <b>Daily loss limit hit</b> ({state['daily_pnl']:.2f}%) — trading paused for today")
+        elif len(state["open_symbols"]) >= CONFIG["ALPACA_MAX_POSITIONS"]:
+            print(f"  ⚠ Max positions ({CONFIG['ALPACA_MAX_POSITIONS']}) reached — skipping")
+        else:
+            slots = CONFIG["ALPACA_MAX_POSITIONS"] - len(state["open_symbols"])
+            placed = 0
+            for r in hc_signals:
+                if placed >= slots:
+                    break
+                sym = alpaca_symbol(r["ticker"])
+                if sym in state["open_symbols"]:
+                    print(f"  ⚠ Already in {sym} — skipping")
+                    continue
+                if place_alpaca_trade(alpaca, r):
+                    state["open_symbols"].add(sym)
+                    placed += 1
 
     # Email digest
     if send_alerts and (scalps or swings):

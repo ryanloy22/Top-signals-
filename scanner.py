@@ -29,8 +29,11 @@ Accounts:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
-import os, gc, json, time, math, datetime, urllib.request
+import os, gc, json, time, math, datetime, urllib.request, logging
 from typing import Optional
+
+# Suppress yfinance 404 noise (ETF earnings calendar, etc.)
+logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 
 try:
     from dotenv import load_dotenv
@@ -441,9 +444,12 @@ def get_higher_tf_bias(ticker, primary_tf):
 
 def check_earnings(ticker):
     try:
-        t = yf.Ticker(ticker)
-        cal = t.calendar
-        if cal is None or cal.empty: return False
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            t = yf.Ticker(ticker)
+            cal = t.calendar
+        if cal is None or (hasattr(cal, 'empty') and cal.empty): return False
         if hasattr(cal, 'columns'):
             for col in cal.columns:
                 val = cal[col].iloc[0] if len(cal) > 0 else None
@@ -1008,7 +1014,7 @@ def save_history(results, output_dir):
         history.append(entry)
         history = history[-500:]
         with open(path, "w") as f:
-            json.dump(history, f, indent=2)
+            json.dump(clean_nan(history), f, indent=2, cls=SafeEncoder)
     except Exception as e:
         print(f"  ⚠ History: {e}")
 

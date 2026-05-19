@@ -71,7 +71,8 @@ CONFIG = {
     "MIN_SCORE_STOCK":            5,
     "MIN_SCORE_CRYPTO":           5,
     "MIN_SCORE_HIGH_LEV":         5,    # for 5x+ leverage crypto
-    "MIN_SCORE_HIGH_CONVICTION":  10,   # score ≥ 10 + R/R ≥ 3 → Telegram alert
+    "MIN_SCORE_HIGH_CONVICTION":  12,   # score ≥ 12 + R/R ≥ 3 → Telegram alert
+    "MAX_HC_PER_SCAN":            2,    # cap HC alerts per scan (pick highest score)
     "MIN_RR":               2.5,
     "VOL_SPIKE_PCT":        15.0,
     "VOL_SURGE_RATIO":      1.5,
@@ -943,7 +944,24 @@ def send_daily_hc_summary(output_dir: str):
         lines.append(f"Win rate: {wins}/{resolved} ({round(wins/resolved*100)}%)  |  {opens} still open")
     else:
         lines.append(f"All {opens} alert(s) still open / no data yet")
-    send_telegram("\n".join(lines))
+    full_msg = "\n".join(lines)
+    # Telegram max is 4096 chars — split if needed
+    CHUNK = 4000
+    if len(full_msg) <= CHUNK:
+        send_telegram(full_msg)
+    else:
+        chunks = []
+        current = ""
+        for line in lines:
+            if len(current) + len(line) + 1 > CHUNK:
+                chunks.append(current.strip())
+                current = line + "\n"
+            else:
+                current += line + "\n"
+        if current.strip():
+            chunks.append(current.strip())
+        for i, chunk in enumerate(chunks, 1):
+            send_telegram(f"({i}/{len(chunks)}) " + chunk)
     print(f"  ✅ Summary sent — {wins}W / {losses}L / {opens} open")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1194,7 +1212,11 @@ def run_scanner(send_alerts=True):
         print("  No swing setups this scan.")
 
     # High Conviction Telegram alerts
-    hc_signals = [r for r in results if r.get("high_conviction")]
+    hc_signals = sorted(
+        [r for r in results if r.get("high_conviction")],
+        key=lambda r: (r["score"], r["rr_ratio"]),
+        reverse=True
+    )[:CONFIG["MAX_HC_PER_SCAN"]]
     if send_alerts and hc_signals:
         print(f"\n  🔥 {len(hc_signals)} HIGH CONVICTION signal(s) — sending Telegram alerts...")
         for r in hc_signals:

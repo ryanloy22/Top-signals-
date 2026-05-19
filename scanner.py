@@ -1138,25 +1138,48 @@ def place_alpaca_trade(client, signal: dict) -> bool:
             print(f"  ⚠ Alpaca: qty is 0 for {symbol}")
             return False
 
+        # Stocks must use DAY; crypto can use GTC
+        tif = TimeInForce.GTC if is_crypto else TimeInForce.DAY
+
         req = MarketOrderRequest(
-            symbol         = symbol,
-            qty            = qty,
-            side           = side,
-            time_in_force  = TimeInForce.GTC,
-            order_class    = "bracket",
-            take_profit    = TakeProfitRequest(limit_price=take_profit_price),
-            stop_loss      = StopLossRequest(stop_price=stop_price),
+            symbol        = symbol,
+            qty           = qty,
+            side          = side,
+            time_in_force = tif,
+            order_class   = "bracket",
+            take_profit   = TakeProfitRequest(limit_price=take_profit_price),
+            stop_loss     = StopLossRequest(stop_price=stop_price),
         )
         order = client.submit_order(req)
         print(f"  ✅ Alpaca: {symbol} {direction} {qty} | TP:{take_profit_price} SL:{stop_price} | #{order.id}")
 
-        # Notify via Telegram
+        # Format full trade notification
+        arr       = "▲" if direction == "LONG" else "▼"
+        t2_price  = round(float(signal.get("target2", take_profit_price)), 4)
+        t3_price  = round(float(signal.get("target3", take_profit_price)), 4)
+        pos_val   = round(qty * entry, 2)
+        acct      = CONFIG["CRYPTO_ACCOUNT"] if is_crypto else CONFIG["STOCK_ACCOUNT"]
+
+        def move_pct(target):
+            if direction == "LONG":
+                return (target - entry) / entry * 100
+            return (entry - target) / entry * 100
+
+        stop_pct = abs(move_pct(stop_price))
+
         send_telegram(
-            f"📈 <b>PAPER TRADE PLACED</b>\n"
-            f"<b>{symbol}</b>  {'▲' if direction=='LONG' else '▼'}{direction}\n"
-            f"Qty: {qty}  |  Entry: ~{entry}\n"
-            f"Stop: {stop_price}  |  T1: {take_profit_price}\n"
-            f"Risk: ${dollar_risk:.0f}  |  Score: {signal['score']}"
+            f"🤖 <b>ALPACA TRADE</b>\n"
+            f"<b>{symbol}</b>  {arr}{direction}  |  Score: {signal['score']}  |  R/R: {signal.get('rr_ratio', '?')}:1\n"
+            f"\n"
+            f"Entry:  ~{entry}\n"
+            f"Stop:   {stop_price}  (-{stop_pct:.1f}% | -${dollar_risk:.0f})\n"
+            f"T1:     {take_profit_price}  (+{move_pct(take_profit_price):.1f}% | +${dollar_risk*2:.0f})\n"
+            f"T2:     {t2_price}  (+{move_pct(t2_price):.1f}% | +${dollar_risk*3.5:.0f})\n"
+            f"T3:     {t3_price}  (+{move_pct(t3_price):.1f}% | +${dollar_risk*5:.0f})\n"
+            f"\n"
+            f"Qty: {qty} shares  |  Value: ~${pos_val:,.0f}\n"
+            f"Risk: ${dollar_risk:.0f} ({dollar_risk/acct*100:.2f}% of acct)\n"
+            f"Order: #{str(order.id)[:8]}"
         )
         return True
 

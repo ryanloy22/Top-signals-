@@ -2,21 +2,10 @@ name: TradeSignal Scanner
 
 on:
   schedule:
-    # Hourly 12:00-00:00 UTC (6am-6pm MDT), plus 02:00 UTC (8pm MDT)
-    - cron: '0 12 * * *'
-    - cron: '0 13 * * *'
-    - cron: '0 14 * * *'
-    - cron: '0 15 * * *'
-    - cron: '0 16 * * *'
-    - cron: '0 17 * * *'
-    - cron: '0 18 * * *'
-    - cron: '0 19 * * *'
-    - cron: '0 20 * * *'
-    - cron: '0 21 * * *'
-    - cron: '0 22 * * *'
-    - cron: '0 23 * * *'
-    - cron: '0  0 * * *'
-    - cron: '0  2 * * *'
+    # Hourly 12:00-23:00 UTC (6am-5pm MDT) — range syntax to reduce GitHub queue pressure
+    - cron: '0 12-23 * * *'
+    # Plus 02:00 UTC (8pm MDT)
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:

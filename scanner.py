@@ -869,31 +869,41 @@ def check_outcome(alert: dict) -> dict:
     t1, t2, t3 = float(alert["target1"]), float(alert["target2"]), float(alert["target3"])
     alerted_at = datetime.datetime.fromisoformat(alert["alerted_at"])
     try:
-        df = yf.download(ticker, start=alerted_at.strftime("%Y-%m-%d"),
-                         interval="15m", progress=False, auto_adjust=True)
+        # period="5d" avoids the weekend gap issue — stocks have no 15m data on Sat/Sun
+        df = yf.download(ticker, period="5d", interval="15m",
+                         progress=False, auto_adjust=True)
         if df is None or df.empty:
-            return {"outcome": "no data"}
+            return {"outcome": "⏳ Active"}
         df.index = pd.to_datetime(df.index, utc=True)
         df = df[df.index >= alerted_at]
         if df.empty:
-            return {"outcome": "no data"}
-        hi  = float(df["High"].max())
-        lo  = float(df["Low"].min())
-        cur = float(df["Close"].squeeze().iloc[-1])
+            return {"outcome": "⏳ Active"}
+        # Handle MultiIndex columns from newer yfinance
+        def col(name):
+            c = df[name]
+            if isinstance(c.columns if hasattr(c, "columns") else None, pd.MultiIndex):
+                c = c.iloc[:, 0]
+            return c.squeeze() if hasattr(c, "squeeze") else c
+        hi_s  = df["High"].squeeze() if not isinstance(df.columns, pd.MultiIndex) else df["High"].iloc[:, 0]
+        lo_s  = df["Low"].squeeze()  if not isinstance(df.columns, pd.MultiIndex) else df["Low"].iloc[:, 0]
+        cl_s  = df["Close"].squeeze() if not isinstance(df.columns, pd.MultiIndex) else df["Close"].iloc[:, 0]
+        hi  = float(hi_s.max())
+        lo  = float(lo_s.min())
+        cur = float(cl_s.iloc[-1] if hasattr(cl_s, "iloc") else cl_s)
         if direction == "LONG":
             hit_t3, hit_t2, hit_t1 = hi >= t3, hi >= t2, hi >= t1
             hit_stop = lo <= stop
         else:
             hit_t3, hit_t2, hit_t1 = lo <= t3, lo <= t2, lo <= t1
             hit_stop = hi >= stop
-        if hit_t3:        label = "T3 ✅✅✅"
-        elif hit_t2:      label = "T2 ✅✅"
-        elif hit_t1:      label = "T1 ✅"
-        elif hit_stop:    label = "Stop ❌"
-        else:             label = "Open ⏳"
+        if hit_t3:        label = "✅ WIN  (T3)"
+        elif hit_t2:      label = "✅ WIN  (T2)"
+        elif hit_t1:      label = "✅ WIN  (T1)"
+        elif hit_stop:    label = "❌ LOSS (SL hit)"
+        else:             label = "⏳ Active"
         return {"outcome": label, "current": round(cur, 4), "high": round(hi, 4), "low": round(lo, 4)}
     except Exception:
-        return {"outcome": "error"}
+        return {"outcome": "⏳ Active"}
 
 def send_daily_hc_summary(output_dir: str):
     path = os.path.join(output_dir, "hc_alerts.json")
@@ -902,50 +912,59 @@ def send_daily_hc_summary(output_dir: str):
         return
     with open(path) as f:
         alerts = json.load(f)
-    cutoff      = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
-    day_alerts  = [a for a in alerts
-                   if datetime.datetime.fromisoformat(a["alerted_at"]) >= cutoff]
+
+    # Grade alerts from the past 28 hours so we always catch yesterday's trading day
+    # even when GitHub Actions runs late
+    cutoff     = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=28)
+    day_alerts = [a for a in alerts
+                  if datetime.datetime.fromisoformat(a["alerted_at"]) >= cutoff]
+
     if not day_alerts:
-        send_telegram("📊 <b>Daily HC Summary</b>\nNo High Conviction alerts in the last 24 hours.")
+        send_telegram("📊 <b>HC Scorecard</b>\nNo HC alerts in the past 28 hours.")
         return
-    print(f"\n  📊 Checking outcomes for {len(day_alerts)} HC alert(s)...")
-    wins = losses = opens = 0
-    lines = [
-        f"📊 <b>DAILY HC SUMMARY</b>",
-        f"{datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d')}  —  {len(day_alerts)} alert(s)",
-        "",
-    ]
-    for i, alert in enumerate(day_alerts, 1):
-        result = check_outcome(alert)
-        outcome = result.get("outcome", "?")
-        pos  = alert.get("position") or {}
-        dr   = (pos.get("dollar_risk") or 0)
-        acct = CONFIG["CRYPTO_ACCOUNT"] if (pos.get("account") == "crypto") else CONFIG["STOCK_ACCOUNT"]
-        if "T3" in outcome:
-            profit = dr * 5.0;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
-        elif "T2" in outcome:
-            profit = dr * 3.5;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
-        elif "T1" in outcome:
-            profit = dr * 2.0;  pnl = f"+${profit:.0f} (+{profit/acct*100:.2f}% acct)"; wins += 1
-        elif "Stop" in outcome:
-            pnl = f"-${dr:.0f} (-{dr/acct*100:.2f}% acct)"; losses += 1
+
+    print(f"\n  📊 Grading {len(day_alerts)} HC alert(s)...")
+    wins = losses = actives = 0
+    date_str = datetime.datetime.now(datetime.timezone.utc).strftime("%b %d")
+    lines = [f"📊 <b>HC SCORECARD — {date_str}</b>", ""]
+
+    for alert in day_alerts:
+        result  = check_outcome(alert)
+        outcome = result.get("outcome", "⏳ Active")
+        pos     = alert.get("position") or {}
+        dr      = pos.get("dollar_risk") or 0
+        acct    = CONFIG["CRYPTO_ACCOUNT"] if pos.get("account") == "crypto" else CONFIG["STOCK_ACCOUNT"]
+
+        if "WIN" in outcome:
+            if "T3" in outcome:   profit = dr * 5.0
+            elif "T2" in outcome: profit = dr * 3.5
+            else:                 profit = dr * 2.0
+            pnl = f"  +${profit:.0f} (+{profit/acct*100:.2f}% acct)" if profit > 0 else ""
+            wins += 1
+        elif "LOSS" in outcome:
+            pnl = f"  -${dr:.0f} (-{dr/acct*100:.2f}% acct)" if dr > 0 else ""
+            losses += 1
         else:
-            pnl = "—"; opens += 1
-        arr  = "▲" if alert["direction"] == "LONG" else "▼"
+            cur = result.get("current")
+            pnl = f"  now {cur}" if cur else ""
+            actives += 1
+
+        arr      = "▲" if alert["direction"] == "LONG" else "▼"
         time_str = datetime.datetime.fromisoformat(alert["alerted_at"]).strftime("%H:%M UTC")
-        lines += [
-            f"{i}. <b>{alert['ticker']}</b> {arr}{alert['direction']}  Score:{alert['score']}  {time_str}",
-            f"   {outcome}  |  P&L: {pnl}",
-            f"   Entry:{alert['entry']}  Now:{result.get('current','?')}  H:{result.get('high','?')}  L:{result.get('low','?')}",
-            "",
-        ]
+        lines.append(
+            f"{outcome}  <b>{alert['ticker']}</b> {arr}{alert['direction']}"
+            f"  entry {alert['entry']}{pnl}  ({time_str})"
+        )
+
+    lines.append("")
     resolved = wins + losses
     if resolved:
-        lines.append(f"Win rate: {wins}/{resolved} ({round(wins/resolved*100)}%)  |  {opens} still open")
+        pct = round(wins / resolved * 100)
+        lines.append(f"<b>Result: {wins}W / {losses}L / {actives} active — {pct}% win rate</b>")
     else:
-        lines.append(f"All {opens} alert(s) still open / no data yet")
+        lines.append(f"<b>{actives} alert(s) still active — no resolved trades yet</b>")
+
     full_msg = "\n".join(lines)
-    # Telegram max is 4096 chars — split if needed
     CHUNK = 4000
     if len(full_msg) <= CHUNK:
         send_telegram(full_msg)
@@ -953,7 +972,7 @@ def send_daily_hc_summary(output_dir: str):
         chunks = []
         current = ""
         for line in lines:
-            if len(current) + len(line) + 1 > CHUNK:
+            if len(current) + len(line) + 2 > CHUNK:
                 chunks.append(current.strip())
                 current = line + "\n"
             else:
@@ -962,7 +981,7 @@ def send_daily_hc_summary(output_dir: str):
             chunks.append(current.strip())
         for i, chunk in enumerate(chunks, 1):
             send_telegram(f"({i}/{len(chunks)}) " + chunk)
-    print(f"  ✅ Summary sent — {wins}W / {losses}L / {opens} open")
+    print(f"  ✅ Scorecard sent — {wins}W / {losses}L / {actives} active")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # HISTORY
@@ -972,8 +991,11 @@ def save_history(results, output_dir):
         path = os.path.join(output_dir, "scan_history.json")
         history = []
         if os.path.exists(path):
-            with open(path, "r") as f:
-                history = json.load(f)
+            try:
+                with open(path, "r") as f:
+                    history = json.load(f)
+            except Exception:
+                history = []  # reset on corruption
         entry = {
             "scanned_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "signals": [{

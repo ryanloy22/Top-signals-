@@ -50,9 +50,9 @@ except ImportError as e:
 
 try:
     from ta.momentum import StochRSIIndicator, RSIIndicator
-    from ta.trend import MACD, EMAIndicator
+    from ta.trend import MACD, EMAIndicator, ADXIndicator
     from ta.volatility import BollingerBands, AverageTrueRange
-    from ta.volume import VolumeWeightedAveragePrice
+    from ta.volume import VolumeWeightedAveragePrice, OnBalanceVolumeIndicator
 except ImportError:
     raise ImportError("Run: pip3 install ta")
 
@@ -465,11 +465,17 @@ def check_earnings(ticker):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]:
     try:
-        is_crypto  = ticker.endswith("-USD")
-        is_hbeta   = ticker in HIGH_BETA
+        is_crypto   = ticker.endswith("-USD")
+        is_hbeta    = ticker in HIGH_BETA
         is_high_lev = ticker in HIGH_LEV_CRYPTO
-        tf         = "15m" if (is_crypto or is_hbeta) else "1d"
-        period     = "5d"  if tf == "15m" else "6mo"
+
+        # ── Timeframe ─────────────────────────────────────────────────────
+        if is_crypto:
+            tf, period = "1h", "60d"   # 1H chart — cleaner signals than 15m
+        elif is_hbeta:
+            tf, period = "15m", "5d"
+        else:
+            tf, period = "1d", "6mo"
 
         df = yf.download(ticker, period=period, interval=tf,
                         progress=False, auto_adjust=True)
@@ -481,60 +487,24 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
         low   = df["Low"].squeeze()
         vol   = df["Volume"].squeeze()
 
-        price     = float(close.iloc[-1])
-        avg_vol   = float(vol.tail(20).mean())
-        cur_vol   = float(vol.iloc[-1])
+        price   = float(close.iloc[-1])
+        avg_vol = float(vol.tail(20).mean())
+        cur_vol = float(vol.iloc[-1])
 
-        # ── Liquidity filter ─────────────────────────────────────────────
         if not check_min_liquidity(ticker, avg_vol, price):
             return None
 
-        # ── EMAs ─────────────────────────────────────────────────────────
-        ema5  = close.ewm(span=5,  adjust=False).mean()
-        ema9  = close.ewm(span=9,  adjust=False).mean()
-        ema50 = close.ewm(span=50, adjust=False).mean()
-        e5, e9, e50 = float(ema5.iloc[-1]), float(ema9.iloc[-1]), float(ema50.iloc[-1])
-        e5p, e9p    = float(ema5.iloc[-2]), float(ema9.iloc[-2])
+        # ── Shared indicators ─────────────────────────────────────────────
+        vol_ratio  = round(cur_vol / avg_vol, 2) if avg_vol > 0 else 0
+        vol_surge  = vol_ratio >= CONFIG["VOL_SURGE_RATIO"]
 
-        cross_bull = e5p < e9p and e5 > e9
-        cross_bear = e5p > e9p and e5 < e9
-        trend_up   = e5 > e9 > e50
-        trend_down = e5 < e9 < e50
+        bb     = BollingerBands(close, window=20, window_dev=2)
+        bw     = float((bb.bollinger_hband() - bb.bollinger_lband()).iloc[-1])
+        bw_avg = float((bb.bollinger_hband() - bb.bollinger_lband()).tail(20).mean())
+        bb_squeeze = bw < bw_avg * 0.75
 
-        # ── MACD ─────────────────────────────────────────────────────────
-        macd_i = MACD(close)
-        ml = float(macd_i.macd().iloc[-1])
-        ms = float(macd_i.macd_signal().iloc[-1])
-        mh = float(macd_i.macd_diff().iloc[-1])
-        macd_bull = ml > ms and mh > 0
-        macd_bear = ml < ms and mh < 0
-
-        # ── StochRSI ──────────────────────────────────────────────────────
-        srsi = StochRSIIndicator(close, window=14, smooth1=3, smooth2=3)
-        sk = float(srsi.stochrsi_k().iloc[-1])
-        sd = float(srsi.stochrsi_d().iloc[-1])
-        srsi_bull = sk > sd and sk < 0.8
-        srsi_bear = sk < sd and sk > 0.2
-
-        # ── RSI + Divergence ──────────────────────────────────────────────
-        rsi_ind    = RSIIndicator(close, window=14)
-        rsi_series = rsi_ind.rsi()
-        rsi_val    = float(rsi_series.iloc[-1])
-
-        # RSI divergence
         try:
-            pr = close.values[-14:]
-            rs = rsi_series.values[-14:]
-            bull_div = min(pr[-5:]) < min(pr[:5]) and min(rs[-5:]) > min(rs[:5])
-            bear_div = max(pr[-5:]) > max(pr[:5]) and max(rs[-5:]) < max(rs[:5])
-        except Exception:
-            bull_div = bear_div = False
-        rsi_div = {"bullish": bool(bull_div), "bearish": bool(bear_div)}
-
-        # ── VWAP ─────────────────────────────────────────────────────────
-        try:
-            vwap_ind = VolumeWeightedAveragePrice(
-                high=high, low=low, close=close, volume=vol)
+            vwap_ind  = VolumeWeightedAveragePrice(high=high, low=low, close=close, volume=vol)
             vwap_val  = float(vwap_ind.volume_weighted_average_price().iloc[-1])
             vwap_bull = price > vwap_val
             vwap_bear = price < vwap_val
@@ -542,62 +512,184 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
             vwap_val  = None
             vwap_bull = vwap_bear = False
 
-        # ── Volume / RVOL ─────────────────────────────────────────────────
-        vol_ratio  = round(cur_vol / avg_vol, 2) if avg_vol > 0 else 0
-        vol_surge  = vol_ratio >= CONFIG["VOL_SURGE_RATIO"]
-
-        # ── Bollinger ─────────────────────────────────────────────────────
-        bb     = BollingerBands(close, window=20, window_dev=2)
-        bw     = float((bb.bollinger_hband() - bb.bollinger_lband()).iloc[-1])
-        bw_avg = float((bb.bollinger_hband() - bb.bollinger_lband()).tail(20).mean())
-        bb_squeeze = bw < bw_avg * 0.75
-
-        # ── Volatility spike ──────────────────────────────────────────────
         prev       = float(close.iloc[-2])
         candle_pct = round(abs(price - prev) / prev * 100, 2) if prev > 0 else 0
         vol_spike  = candle_pct >= CONFIG["VOL_SPIKE_PCT"]
 
-        # ── Jedi Green Lights ─────────────────────────────────────────────
-        gl = jedi_green_lights(close)
+        gl         = jedi_green_lights(close)
+        atr_val    = calc_atr(high, low, close)
 
-        # ── Base Score ────────────────────────────────────────────────────
-        bull_score = sum([
-            cross_bull * 3, trend_up * 2, macd_bull * 2,
-            (gl["signal"] == "bullish") * 2, vwap_bull * 2,
-            bull_div * 2, srsi_bull * 1, vol_surge * 1,
-            bb_squeeze * 1, vol_spike * 1,
-        ])
-        bear_score = sum([
-            cross_bear * 3, trend_down * 2, macd_bear * 2,
-            (gl["signal"] == "bearish") * 2, vwap_bear * 2,
-            bear_div * 2, srsi_bear * 1, vol_surge * 1,
-            bb_squeeze * 1, vol_spike * 1,
-        ])
+        rsi_ind    = RSIIndicator(close, window=14)
+        rsi_series = rsi_ind.rsi()
+        rsi_val    = float(rsi_series.iloc[-1])
 
-        direction = "LONG" if bull_score >= bear_score else "SHORT"
-        score     = bull_score if direction == "LONG" else bear_score
+        macd_i = MACD(close)
+        ml = float(macd_i.macd().iloc[-1])
+        ms = float(macd_i.macd_signal().iloc[-1])
+        mh = float(macd_i.macd_diff().iloc[-1])
+        macd_bull = ml > ms and mh > 0
+        macd_bear = ml < ms and mh < 0
+
+        # ══════════════════════════════════════════════════════════════════
+        # CRYPTO PATH — ADX-gated, EMA 21/55, OBV, RSI range
+        # Research target: 60-70% WR vs ~20% on old EMA 5/9 / 15m logic
+        # ══════════════════════════════════════════════════════════════════
+        if is_crypto:
+            # Hard gate: ADX must confirm a real trend (filters choppy markets)
+            adx_val = float(ADXIndicator(high, low, close, window=14).adx().iloc[-1])
+            if adx_val < 25:
+                return None
+
+            # EMA 21/55 — proven better than 5/9 for crypto at all timeframes
+            ema21  = close.ewm(span=21, adjust=False).mean()
+            ema55  = close.ewm(span=55, adjust=False).mean()
+            e21, e55   = float(ema21.iloc[-1]), float(ema55.iloc[-1])
+            e21p, e55p = float(ema21.iloc[-2]), float(ema55.iloc[-2])
+
+            cross_bull = e21p < e55p and e21 > e55
+            cross_bear = e21p > e55p and e21 < e55
+            trend_up   = e21 > e55
+            trend_down = e21 < e55
+
+            # RSI range — healthy momentum, not overbought/oversold
+            rsi_long_ok  = 45 <= rsi_val <= 68
+            rsi_short_ok = rsi_val <= 55
+
+            # OBV trend — confirms smart money behind the move
+            obv = OnBalanceVolumeIndicator(close, vol).on_balance_volume()
+            obv_bull = float(obv.iloc[-1]) > float(obv.iloc[-3])
+            obv_bear = float(obv.iloc[-1]) < float(obv.iloc[-3])
+
+            bull_score = sum([
+                cross_bull * 3,
+                trend_up * 2,
+                macd_bull * 2,
+                rsi_long_ok * 2,
+                obv_bull * 2,
+                (gl["signal"] == "bullish") * 2,
+                vwap_bull * 1,
+                vol_surge * 1,
+                bb_squeeze * 1,
+            ])
+            bear_score = sum([
+                cross_bear * 3,
+                trend_down * 2,
+                macd_bear * 2,
+                rsi_short_ok * 2,
+                obv_bear * 2,
+                (gl["signal"] == "bearish") * 2,
+                vwap_bear * 1,
+                vol_surge * 1,
+                bb_squeeze * 1,
+            ])
+
+            direction  = "LONG" if bull_score >= bear_score else "SHORT"
+            score      = bull_score if direction == "LONG" else bear_score
+            ema_cross  = cross_bull or cross_bear
+            bull_div   = bear_div = False
+            rsi_div    = {"bullish": False, "bearish": False}
+            stochrsi_k = 0.0
+            adx_note   = f"ADX:{adx_val:.1f}"
+            trade_type = "⚡ Crypto Scalp (1H)"
+
+            # Stop loss anchored to EMA55 for 1H crypto
+            if direction == "LONG":
+                stop_loss = max(e55 * 0.99, price - 1.5 * atr_val)
+            else:
+                stop_loss = min(e55 * 1.01, price + 1.5 * atr_val)
+
+        # ══════════════════════════════════════════════════════════════════
+        # STOCK PATH — unchanged (EMA 5/9/50, 15m/1d)
+        # ══════════════════════════════════════════════════════════════════
+        else:
+            ema5   = close.ewm(span=5,  adjust=False).mean()
+            ema9   = close.ewm(span=9,  adjust=False).mean()
+            ema50  = close.ewm(span=50, adjust=False).mean()
+            e5, e9, e50 = float(ema5.iloc[-1]), float(ema9.iloc[-1]), float(ema50.iloc[-1])
+            e5p, e9p    = float(ema5.iloc[-2]), float(ema9.iloc[-2])
+
+            cross_bull = e5p < e9p and e5 > e9
+            cross_bear = e5p > e9p and e5 < e9
+            trend_up   = e5 > e9 > e50
+            trend_down = e5 < e9 < e50
+
+            srsi = StochRSIIndicator(close, window=14, smooth1=3, smooth2=3)
+            sk = float(srsi.stochrsi_k().iloc[-1])
+            sd = float(srsi.stochrsi_d().iloc[-1])
+            srsi_bull = sk > sd and sk < 0.8
+            srsi_bear = sk < sd and sk > 0.2
+            stochrsi_k = round(sk, 3)
+
+            try:
+                pr = close.values[-14:]
+                rs = rsi_series.values[-14:]
+                bull_div = min(pr[-5:]) < min(pr[:5]) and min(rs[-5:]) > min(rs[:5])
+                bear_div = max(pr[-5:]) > max(pr[:5]) and max(rs[-5:]) < max(rs[:5])
+            except Exception:
+                bull_div = bear_div = False
+            rsi_div = {"bullish": bool(bull_div), "bearish": bool(bear_div)}
+
+            bull_score = sum([
+                cross_bull * 3, trend_up * 2, macd_bull * 2,
+                (gl["signal"] == "bullish") * 2, vwap_bull * 2,
+                bull_div * 2, srsi_bull * 1, vol_surge * 1,
+                bb_squeeze * 1, vol_spike * 1,
+            ])
+            bear_score = sum([
+                cross_bear * 3, trend_down * 2, macd_bear * 2,
+                (gl["signal"] == "bearish") * 2, vwap_bear * 2,
+                bear_div * 2, srsi_bear * 1, vol_surge * 1,
+                bb_squeeze * 1, vol_spike * 1,
+            ])
+
+            direction  = "LONG" if bull_score >= bear_score else "SHORT"
+            score      = bull_score if direction == "LONG" else bear_score
+            ema_cross  = cross_bull or cross_bear
+            adx_note   = None
+            trade_type = "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)"
+
+            if direction == "LONG":
+                stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
+            else:
+                stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
+
+        # ── Shared: risk / targets ────────────────────────────────────────
+        risk = abs(price - stop_loss)
+        if risk <= 0:
+            return None
+
+        if direction == "LONG":
+            t1 = round(price + risk * 2.0, 4)
+            t2 = round(price + risk * 3.5, 4)
+            t3 = round(price + risk * 5.0, 4)
+        else:
+            t1 = round(price - risk * 2.0, 4)
+            t2 = round(price - risk * 3.5, 4)
+            t3 = round(price - risk * 5.0, 4)
+
+        rr = round(abs(t3 - price) / risk, 2)
+        if rr < CONFIG["MIN_RR"]:
+            return None
 
         # ── Bonuses ───────────────────────────────────────────────────────
         penalty_notes = []
+        if adx_note:
+            penalty_notes.append(adx_note)
 
-        # Funding rate (still fetched for display, no penalty)
         if is_crypto and ticker != "BTC-USD":
             binance_sym  = CRYPTO_FUNDING_MAP.get(ticker)
             funding_rate = get_funding_rate(binance_sym) if binance_sym else None
         else:
             funding_rate = None
 
-        # Session bonus
         if session["prime"]:
             score += CONFIG["BONUS_PRIME_SESSION"]
-            penalty_notes.append(f"Prime session +{CONFIG['BONUS_PRIME_SESSION']}")
+            penalty_notes.append(f"Prime +{CONFIG['BONUS_PRIME_SESSION']}")
 
-        # ── Daily trend (info only, no penalty) ───────────────────────────
         daily_trend = "neutral"
-        if tf == "15m":
+        if tf in ("15m", "1h"):
             daily_trend = get_daily_trend(ticker)
 
-        # ── MTF Confirmation (info only, no penalty) ──────────────────────
         htf_bias = get_higher_tf_bias(ticker, tf)
         mtf_confirmed = (
             (direction == "LONG"  and htf_bias == "bullish") or
@@ -605,51 +697,27 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
             htf_bias == "neutral"
         )
 
-        # ── Score threshold check ─────────────────────────────────────────
+        # ── Score threshold ───────────────────────────────────────────────
         if is_high_lev:
             min_score = CONFIG["MIN_SCORE_HIGH_LEV"]
         elif is_crypto:
             min_score = CONFIG["MIN_SCORE_CRYPTO"]
         else:
             min_score = CONFIG["MIN_SCORE_STOCK"]
-
         if score < min_score:
             return None
 
-        # ── ATR-adjusted position sizing ──────────────────────────────────
-        atr_val   = calc_atr(high, low, close)
-        if direction == "LONG":
-            stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
-            risk      = price - stop_loss
-            if risk <= 0: return None
-            t1 = round(price + risk * 2.0, 4)
-            t2 = round(price + risk * 3.5, 4)
-            t3 = round(price + risk * 5.0, 4)
-        else:
-            stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
-            risk      = stop_loss - price
-            if risk <= 0: return None
-            t1 = round(price - risk * 2.0, 4)
-            t2 = round(price - risk * 3.5, 4)
-            t3 = round(price - risk * 5.0, 4)
-
-        rr = round(abs(t3 - price) / risk, 2)
-        if rr < CONFIG["MIN_RR"]: return None
-
-        pos = calc_atr_position_size(ticker, price, stop_loss, atr_val, is_crypto, direction)
-
-        # ── Key S/R levels ────────────────────────────────────────────────
+        # ── Position sizing ───────────────────────────────────────────────
+        pos       = calc_atr_position_size(ticker, price, stop_loss, atr_val, is_crypto, direction)
         sr_levels = get_daily_sr_levels(ticker)
-
-        # ── Earnings ─────────────────────────────────────────────────────
         has_earnings = check_earnings(ticker) if not is_crypto else False
 
-        # ── Signal type ───────────────────────────────────────────────────
-        if vol_spike and vol_surge:      stype = "VOLATILITY SPIKE 🚨"
-        elif cross_bull or cross_bear:   stype = "EMA CROSSOVER ⚡"
-        elif bull_div or bear_div:       stype = "RSI DIVERGENCE 🔀"
-        elif bb_squeeze and vol_surge:   stype = "SQUEEZE BREAKOUT 💥"
-        else:                            stype = "MOMENTUM 📈"
+        # ── Signal type label ─────────────────────────────────────────────
+        if vol_spike and vol_surge:    stype = "VOLATILITY SPIKE 🚨"
+        elif ema_cross:                stype = "EMA CROSSOVER ⚡"
+        elif bull_div or bear_div:     stype = "RSI DIVERGENCE 🔀"
+        elif bb_squeeze and vol_surge: stype = "SQUEEZE BREAKOUT 💥"
+        else:                          stype = "MOMENTUM 📈"
 
         def safe(v):
             if v is None: return None
@@ -660,47 +728,47 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
                 return None
 
         return {
-            "ticker":         ticker,
-            "type":           "crypto" if is_crypto else "stock",
-            "signal_type":    stype,
-            "trade_type":     "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)",
-            "price":          round(price, 6),
-            "direction":      direction,
-            "score":          score,
-            "rr_ratio":       rr,
-            "entry":          round(price, 6),
-            "stop_loss":      round(stop_loss, 6),
-            "target1":        t1,
-            "target2":        t2,
-            "target3":        t3,
-            "risk_per_unit":  round(risk, 6),
-            "atr":            round(atr_val, 6),
-            "vwap":           safe(vwap_val),
-            "vwap_bias":      "above" if vwap_bull else "below",
-            "rsi":            round(rsi_val, 2),
-            "rsi_divergence": rsi_div,
-            "rvol":           vol_ratio,
-            "vol_ratio":      vol_ratio,
-            "candle_pct":     candle_pct,
-            "vol_spike":      vol_spike,
-            "bb_squeeze":     bb_squeeze,
-            "ema_cross":      cross_bull or cross_bear,
-            "macd_signal":    "bull" if macd_bull else "bear",
-            "stochrsi_k":     round(sk, 3),
-            "mtf_bias":       htf_bias,
-            "mtf_confirmed":  mtf_confirmed,
-            "daily_trend":    daily_trend,
-            "funding_rate":   safe(funding_rate),
-            "btc_trend":      btc_trend if is_crypto else None,
-            "session":        session["session"],
-            "penalty_notes":  penalty_notes,
-            "sr_levels":      sr_levels,
-            "has_earnings":   has_earnings,
-            "green_lights":   gl,
-            "position":         pos,
-            "timeframe":        tf,
-            "high_conviction":  score >= CONFIG["MIN_SCORE_HIGH_CONVICTION"] and rr >= 3.0,
-            "scanned_at":       datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "ticker":          ticker,
+            "type":            "crypto" if is_crypto else "stock",
+            "signal_type":     stype,
+            "trade_type":      trade_type,
+            "price":           round(price, 6),
+            "direction":       direction,
+            "score":           score,
+            "rr_ratio":        rr,
+            "entry":           round(price, 6),
+            "stop_loss":       round(stop_loss, 6),
+            "target1":         t1,
+            "target2":         t2,
+            "target3":         t3,
+            "risk_per_unit":   round(risk, 6),
+            "atr":             round(atr_val, 6),
+            "vwap":            safe(vwap_val),
+            "vwap_bias":       "above" if vwap_bull else "below",
+            "rsi":             round(rsi_val, 2),
+            "rsi_divergence":  rsi_div,
+            "rvol":            vol_ratio,
+            "vol_ratio":       vol_ratio,
+            "candle_pct":      candle_pct,
+            "vol_spike":       vol_spike,
+            "bb_squeeze":      bb_squeeze,
+            "ema_cross":       ema_cross,
+            "macd_signal":     "bull" if macd_bull else "bear",
+            "stochrsi_k":      stochrsi_k,
+            "mtf_bias":        htf_bias,
+            "mtf_confirmed":   mtf_confirmed,
+            "daily_trend":     daily_trend,
+            "funding_rate":    safe(funding_rate),
+            "btc_trend":       btc_trend if is_crypto else None,
+            "session":         session["session"],
+            "penalty_notes":   penalty_notes,
+            "sr_levels":       sr_levels,
+            "has_earnings":    has_earnings,
+            "green_lights":    gl,
+            "position":        pos,
+            "timeframe":       tf,
+            "high_conviction": score >= CONFIG["MIN_SCORE_HIGH_CONVICTION"] and rr >= 3.0,
+            "scanned_at":      datetime.datetime.now(datetime.timezone.utc).isoformat(),
         }
 
     except Exception as e:

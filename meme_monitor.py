@@ -13,7 +13,7 @@ TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID",   "")
 
 MAX_MCAP          = 10_000_000   # $10M — above this it's not "early"
 MIN_VOL_RATIO     = 0.20         # Volume/mcap must be ≥ 20% (active trading)
-ALERT_SCORE_MIN   = 4            # Min combined score to send alert
+ALERT_SCORE_MIN   = 6            # Min combined score to send alert
 RESCAN_HOURS      = 24           # Don't re-alert same coin within 24h
 
 ALERT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "meme_alerts.json")
@@ -304,6 +304,34 @@ def score_coin(coin: dict, reddit_mentions: dict) -> int:
 
     return s
 
+# ── Where to buy ─────────────────────────────────────────────────────────────
+def _where_to_buy(chain: str, src: str, address: str) -> list:
+    """Return bullet lines for the user's available platforms given the coin's chain."""
+    chain = (chain or "").lower()
+    lines = []
+
+    if "solana" in chain:
+        # Still on bonding curve → buy direct on Pump.fun
+        if src == "pumpfun":
+            lines.append(f"  • <b>Pump.fun</b> (bonding curve) — buy direct on the launch page")
+        # DEX route via Trust Wallet
+        lines.append(f"  • <b>Trust Wallet</b> → open Browser → <a href='https://jup.ag/swap/SOL-{address}'>Jupiter</a> (paste contract)")
+        lines.append(f"  • <b>MetaMask</b> — ⚠️ MetaMask does <i>not</i> support Solana natively; use Trust Wallet instead")
+        lines.append(f"  • Blofin / Webull Pay / Coinbase — unlikely to list; check if available after launch")
+
+    elif "base" in chain or "ethereum" in chain or "eth" in chain:
+        lines.append(f"  • <b>MetaMask</b> → Uniswap or app.uniswap.org (paste contract)")
+        lines.append(f"  • <b>Coinbase</b> — check if listed; Base coins sometimes appear quickly")
+        lines.append(f"  • <b>Trust Wallet</b> → DApp browser → Uniswap")
+        lines.append(f"  • Blofin / Webull Pay — CEX; unlikely to list early meme coins")
+
+    else:
+        lines.append(f"  • <b>Trust Wallet</b> — supports most chains; paste contract in DEX browser")
+        lines.append(f"  • <b>MetaMask</b> — EVM chains only (ETH/Base/Polygon); check chain compatibility")
+
+    return lines
+
+
 # ── Format alert ─────────────���────────────────────────────────────────────────
 def format_alert(coin: dict, score: int, reddit_mentions: dict) -> str:
     sym   = coin.get("symbol", "???")
@@ -357,6 +385,12 @@ def format_alert(coin: dict, score: int, reddit_mentions: dict) -> str:
         addr = coin.get("address", "")
         lines.append(f"🔗 <a href='https://dexscreener.com/solana/{addr}'>Dexscreener</a>")
     lines.append(f"")
+    # Where to buy based on chain
+    buy_lines = _where_to_buy(chain, src, coin.get("address", ""))
+    if buy_lines:
+        lines.append(f"🛒 <b>Where to buy:</b>")
+        lines.extend(buy_lines)
+        lines.append(f"")
     lines.append(f"⚠️ <i>DYOR — meme coins are extremely high risk</i>")
 
     return "\n".join(lines)

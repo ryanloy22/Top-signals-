@@ -354,7 +354,8 @@ def format_alert(coin: dict, score: int, reddit_mentions: dict) -> str:
     lines.append(f"")
     lines.append(f"���� <a href='{url}'>View on {source_icons.get(src,'chart').split()[-1]}</a>")
     if src == "pumpfun":
-        lines.append(f"🔗 <a href='https://dexscreener.com/solana/{coin.get(\"address\",\"\")}'>Dexscreener</a>")
+        addr = coin.get("address", "")
+        lines.append(f"🔗 <a href='https://dexscreener.com/solana/{addr}'>Dexscreener</a>")
     lines.append(f"")
     lines.append(f"⚠️ <i>DYOR — meme coins are extremely high risk</i>")
 

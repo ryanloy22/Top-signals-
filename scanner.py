@@ -1195,10 +1195,12 @@ def place_alpaca_trade(client, signal: dict) -> bool:
             print(f"  ⚠ Alpaca: skipping crypto short ({symbol}) — spot only")
             return False
 
-        side             = OrderSide.BUY if direction == "LONG" else OrderSide.SELL
-        entry            = float(signal["entry"])
-        stop_price       = round(float(signal["stop_loss"]), 6)
-        take_profit_price = round(float(signal["target1"]), 6)
+        side  = OrderSide.BUY if direction == "LONG" else OrderSide.SELL
+        entry = float(signal["entry"])
+        # Alpaca requires penny precision for stocks, allows decimals for crypto
+        price_decimals    = 6 if is_crypto else 2
+        stop_price        = round(float(signal["stop_loss"]), price_decimals)
+        take_profit_price = round(float(signal["target1"]),   price_decimals)
         pos              = signal.get("position") or {}
         dollar_risk      = float(pos.get("dollar_risk") or 0)
 

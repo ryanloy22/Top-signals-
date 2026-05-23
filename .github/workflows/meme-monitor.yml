@@ -1,0 +1,41 @@
+name: Meme Coin Monitor
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run meme monitor
+        run: python meme_monitor.py
+
+      - name: Commit updated alert history
+        run: |
+          git config --global user.name  "MemeMonitor Bot"
+          git config --global user.email "bot@tradesignal"
+          git fetch origin main
+          git reset --soft origin/main
+          git add meme_alerts.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "meme: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push origin main

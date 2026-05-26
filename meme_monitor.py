@@ -12,7 +12,7 @@ TELEGRAM_BOT_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID     = os.getenv("TELEGRAM_CHAT_ID", "")
 TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")  # optional
 
-ALERT_SCORE_MIN = 6
+ALERT_SCORE_MIN = 10
 RESCAN_HOURS    = 12   # don't re-alert same ticker within 12h
 VELOCITY_HOURS  = 2    # Reddit posts created in last N hours = "velocity"
 

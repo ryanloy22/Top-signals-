@@ -1,478 +1,565 @@
 """
-Meme Coin Monitor v1.0
-Scans Dexscreener, Pump.fun, and Reddit every 30 minutes.
-Alerts via Telegram when a coin shows early cross-platform momentum.
+Momentum Monitor v2.0
+GME-style momentum detection across crypto and stocks — any size, any age.
+Tracks Reddit post velocity, Twitter/X mentions, Dexscreener, Pump.fun.
 """
 
-import os, json, re, math, datetime, time, urllib.request, urllib.parse
+import os, json, re, datetime, time, urllib.request, urllib.parse
 from typing import Optional
 
-# ── Config ──────────────────���─────────────────────────────────────────────────
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID",   "")
+# ── Config ────────────────────────────────────────────────────────────────────
+TELEGRAM_BOT_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID     = os.getenv("TELEGRAM_CHAT_ID", "")
+TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")  # optional
 
-MAX_MCAP          = 10_000_000   # $10M — above this it's not "early"
-MIN_VOL_RATIO     = 0.20         # Volume/mcap must be ≥ 20% (active trading)
-ALERT_SCORE_MIN   = 6            # Min combined score to send alert
-RESCAN_HOURS      = 24           # Don't re-alert same coin within 24h
+ALERT_SCORE_MIN = 6
+RESCAN_HOURS    = 12   # don't re-alert same ticker within 12h
+VELOCITY_HOURS  = 2    # Reddit posts created in last N hours = "velocity"
 
 ALERT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "meme_alerts.json")
 
-SUBREDDITS = [
-    "CryptoMoonShots",
-    "SatoshiStreetBets",
-    "memecoins",
-    "solana",
-    "lowcapcrypto",
+CRYPTO_SUBS = [
+    "CryptoMoonShots", "SatoshiStreetBets", "memecoins",
+    "solana", "lowcapcrypto", "CryptoCurrency", "altcoin", "defi",
 ]
+STOCK_SUBS = [
+    "wallstreetbets", "Superstonk", "shortsqueeze",
+    "pennystocks", "stocks", "options",
+]
+ALL_SUBS = CRYPTO_SUBS + STOCK_SUBS
 
-# ── Telegram ──────────────────────────────────────────────────────────────────
+SKIP = {
+    "USD","BTC","ETH","SOL","THE","FOR","NOT","ALL","AND","ARE","YOU",
+    "HAS","HOW","NEW","TOP","GET","NOW","OUT","DAY","ITS","CAN","USE",
+    "HIT","WIN","MAX","ATH","JUST","LIKE","THIS","THAT","WITH","PUMP",
+    "MOON","HOLD","SELL","BUY","DYOR","FOMO","APR","MAY","JUN","UTC",
+    "PDT","CDT","EDT","YOLO","BULL","BEAR","LONG","SHORT","GAIN","LOSS",
+    "PRINT","BASED","MEGA","HOLY","HUGE","VERY","MUCH","SUCH","MANY",
+    "GOOD","NEXT","WHEN","WHAT","WILL","APES","GANG","LETS","LMAO",
+    "EDIT","TLDR","IMO","AMA","EOD","CEO","CFO","CTO","IPO","SEC",
+    "FDA","FED","USA","GDP","CPI","ATM","OTC","WSB","DD","TA","FA",
+    "CALLS","PUTS","CALL","PUT","CASH","DEBT","RISK","HIGH","BACK",
+    "NEED","WANT","MAKE","TAKE","GIVE","COME","LOOK","FEEL","PLAY",
+    "OPEN","CLOSE","BREAK","MOVE","PRICE","STOCK","SHARE","MONEY",
+    "WEEK","YEAR","TIME","EVEN","ONLY","ALSO","SAME","INTO","FROM",
+    "OVER","AFTER","BEEN","THEM","THEY","THEN","THAN","SOME","MORE",
+    "MOST","LAST","WELL","REAL","RATE","RISE","FALL","DROP","LOAD",
+    "ZERO","FIVE","FOUR","ONCE","DONE","SOON","FAST","SAFE","DEEP",
+    "WIDE","FULL","HARD","EASY","NEWS","DATA","PLAN","DEAL","LIVE",
+    "LOST","PAID","SOLD","WENT","WENT","BEST","EVER","HERE","SHOW",
+}
+
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+def get_json(url: str, headers: dict = None) -> Optional[dict]:
+    try:
+        req = urllib.request.Request(url, headers=headers or {})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read())
+    except Exception as e:
+        print(f"  [warn] {url[:70]}: {e}")
+        return None
+
+
 def send_telegram(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print(f"  [Telegram] {msg[:100]}")
+        print("[Telegram] not configured")
         return
+    data = json.dumps({
+        "chat_id": TELEGRAM_CHAT_ID, "text": msg,
+        "parse_mode": "HTML", "disable_web_page_preview": True,
+    }).encode()
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        data=data, headers={"Content-Type": "application/json"},
+    )
     try:
-        payload = json.dumps({
-            "chat_id":    TELEGRAM_CHAT_ID,
-            "text":       msg[:4096],
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        }).encode()
-        req = urllib.request.Request(
-            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-            data=payload,
-            headers={"Content-Type": "application/json"},
-        )
-        with urllib.request.urlopen(req, timeout=10):
-            pass
+        urllib.request.urlopen(req, timeout=10)
     except Exception as e:
-        print(f"  ⚠ Telegram error: {e}")
+        print(f"  [Telegram error] {e}")
 
-# ── Seen alerts (dedup) ─────────────────��────────────────────────��────────────
+
 def load_seen() -> dict:
-    if os.path.exists(ALERT_FILE):
-        try:
-            with open(ALERT_FILE) as f:
-                return json.load(f)
-        except Exception:
-            return {}
-    return {}
+    try:
+        with open(ALERT_FILE) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
 
 def save_seen(seen: dict):
     with open(ALERT_FILE, "w") as f:
         json.dump(seen, f, indent=2)
 
-def already_alerted(seen: dict, key: str) -> bool:
-    if key not in seen:
-        return False
-    alerted_at = datetime.datetime.fromisoformat(seen[key])
-    hours_ago  = (datetime.datetime.utcnow() - alerted_at).total_seconds() / 3600
-    return hours_ago < RESCAN_HOURS
 
-def mark_alerted(seen: dict, key: str):
-    seen[key] = datetime.datetime.utcnow().isoformat()
-
-# ── HTTP helper ───────────────────────────────────────────��───────────────────
-def get_json(url: str, headers: dict = None, timeout: int = 12) -> Optional[dict]:
-    try:
-        h = {"User-Agent": "MemeMonitor/1.0 (crypto research bot)"}
-        if headers:
-            h.update(headers)
-        req = urllib.request.Request(url, headers=h)
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.loads(r.read().decode())
-    except Exception as e:
-        print(f"  ⚠ fetch {url[:60]}: {e}")
-        return None
-
-# ── Dexscreener ───────────��───────────────────────────────────────────────────
-def fetch_dexscreener() -> list:
-    """Fetch trending/boosted Solana coins from Dexscreener."""
-    found = {}
-
-    # Top boosted tokens — people paying to promote = lots of eyeballs
-    data = get_json("https://api.dexscreener.com/token-boosts/top/v1")
-    if data and isinstance(data, list):
-        for item in data[:100]:
-            if item.get("chainId") != "solana":
-                continue
-            addr = item.get("tokenAddress", "")
-            if addr and addr not in found:
-                found[addr] = {"boost_amount": item.get("totalAmount", 0), "chain": "solana"}
-
-    # Latest token profiles
-    data = get_json("https://api.dexscreener.com/token-profiles/latest/v1")
-    if data and isinstance(data, list):
-        for item in data[:50]:
-            if item.get("chainId") != "solana":
-                continue
-            addr = item.get("tokenAddress", "")
-            if addr and addr not in found:
-                found[addr] = {"chain": "solana"}
-
-    # Now fetch pair data for each address to get mcap/volume
-    results = []
-    for addr in list(found.keys())[:30]:  # cap at 30 to avoid rate limits
-        time.sleep(0.2)
-        pair_data = get_json(f"https://api.dexscreener.com/latest/dex/tokens/{addr}")
-        if not pair_data:
-            continue
-        pairs = pair_data.get("pairs") or []
-        if not pairs:
-            continue
-        # Use the highest volume pair
-        pairs = sorted(pairs, key=lambda p: (p.get("volume") or {}).get("h24", 0) or 0, reverse=True)
-        p = pairs[0]
-
-        mcap   = p.get("marketCap", 0) or 0
-        vol24  = (p.get("volume") or {}).get("h24", 0) or 0
-        price  = float(p.get("priceUsd") or 0)
-        name   = (p.get("baseToken") or {}).get("name", "Unknown")
-        symbol = (p.get("baseToken") or {}).get("symbol", "???")
-        url    = p.get("url", f"https://dexscreener.com/solana/{addr}")
-
-        # Age from pair creation
-        created_at = p.get("pairCreatedAt")  # unix ms
-        age_hours  = None
-        if created_at:
-            age_hours = (time.time() - created_at / 1000) / 3600
-
-        if mcap <= 0 or mcap > MAX_MCAP:
-            continue
-        if vol24 <= 0:
-            continue
-        vol_ratio = vol24 / mcap if mcap > 0 else 0
-        if vol_ratio < MIN_VOL_RATIO:
-            continue
-
-        results.append({
-            "source":     "dexscreener",
-            "address":    addr,
-            "name":       name,
-            "symbol":     symbol.upper(),
-            "chain":      "Solana",
-            "mcap":       mcap,
-            "vol24":      vol24,
-            "vol_ratio":  round(vol_ratio * 100, 1),
-            "price":      price,
-            "age_hours":  age_hours,
-            "url":        url,
-        })
-
-    print(f"  Dexscreener: {len(results)} qualifying coins")
-    return results
-
-# ── Pump.fun ──────────────���─────────────────────────────��─────────────────────
-def fetch_pumpfun() -> list:
-    """Fetch trending new coins from Pump.fun."""
-    results = []
-    # Sort by recently created + active trading
-    data = get_json(
-        "https://client-api-2-74b1891ee9f9.herokuapp.com/coins"
-        "?limit=50&sort=last_reply&order=DESC&includeNsfw=false&offset=0"
-    )
-    if not data or not isinstance(data, list):
-        # Fallback endpoint
-        data = get_json(
-            "https://frontend-api.pump.fun/coins"
-            "?limit=50&sort=last_reply&order=DESC&includeNsfw=false&offset=0"
-        )
-    if not data or not isinstance(data, list):
-        print("  Pump.fun: API unavailable")
-        return results
-
-    for coin in data:
-        mcap   = float(coin.get("usd_market_cap", 0) or 0)
-        symbol = str(coin.get("symbol", "???")).upper()
-        name   = coin.get("name", "Unknown")
-        addr   = coin.get("mint", "")
-        reply_count = int(coin.get("reply_count", 0) or 0)
-        created_ts  = coin.get("created_timestamp")
-
-        age_hours = None
-        if created_ts:
-            age_hours = (time.time() - created_ts / 1000) / 3600
-
-        if mcap <= 0 or mcap > MAX_MCAP:
-            continue
-        if reply_count < 5:  # some community activity
-            continue
-
-        results.append({
-            "source":       "pumpfun",
-            "address":      addr,
-            "name":         name,
-            "symbol":       symbol,
-            "chain":        "Solana",
-            "mcap":         mcap,
-            "vol24":        0,
-            "vol_ratio":    0,
-            "price":        0,
-            "age_hours":    age_hours,
-            "reply_count":  reply_count,
-            "url":          f"https://pump.fun/{addr}",
-        })
-
-    print(f"  Pump.fun: {len(results)} qualifying coins")
-    return results
-
-# ── Reddit ────────────────���───────────────────────────────────────────────────
+# ── Reddit velocity ────────────────────────────────────────────────────────────
 def fetch_reddit() -> dict:
-    """Scrape Reddit hot/new posts for ticker mentions. Returns {TICKER: {count, score, posts}}"""
-    mentions = {}
+    """
+    Returns {TICKER: {velocity, upvotes, comments, subs, stock_subs, posts, recent_posts}}
+    velocity = number of posts created in the last VELOCITY_HOURS.
+    This is the core GME signal — post count exploded hours before price did.
+    """
+    now_ts = datetime.datetime.utcnow().timestamp()
+    cutoff  = now_ts - VELOCITY_HOURS * 3600
+    mentions: dict = {}
 
-    for sub in SUBREDDITS:
-        for sort in ["hot", "new"]:
-            time.sleep(0.5)  # be polite
+    def record(ticker, upvotes, comments, sub, title, created_utc):
+        t = ticker.upper()
+        if t in SKIP or len(t) < 2 or len(t) > 10:
+            return
+        if t not in mentions:
+            mentions[t] = {
+                "velocity": 0, "upvotes": 0, "comments": 0,
+                "subs": set(), "stock_subs": set(),
+                "posts": [], "recent_posts": [],
+            }
+        m = mentions[t]
+        m["upvotes"]  += max(upvotes, 0)
+        m["comments"] += max(comments, 0)
+        m["subs"].add(sub)
+        if sub in STOCK_SUBS:
+            m["stock_subs"].add(sub)
+        if len(m["posts"]) < 3:
+            m["posts"].append(title[:80])
+        if created_utc >= cutoff:
+            m["velocity"] += 1
+            if len(m["recent_posts"]) < 2:
+                m["recent_posts"].append(title[:80])
+
+    for sub in ALL_SUBS:
+        for sort in ["new", "hot"]:
+            time.sleep(0.4)
             data = get_json(
-                f"https://www.reddit.com/r/{sub}/{sort}.json?limit=50",
-                headers={"User-Agent": "MemeMonitor/1.0 crypto research"},
+                f"https://www.reddit.com/r/{sub}/{sort}.json?limit=100",
+                headers={"User-Agent": "MomentumMonitor/2.0 signal research"},
             )
             if not data:
                 continue
-            posts = (data.get("data") or {}).get("children", [])
-            for post in posts:
-                p     = post.get("data", {})
-                title = p.get("title", "")
-                text  = p.get("selftext", "")
-                upvotes = int(p.get("score", 0) or 0)
+            for post in (data.get("data") or {}).get("children", []):
+                p        = post.get("data", {})
+                title    = p.get("title", "")
+                text     = p.get("selftext", "")
+                upvotes  = int(p.get("score", 0) or 0)
+                comments = int(p.get("num_comments", 0) or 0)
+                created  = float(p.get("created_utc", 0) or 0)
                 combined = f"{title} {text}"
 
-                # Extract $TICKER patterns
-                tickers = re.findall(r'\$([A-Za-z]{2,10})', combined)
-                # Also catch plain uppercase words that look like tickers in meme coin context
-                plain   = re.findall(r'\b([A-Z]{3,8})\b', title)
-                all_t   = [t.upper() for t in tickers] + plain
+                for t in re.findall(r'\$([A-Za-z]{2,10})', combined):
+                    record(t, upvotes, comments, sub, title, created)
+                for t in re.findall(r'\b([A-Z]{2,8})\b', title):
+                    record(t, upvotes, comments, sub, title, created)
 
-                # Filter obvious non-coins
-                skip = {"USD","BTC","ETH","SOL","THE","FOR","NOT","ALL",
-                        "AND","ARE","YOU","HAS","HOW","NEW","TOP","GET",
-                        "NOW","OUT","DAY","ITS","CAN","USE","HIT","WIN",
-                        "MAX","ATH","JUST","LIKE","THIS","THAT","WITH",
-                        "PUMP","MOON","HOLD","SELL","BUY","DYOR","FOMO",
-                        "APR","MAY","JUN","UTC","PDT","CDT","EDT"}
-                for t in all_t:
-                    if t in skip or len(t) < 2:
-                        continue
-                    if t not in mentions:
-                        mentions[t] = {"count": 0, "score": 0, "posts": [], "subs": set()}
-                    mentions[t]["count"]  += 1
-                    mentions[t]["score"]  += upvotes
-                    mentions[t]["subs"].add(sub)
-                    if len(mentions[t]["posts"]) < 3:
-                        mentions[t]["posts"].append(title[:80])
-
-    # Filter: only tickers mentioned 2+ times or with score > 50
-    filtered = {k: v for k, v in mentions.items()
-                if v["count"] >= 2 or v["score"] >= 50}
-    print(f"  Reddit: {len(filtered)} tickers with meaningful mentions")
+    # Filter: must have at least velocity>=1, upvotes>=200, or 2+ subs
+    filtered = {
+        k: v for k, v in mentions.items()
+        if v["velocity"] >= 1 or v["upvotes"] >= 200 or len(v["subs"]) >= 2
+    }
+    print(f"  Reddit: {len(filtered)} tickers with signal")
     return filtered
 
-# ── Scoring ────────────────��──────────────────────────────────────────────────
-def score_coin(coin: dict, reddit_mentions: dict) -> int:
+
+# ── Twitter / X ────────────────────────────────────────────────────────────────
+def fetch_twitter(tickers: list) -> dict:
+    """
+    Returns {TICKER: {tweet_count, engagement}} for the top Reddit tickers.
+    Skips entirely if TWITTER_BEARER_TOKEN is not set.
+    Queries at most 10 tickers to stay within free-tier rate limits.
+    """
+    if not TWITTER_BEARER_TOKEN:
+        print("  Twitter: no bearer token — skipping (add TWITTER_BEARER_TOKEN secret to enable)")
+        return {}
+
+    results = {}
+    start_time = (datetime.datetime.utcnow() - datetime.timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    headers = {"Authorization": f"Bearer {TWITTER_BEARER_TOKEN}"}
+
+    for ticker in tickers[:10]:
+        time.sleep(2)
+        query = urllib.parse.quote(f"${ticker} lang:en -is:retweet")
+        url = (
+            f"https://api.twitter.com/2/tweets/search/recent"
+            f"?query={query}&max_results=100"
+            f"&tweet.fields=public_metrics"
+            f"&start_time={start_time}"
+        )
+        data = get_json(url, headers=headers)
+        if not data:
+            continue
+        tweets = data.get("data") or []
+        tweet_count = len(tweets)
+        engagement  = sum(
+            (t.get("public_metrics") or {}).get("like_count", 0) +
+            (t.get("public_metrics") or {}).get("retweet_count", 0)
+            for t in tweets
+        )
+        if tweet_count > 0:
+            results[ticker] = {"tweet_count": tweet_count, "engagement": engagement}
+            print(f"    ${ticker}: {tweet_count} tweets, {engagement} engagements")
+
+    print(f"  Twitter: {len(results)} tickers with activity")
+    return results
+
+
+# ── Dexscreener ───────────────────────────────────────────────────────────────
+def fetch_dexscreener() -> list:
+    """
+    Fetch trending/boosted tokens across all chains.
+    Captures h1/h24 price change and buy-rate ratio for whale detection.
+    No mcap or age filter — scoring handles weighting.
+    """
+    results  = []
+    seen_addrs = set()
+
+    for endpoint in ["/token-boosts/top/v1", "/token-profiles/latest/v1"]:
+        data = get_json(f"https://api.dexscreener.com{endpoint}")
+        if not data:
+            continue
+        tokens = data if isinstance(data, list) else []
+        for tok in tokens[:40]:
+            addr  = tok.get("tokenAddress", "")
+            chain = tok.get("chainId", "")
+            if not addr or addr in seen_addrs:
+                continue
+            seen_addrs.add(addr)
+            time.sleep(0.2)
+            pair_data = get_json(f"https://api.dexscreener.com/latest/dex/tokens/{addr}")
+            if not pair_data:
+                continue
+            pairs = pair_data.get("pairs") or []
+            if not pairs:
+                continue
+            p = pairs[0]
+
+            mcap     = float((p.get("fdv") or p.get("marketCap") or 0))
+            vol24    = float((p.get("volume") or {}).get("h24", 0) or 0)
+            vol1     = float((p.get("volume") or {}).get("h1",  0) or 0)
+            pc_h1    = float((p.get("priceChange") or {}).get("h1",  0) or 0)
+            pc_h6    = float((p.get("priceChange") or {}).get("h6",  0) or 0)
+            pc_h24   = float((p.get("priceChange") or {}).get("h24", 0) or 0)
+            buys_h1  = int((p.get("txns") or {}).get("h1",  {}).get("buys", 0) or 0)
+            buys_h24 = int((p.get("txns") or {}).get("h24", {}).get("buys", 0) or 0)
+
+            symbol = ((p.get("baseToken") or {}).get("symbol") or tok.get("description") or "?").upper()
+            name   = (p.get("baseToken") or {}).get("name") or symbol
+            url    = p.get("url") or f"https://dexscreener.com/{chain}/{addr}"
+
+            # Whale signal: h1 buy rate vs expected (24h / 24)
+            normal_h1  = buys_h24 / 24 if buys_h24 > 0 else 0
+            whale_ratio = (buys_h1 / normal_h1) if normal_h1 > 0 else 0
+
+            vol_ratio = (vol24 / mcap * 100) if mcap > 0 else 0
+
+            results.append({
+                "source":      "dexscreener",
+                "address":     addr,
+                "symbol":      symbol,
+                "name":        name,
+                "chain":       chain,
+                "mcap":        mcap,
+                "vol24":       vol24,
+                "vol1":        vol1,
+                "vol_ratio":   vol_ratio,
+                "pc_h1":       pc_h1,
+                "pc_h6":       pc_h6,
+                "pc_h24":      pc_h24,
+                "whale_ratio": whale_ratio,
+                "url":         url,
+            })
+
+    print(f"  Dexscreener: {len(results)} tokens")
+    return results
+
+
+# ── Pump.fun ──────────────────────────────────────────────────────────────────
+def fetch_pumpfun() -> list:
+    results = []
+    data = get_json(
+        "https://client-api-2-74b1891ee9f9.herokuapp.com/coins"
+        "?offset=0&limit=50&sort=last_reply&includeNsfw=false",
+        headers={"User-Agent": "MomentumMonitor/2.0"},
+    )
+    if not data:
+        return results
+
+    now_ts = datetime.datetime.utcnow().timestamp()
+    for coin in (data if isinstance(data, list) else []):
+        addr        = coin.get("mint", "")
+        symbol      = (coin.get("symbol") or "").upper()
+        name        = coin.get("name") or symbol
+        mcap        = float(coin.get("usd_market_cap", 0) or 0)
+        reply_count = int(coin.get("reply_count", 0) or 0)
+        created_ts  = coin.get("created_timestamp", now_ts * 1000)
+        age_hours   = (now_ts - created_ts / 1000) / 3600
+
+        if reply_count < 5 or not addr:
+            continue
+
+        results.append({
+            "source":      "pumpfun",
+            "address":     addr,
+            "symbol":      symbol,
+            "name":        name,
+            "chain":       "solana",
+            "mcap":        mcap,
+            "vol24":       0,
+            "vol1":        0,
+            "vol_ratio":   0,
+            "pc_h1":       0,
+            "pc_h6":       0,
+            "pc_h24":      0,
+            "whale_ratio": 0,
+            "age_hours":   age_hours,
+            "reply_count": reply_count,
+            "url":         f"https://pump.fun/{addr}",
+        })
+
+    print(f"  Pump.fun: {len(results)} coins")
+    return results
+
+
+# ── Scoring ───────────────────────────────────────────────────────────────────
+def score_ticker(
+    reddit:  Optional[dict],
+    twitter: Optional[dict],
+    dex:     Optional[dict],
+) -> tuple:
+    """Returns (score, reasons). Max ~25 pts across all signals."""
     s = 0
+    reasons = []
 
-    # Market cap tier
-    mcap = coin.get("mcap", 0)
-    if mcap < 500_000:    s += 3   # < $500k — very early
-    elif mcap < 2_000_000: s += 2  # < $2M
-    elif mcap < 5_000_000: s += 1  # < $5M
+    # Reddit velocity — the GME signal
+    if reddit:
+        vel = reddit.get("velocity", 0)
+        if vel >= 20:   s += 5; reasons.append(f"🔥 Reddit surge: {vel} posts in {VELOCITY_HOURS}h")
+        elif vel >= 10: s += 4; reasons.append(f"📈 Reddit velocity: {vel} posts in {VELOCITY_HOURS}h")
+        elif vel >= 5:  s += 3; reasons.append(f"📊 Reddit activity: {vel} posts in {VELOCITY_HOURS}h")
+        elif vel >= 3:  s += 2; reasons.append(f"💬 Reddit rising: {vel} posts in {VELOCITY_HOURS}h")
+        elif vel >= 1:  s += 1; reasons.append(f"👀 Reddit mention: {vel} post in {VELOCITY_HOURS}h")
 
-    # Volume/mcap ratio (activity)
-    vr = coin.get("vol_ratio", 0)
-    if vr >= 100: s += 3    # trading volume > market cap — very hot
-    elif vr >= 50: s += 2
-    elif vr >= 20: s += 1
+        up = reddit.get("upvotes", 0)
+        if up >= 10000: s += 3; reasons.append(f"⬆️ {up:,} upvotes")
+        elif up >= 2000: s += 2; reasons.append(f"⬆️ {up:,} upvotes")
+        elif up >= 500:  s += 1; reasons.append(f"⬆️ {up:,} upvotes")
 
-    # Age
-    age = coin.get("age_hours")
-    if age is not None:
-        if age < 12:  s += 3   # brand new
-        elif age < 48: s += 2
-        elif age < 168: s += 1  # < 1 week
+        nsubs = len(reddit.get("subs", set()))
+        if nsubs >= 5:   s += 3; reasons.append(f"🌐 Trending in {nsubs} subreddits")
+        elif nsubs >= 3: s += 2; reasons.append(f"🌐 Mentioned in {nsubs} subreddits")
+        elif nsubs >= 2: s += 1; reasons.append(f"🌐 Mentioned in {nsubs} subreddits")
 
-    # Pump.fun community activity
-    if coin.get("reply_count", 0) >= 50: s += 2
-    elif coin.get("reply_count", 0) >= 20: s += 1
+    # Twitter / X velocity
+    if twitter:
+        tc = twitter.get("tweet_count", 0)
+        if tc >= 80:   s += 5; reasons.append(f"🐦 Twitter: {tc} tweets in 1h")
+        elif tc >= 50: s += 4; reasons.append(f"🐦 Twitter: {tc} tweets in 1h")
+        elif tc >= 20: s += 3; reasons.append(f"🐦 Twitter: {tc} tweets in 1h")
+        elif tc >= 10: s += 2; reasons.append(f"🐦 Twitter: {tc} tweets in 1h")
+        elif tc >= 3:  s += 1; reasons.append(f"🐦 Twitter: {tc} tweets in 1h")
 
-    # Reddit cross-reference (cross-platform = stronger signal)
-    sym = coin.get("symbol", "").upper()
-    if sym in reddit_mentions:
-        rm = reddit_mentions[sym]
-        s += 2
-        if rm["score"] >= 100: s += 1  # high upvotes
+        eng = twitter.get("engagement", 0)
+        if eng >= 50000: s += 3; reasons.append(f"❤️ {eng:,} likes/RTs")
+        elif eng >= 10000: s += 2; reasons.append(f"❤️ {eng:,} likes/RTs")
+        elif eng >= 2000:  s += 1; reasons.append(f"❤️ {eng:,} likes/RTs")
 
-    return s
+    # DEX momentum (crypto only)
+    if dex:
+        pc1 = dex.get("pc_h1", 0)
+        if pc1 >= 100:  s += 4; reasons.append(f"🚀 +{pc1:.0f}% price in 1h")
+        elif pc1 >= 50: s += 3; reasons.append(f"🚀 +{pc1:.0f}% price in 1h")
+        elif pc1 >= 20: s += 2; reasons.append(f"📈 +{pc1:.0f}% price in 1h")
+        elif pc1 >= 10: s += 1; reasons.append(f"📈 +{pc1:.0f}% price in 1h")
 
-# ── Where to buy ─────────────────────────────────────────────────────────────
-def _where_to_buy(chain: str, src: str, address: str) -> list:
-    """Return bullet lines for the user's available platforms given the coin's chain."""
+        # Whale buy-rate spike
+        wr = dex.get("whale_ratio", 0)
+        if wr >= 5:   s += 3; reasons.append(f"🐳 {wr:.1f}x normal buy rate (whale activity)")
+        elif wr >= 3: s += 2; reasons.append(f"🐳 {wr:.1f}x normal buy rate")
+        elif wr >= 2: s += 1; reasons.append(f"🐳 {wr:.1f}x normal buy rate")
+
+        vr = dex.get("vol_ratio", 0)
+        if vr >= 200: s += 2; reasons.append(f"💥 Vol/mcap: {vr:.0f}%")
+        elif vr >= 50: s += 1; reasons.append(f"📊 Vol/mcap: {vr:.0f}%")
+
+        if dex.get("reply_count", 0) >= 50: s += 2; reasons.append("💬 50+ Pump.fun replies")
+        elif dex.get("reply_count", 0) >= 20: s += 1; reasons.append("💬 20+ Pump.fun replies")
+
+    return s, reasons
+
+
+# ── Where to buy ──────────────────────────────────────────────────────────────
+def _where_to_buy(chain: str, src: str, address: str, is_stock: bool) -> list:
     chain = (chain or "").lower()
     lines = []
 
-    if "solana" in chain:
-        # Still on bonding curve → buy direct on Pump.fun
+    if is_stock:
+        lines.append("  • <b>Webull</b> — stocks supported")
+        lines.append("  • Coinbase / Blofin / Trust Wallet / MetaMask — crypto wallets, not for stocks")
+        return lines
+
+    if "solana" in chain or chain == "solana":
         if src == "pumpfun":
-            lines.append(f"  • <b>Pump.fun</b> (bonding curve) — buy direct on the launch page")
-        # DEX route via Trust Wallet
-        lines.append(f"  • <b>Trust Wallet</b> → open Browser → <a href='https://jup.ag/swap/SOL-{address}'>Jupiter</a> (paste contract)")
-        lines.append(f"  • <b>MetaMask</b> — ⚠️ MetaMask does <i>not</i> support Solana natively; use Trust Wallet instead")
-        lines.append(f"  • Blofin / Webull Pay / Coinbase — unlikely to list; check if available after launch")
-
-    elif "base" in chain or "ethereum" in chain or "eth" in chain:
-        lines.append(f"  • <b>MetaMask</b> → Uniswap or app.uniswap.org (paste contract)")
-        lines.append(f"  • <b>Coinbase</b> — check if listed; Base coins sometimes appear quickly")
-        lines.append(f"  • <b>Trust Wallet</b> → DApp browser → Uniswap")
-        lines.append(f"  • Blofin / Webull Pay — CEX; unlikely to list early meme coins")
-
+            lines.append("  • <b>Pump.fun</b> — buy direct if still on bonding curve")
+        lines.append(f"  • <b>Trust Wallet</b> → Browser → <a href='https://jup.ag/swap/SOL-{address}'>Jupiter</a> (paste contract)")
+        lines.append("  • <b>MetaMask</b> — ⚠️ Solana not natively supported; use Trust Wallet")
+        lines.append("  • Blofin / Coinbase — check if listed; unlikely until after launch")
+    elif any(x in chain for x in ["ethereum", "eth", "base", "polygon", "arbitrum", "optimism"]):
+        lines.append("  • <b>MetaMask</b> → Uniswap — paste contract address")
+        lines.append("  • <b>Trust Wallet</b> → DApp browser → Uniswap")
+        if "base" in chain:
+            lines.append("  • <b>Coinbase</b> — Base chain; may appear in Coinbase Wallet quickly")
+        lines.append("  • Blofin / Webull Pay — CEX; unlikely to list early")
     else:
-        lines.append(f"  • <b>Trust Wallet</b> — supports most chains; paste contract in DEX browser")
-        lines.append(f"  • <b>MetaMask</b> — EVM chains only (ETH/Base/Polygon); check chain compatibility")
+        lines.append("  • <b>Trust Wallet</b> — supports most chains; paste contract in DEX browser")
+        lines.append("  • <b>MetaMask</b> — EVM chains only; check chain compatibility first")
 
     return lines
 
 
-# ── Format alert ─────────────���────────────────────────────────────────────────
-def format_alert(coin: dict, score: int, reddit_mentions: dict) -> str:
-    sym   = coin.get("symbol", "???")
-    name  = coin.get("name", "Unknown")
-    chain = coin.get("chain", "?")
-    mcap  = coin.get("mcap", 0)
-    vol   = coin.get("vol24", 0)
-    vr    = coin.get("vol_ratio", 0)
-    age   = coin.get("age_hours")
-    url   = coin.get("url", "")
-    src   = coin.get("source", "")
-
-    age_str = f"{age:.1f}h old" if age is not None else "age unknown"
-
-    mcap_str = f"${mcap/1_000_000:.2f}M" if mcap >= 1_000_000 else f"${mcap/1_000:.0f}K"
-    vol_str  = f"${vol/1_000_000:.2f}M"  if vol  >= 1_000_000 else f"${vol/1_000:.0f}K"
-
-    source_icons = {"dexscreener": "📈 Dexscreener", "pumpfun": "🚀 Pump.fun"}
-    sources = [source_icons.get(src, src)]
-
-    reddit_info = ""
-    if sym in reddit_mentions:
-        rm = reddit_mentions[sym]
-        sub_list = ", ".join(list(rm["subs"])[:3])
-        sources.append(f"💬 Reddit ({sub_list})")
-        if rm["posts"]:
-            reddit_info = f'\n💬 <i>"{rm["posts"][0]}"</i>'
-
-    stars = "⭐" * min(score, 5)
+# ── Format alert ──────────────────────────────────────────────────────────────
+def format_alert(
+    ticker:   str,
+    reddit:   Optional[dict],
+    twitter:  Optional[dict],
+    dex:      Optional[dict],
+    score:    int,
+    reasons:  list,
+    is_stock: bool,
+) -> str:
+    stars      = "⭐" * min(score // 3, 5)
+    asset_type = "📈 STOCK MOMENTUM" if is_stock else "🚨 CRYPTO MOMENTUM"
+    name       = (dex or {}).get("name") or ticker
+    chain      = (dex or {}).get("chain", "")
+    address    = (dex or {}).get("address", "")
+    src        = (dex or {}).get("source", "")
+    url        = (dex or {}).get("url", "")
 
     lines = [
-        f"🚨 <b>MEME GEM SIGNAL {stars}</b>",
+        f"{asset_type} {stars}",
         f"",
-        f"<b>${sym}</b> — {name}",
-        f"⛓ {chain}  |  Score: {score}/10",
+        f"<b>${ticker}</b>  —  {name}",
+        f"Score: {score}  |  {'Stock' if is_stock else chain.capitalize() or 'Crypto'}",
         f"",
-        f"💰 Market Cap: {mcap_str}",
     ]
-    if vol > 0:
-        lines.append(f"📊 24h Volume: {vol_str}  ({vr:.0f}% of mcap)")
-    lines.append(f"⏰ Age: {age_str}")
-    if coin.get("reply_count"):
-        lines.append(f"💬 Pump.fun replies: {coin['reply_count']}")
-    lines.append(f"")
-    lines.append(f"📍 Found on: {' | '.join(sources)}")
-    if reddit_info:
-        lines.append(reddit_info)
-    lines.append(f"")
-    lines.append(f"���� <a href='{url}'>View on {source_icons.get(src,'chart').split()[-1]}</a>")
-    if src == "pumpfun":
-        addr = coin.get("address", "")
-        lines.append(f"🔗 <a href='https://dexscreener.com/solana/{addr}'>Dexscreener</a>")
-    lines.append(f"")
-    # Where to buy based on chain
-    buy_lines = _where_to_buy(chain, src, coin.get("address", ""))
-    if buy_lines:
-        lines.append(f"🛒 <b>Where to buy:</b>")
-        lines.extend(buy_lines)
-        lines.append(f"")
-    lines.append(f"⚠️ <i>DYOR — meme coins are extremely high risk</i>")
 
+    if dex and not is_stock:
+        mcap  = dex.get("mcap", 0)
+        vol24 = dex.get("vol24", 0)
+        pc1   = dex.get("pc_h1", 0)
+        pc24  = dex.get("pc_h24", 0)
+        mcap_s = f"${mcap/1_000_000:.2f}M" if mcap >= 1_000_000 else (f"${mcap/1_000:.0f}K" if mcap > 0 else "?")
+        vol_s  = f"${vol24/1_000_000:.2f}M" if vol24 >= 1_000_000 else (f"${vol24/1_000:.0f}K" if vol24 > 0 else "?")
+        lines.append(f"💰 Mcap: {mcap_s}  |  Vol 24h: {vol_s}")
+        if pc1:
+            lines.append(f"📊 Price: {pc1:+.1f}% (1h)  /  {pc24:+.1f}% (24h)")
+        lines.append("")
+
+    if reddit:
+        vel   = reddit.get("velocity", 0)
+        up    = reddit.get("upvotes", 0)
+        nsubs = len(reddit.get("subs", set()))
+        subs_list = ", ".join(list(reddit.get("subs", set()))[:4])
+        lines.append(f"💬 Reddit: {vel} posts/{VELOCITY_HOURS}h  |  {up:,} upvotes  |  {nsubs} subs")
+        lines.append(f"   <i>Subs: {subs_list}</i>")
+        if reddit.get("recent_posts"):
+            lines.append(f'   <i>"{reddit["recent_posts"][0]}"</i>')
+        lines.append("")
+
+    if twitter:
+        tc  = twitter.get("tweet_count", 0)
+        eng = twitter.get("engagement", 0)
+        lines.append(f"🐦 Twitter: {tc} tweets/hr  |  {eng:,} likes+RTs")
+        lines.append("")
+
+    if reasons:
+        lines.append("⚡ <b>Signals:</b>")
+        for r in reasons[:6]:
+            lines.append(f"  {r}")
+        lines.append("")
+
+    if url:
+        lines.append(f"🔗 <a href='{url}'>Chart</a>")
+    if src == "pumpfun" and address:
+        lines.append(f"🔗 <a href='https://pump.fun/{address}'>Pump.fun</a>")
+
+    buy = _where_to_buy(chain, src, address, is_stock)
+    if buy:
+        lines.append("")
+        lines.append("🛒 <b>Where to buy:</b>")
+        lines.extend(buy)
+
+    lines.append("")
+    lines.append("⚠️ <i>DYOR — high risk, not financial advice</i>")
     return "\n".join(lines)
 
-# ── Main ─────────────��───────────────────────────���────────────────────────────
+
+# ── Main ──────────────────────────────────────────────────────────────────────
 def run_monitor():
-    print("\n" + "="*50)
-    print(f"  Meme Monitor — {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
-    print("="*50)
+    print("\n" + "="*52)
+    print(f"  Momentum Monitor v2 — {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
+    print("="*52)
 
     seen = load_seen()
 
-    # Fetch data
-    print("\n📡 Fetching sources...")
-    dex_coins  = fetch_dexscreener()
-    pump_coins = fetch_pumpfun()
-    reddit     = fetch_reddit()
+    print("\n[1/4] Reddit velocity scan...")
+    reddit_data = fetch_reddit()
 
-    all_coins = dex_coins + pump_coins
+    # Only query Twitter for tickers with the strongest Reddit signal
+    print("\n[2/4] Twitter/X scan (top Reddit tickers)...")
+    top_tickers = sorted(
+        reddit_data, key=lambda t: reddit_data[t].get("velocity", 0), reverse=True
+    )[:10]
+    twitter_data = fetch_twitter(top_tickers)
 
-    # Deduplicate by symbol (dex + pump might overlap)
-    seen_symbols = {}
-    unique_coins = []
-    for c in all_coins:
-        sym = c.get("symbol", "").upper()
-        addr = c.get("address", "")
-        key  = addr or sym
-        if key and key not in seen_symbols:
-            seen_symbols[key] = True
-            unique_coins.append(c)
+    print("\n[3/4] Dexscreener scan...")
+    dex_coins = fetch_dexscreener()
+    dex_by_sym: dict = {}
+    for c in dex_coins:
+        sym = c["symbol"]
+        if sym not in dex_by_sym or c.get("mcap", 0) > dex_by_sym[sym].get("mcap", 0):
+            dex_by_sym[sym] = c
 
-    print(f"\n🔍 Scoring {len(unique_coins)} coins...")
+    print("\n[4/4] Pump.fun scan...")
+    for c in fetch_pumpfun():
+        sym = c["symbol"]
+        if sym not in dex_by_sym:
+            dex_by_sym[sym] = c
+
+    all_tickers = set(reddit_data.keys()) | set(dex_by_sym.keys())
+    print(f"\n{'='*52}")
+    print(f"  Scoring {len(all_tickers)} tickers...")
 
     alerts_sent = 0
-    for coin in unique_coins:
-        sym   = coin.get("symbol", "???")
-        addr  = coin.get("address", "")
-        dedup_key = addr or sym
+    now_iso = datetime.datetime.utcnow().isoformat()
 
-        if already_alerted(seen, dedup_key):
+    for ticker in all_tickers:
+        reddit  = reddit_data.get(ticker)
+        twitter = twitter_data.get(ticker)
+        dex     = dex_by_sym.get(ticker)
+
+        score, reasons = score_ticker(reddit, twitter, dex)
+        if score < ALERT_SCORE_MIN:
             continue
 
-        s = score_coin(coin, reddit)
-        if s < ALERT_SCORE_MIN:
+        entry       = seen.get(ticker, {})
+        last_str    = entry.get("alerted_at", "1970-01-01")
+        hours_since = (
+            datetime.datetime.utcnow() - datetime.datetime.fromisoformat(last_str)
+        ).total_seconds() / 3600
+        if hours_since < RESCAN_HOURS:
+            print(f"  [{ticker}] score={score} — skip (alerted {hours_since:.1f}h ago)")
             continue
 
-        mcap_str = f"${coin['mcap']/1000:.0f}K" if coin['mcap'] < 1_000_000 else f"${coin['mcap']/1_000_000:.1f}M"
-        print(f"  🚨 ${sym:<12} score:{s}  mcap:{mcap_str}  src:{coin['source']}")
+        # Stock if it showed up in stock subs but has no DEX data
+        is_stock = bool(reddit and reddit.get("stock_subs") and not dex)
 
-        msg = format_alert(coin, s, reddit)
+        print(f"  [{ticker}] score={score} {'STOCK' if is_stock else ''} — ALERT")
+        msg = format_alert(ticker, reddit, twitter, dex, score, reasons, is_stock)
         send_telegram(msg)
-        mark_alerted(seen, dedup_key)
+        seen[ticker] = {"alerted_at": now_iso, "score": score}
         alerts_sent += 1
-        time.sleep(1)  # don't flood Telegram
-
-    # Also alert on Reddit tickers that aren't on dex yet (very early)
-    known_syms = {c.get("symbol","").upper() for c in unique_coins}
-    for sym, rm in reddit.items():
-        if sym in known_syms:
-            continue
-        if already_alerted(seen, f"reddit_{sym}"):
-            continue
-        # Only alert if appearing in multiple subreddits or high score
-        if len(rm["subs"]) >= 2 or rm["score"] >= 200:
-            print(f"  💬 Reddit-only: ${sym}  score:{rm['score']}  subs:{','.join(rm['subs'])}")
-            msg = (
-                f"💬 <b>REDDIT BUZZ: ${sym}</b>\n\n"
-                f"Not yet on Dexscreener — mentioned across {len(rm['subs'])} subreddit(s)\n"
-                f"Upvotes: {rm['score']}\n\n"
-                f"📌 Posts:\n" +
-                "\n".join(f"• {p}" for p in rm["posts"][:3]) +
-                f"\n\n🔍 Search: dexscreener.com + pump.fun for <b>${sym}</b>"
-            )
-            send_telegram(msg)
-            mark_alerted(seen, f"reddit_{sym}")
-            alerts_sent += 1
-            time.sleep(1)
+        time.sleep(1)
 
     save_seen(seen)
+    print(f"\n  Done. {alerts_sent} alert(s) sent.")
 
-    print(f"\n✅ Done — {alerts_sent} alerts sent")
-    print(f"   {len(unique_coins)} coins scanned | {len(reddit)} Reddit tickers tracked")
 
 if __name__ == "__main__":
     run_monitor()

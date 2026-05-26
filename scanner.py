@@ -1168,6 +1168,13 @@ def get_alpaca_client():
         print(f"  ⚠ Alpaca client error: {e}")
         return None
 
+def is_market_open(client) -> bool:
+    try:
+        clock = client.get_clock()
+        return clock.is_open
+    except Exception:
+        return False
+
 def get_alpaca_account_state(client) -> dict:
     try:
         acct       = client.get_account()
@@ -1359,8 +1366,9 @@ def run_scanner(send_alerts=True):
     # Alpaca paper trading
     alpaca = get_alpaca_client()
     if alpaca and hc_signals:
-        state = get_alpaca_account_state(alpaca)
-        print(f"\n  💰 Alpaca paper | Equity:${state['equity']:,.2f} | Day P&L:{state['daily_pnl']:+.2f}%")
+        state      = get_alpaca_account_state(alpaca)
+        mkt_open   = is_market_open(alpaca)
+        print(f"\n  💰 Alpaca paper | Equity:${state['equity']:,.2f} | Day P&L:{state['daily_pnl']:+.2f}% | Market:{'OPEN' if mkt_open else 'CLOSED'}")
         if state["daily_pnl"] <= -CONFIG["ALPACA_DAILY_LOSS_LIMIT"]:
             print(f"  🛑 Daily loss limit hit ({state['daily_pnl']:.2f}%) — no new trades")
             send_telegram(f"🛑 <b>Daily loss limit hit</b> ({state['daily_pnl']:.2f}%) — trading paused for today")
@@ -1372,6 +1380,11 @@ def run_scanner(send_alerts=True):
             for r in hc_signals:
                 if placed >= slots:
                     break
+                is_crypto = r["ticker"].endswith("-USD")
+                # Stock bracket orders require market to be open; crypto trades 24/7
+                if not is_crypto and not mkt_open:
+                    print(f"  ⚠ Market closed — skipping stock order for {r['ticker']}")
+                    continue
                 sym = alpaca_symbol(r["ticker"])
                 if sym in state["open_symbols"]:
                     print(f"  ⚠ Already in {sym} — skipping")

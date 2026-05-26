@@ -1214,18 +1214,25 @@ def place_alpaca_trade(client, signal: dict) -> bool:
             print(f"  ⚠ Alpaca: qty is 0 for {symbol}")
             return False
 
-        # Stocks must use DAY; crypto can use GTC
-        tif = TimeInForce.GTC if is_crypto else TimeInForce.DAY
-
-        req = MarketOrderRequest(
-            symbol        = symbol,
-            qty           = qty,
-            side          = side,
-            time_in_force = tif,
-            order_class   = "bracket",
-            take_profit   = TakeProfitRequest(limit_price=take_profit_price),
-            stop_loss     = StopLossRequest(stop_price=stop_price),
-        )
+        # Alpaca crypto doesn't support bracket orders (otoco) — plain market only
+        # Stocks get full bracket (entry + TP + SL in one order)
+        if is_crypto:
+            req = MarketOrderRequest(
+                symbol        = symbol,
+                qty           = qty,
+                side          = side,
+                time_in_force = TimeInForce.GTC,
+            )
+        else:
+            req = MarketOrderRequest(
+                symbol        = symbol,
+                qty           = qty,
+                side          = side,
+                time_in_force = TimeInForce.DAY,
+                order_class   = "bracket",
+                take_profit   = TakeProfitRequest(limit_price=take_profit_price),
+                stop_loss     = StopLossRequest(stop_price=stop_price),
+            )
         order = client.submit_order(req)
         print(f"  ✅ Alpaca: {symbol} {direction} {qty} | TP:{take_profit_price} SL:{stop_price} | #{order.id}")
 
@@ -1243,6 +1250,7 @@ def place_alpaca_trade(client, signal: dict) -> bool:
 
         stop_pct = abs(move_pct(stop_price))
 
+        sl_note = "⚠️ Set SL/TP manually in Alpaca (crypto bracket not supported)" if is_crypto else f"Bracket order: SL+TP set automatically"
         send_telegram(
             f"🤖 <b>ALPACA TRADE</b>\n"
             f"<b>{symbol}</b>  {arr}{direction}  |  Score: {signal['score']}  |  R/R: {signal.get('rr_ratio', '?')}:1\n"
@@ -1253,9 +1261,10 @@ def place_alpaca_trade(client, signal: dict) -> bool:
             f"T2:     {t2_price}  (+{move_pct(t2_price):.1f}% | +${dollar_risk*3.5:.0f})\n"
             f"T3:     {t3_price}  (+{move_pct(t3_price):.1f}% | +${dollar_risk*5:.0f})\n"
             f"\n"
-            f"Qty: {qty} shares  |  Value: ~${pos_val:,.0f}\n"
+            f"Qty: {qty}  |  Value: ~${pos_val:,.0f}\n"
             f"Risk: ${dollar_risk:.0f} ({dollar_risk/acct*100:.2f}% of acct)\n"
-            f"Order: #{str(order.id)[:8]}"
+            f"Order: #{str(order.id)[:8]}\n"
+            f"{sl_note}"
         )
         return True
 

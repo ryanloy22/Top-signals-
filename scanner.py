@@ -107,12 +107,95 @@ CONFIG = {
 # WATCHLISTS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STOCKS = [
-    "AAPL","MSFT","NVDA","TSLA","AMZN","META","GOOGL","AMD","NFLX","CRM",
-    "COIN","MSTR","HOOD","MARA","RIOT","CLSK","HUT","CORZ","CIFR","BTBT",
-    "PLTR","SMCI","IONQ","RKLB","SOFI","UPST","AFRM","SHOP","SNOW","DDOG",
+    # ── Dow Jones 30 ─────────────────────────────────────────────
+    "AAPL","MSFT","NVDA","AMZN","JPM","V","WMT","MCD","KO","DIS",
+    "HON","IBM","CAT","BA","GS","AXP","TRV","VZ","MMM","MRK",
+    "JNJ","PG","NKE","SHW","AMGN","UNH","HD","CVX","CRM","CSCO",
+
+    # ── S&P 500 — Technology ─────────────────────────────────────
+    "META","GOOGL","GOOG","AVGO","ORCL","ADBE","ACN","AMD","TXN",
+    "QCOM","INTU","NOW","AMAT","PANW","ADI","LRCX","SNPS","KLAC",
+    "CDNS","MSI","MCHP","FTNT","NXPI","ON","KEYS","ANSS","MPWR",
+    "GEN","SWKS","QRVO","HPQ","HPE","JNPR","EPAM","AKAM","CDW",
+    "NTAP","FFIV","PTC","ZBRA","TDY","TER","TRMB","WDC","STX","GDDY",
+
+    # ── S&P 500 — Communication Services ─────────────────────────
+    "NFLX","CMCSA","TMUS","CHTR","TTWO","EA","FOXA","FOX","WBD",
+    "NWSA","NWS","LYV","MTCH","OMC","IPG",
+
+    # ── S&P 500 — Consumer Discretionary ─────────────────────────
+    "TSLA","LOW","BKNG","TJX","SBUX","ORLY","CMG","GM","F","APTV",
+    "DHI","LEN","PHM","NVR","POOL","TSCO","ROST","ULTA","RCL","CCL",
+    "MGM","WYNN","LVS","MAR","HLT","LKQ","EXPE","ABNB","DASH","UBER",
+    "ETSY","EBAY","BWA","KMX","AZO","GRMN","MHK","HAS","RL","TPR",
+    "CPRT","BBY","WHR","DRI","YUM","DPZ","LW",
+
+    # ── S&P 500 — Consumer Staples ───────────────────────────────
+    "PEP","COST","PM","MO","MDLZ","CL","GIS","ADM","KMB","SJM",
+    "KHC","HRL","CAG","CPB","MKC","CHD","CLX","K","WBA","TAP",
+    "BG","BF-B","KVUE",
+
+    # ── S&P 500 — Health Care ────────────────────────────────────
+    "LLY","ABBV","TMO","ABT","DHR","BMY","PFE","ISRG","SYK","MDT",
+    "CI","ELV","HCA","REGN","VRTX","BIIB","GILD","MCK","COR","CAH",
+    "MOH","HUM","IDXX","IQV","BDX","ZTS","EW","HOLX","BSX","BAX",
+    "DXCM","PODD","MRNA","WST","STE","RMD","HSIC","XRAY","ALGN",
+    "DGX","LH","RVTY","GEHC","MTD","A","CRL","ILMN","INCY","TECH","BIO",
+
+    # ── S&P 500 — Financials ─────────────────────────────────────
+    "MA","BAC","WFC","MS","BLK","SCHW","BX","SPGI","MCO","ICE",
+    "CME","CB","PGR","MET","PRU","AFL","AIG","ALL","BRK-B","USB",
+    "PNC","TFC","COF","STT","BK","FITB","RF","HBAN","CFG","NTRS",
+    "KEY","MTB","SYF","DFS","AMP","IVZ","BEN","CBOE","NDAQ","RJF",
+    "TROW","FI","FIS","PYPL","FDS","MKTX","CINF","GL","AIZ","WRB",
+    "EG","PFG","CPAY","WTW","MMC","AON",
+
+    # ── S&P 500 — Industrials ────────────────────────────────────
+    "UPS","LMT","RTX","GE","DE","EMR","FDX","UNP","NSC","CSX",
+    "WM","RSG","PCAR","ROK","SNA","DOV","IR","FTV","FAST","ODFL",
+    "EXPD","GWW","PWR","CTAS","WAB","TT","CARR","OTIS","XYL","LDOS",
+    "LHX","HWM","TDG","HII","J","NDSN","ROL","AXON","EME","HUBB",
+    "MAS","MLM","VMC","NUE","STLD","PKG","IP","SEE","AVY","WRK",
+    "AME","ROP","IEX","VRSK","BLDR","DAL","UAL","AAL","LUV","SWK",
+    "PNR","AOS","ITW","PH","ETN",
+
+    # ── S&P 500 — Energy ─────────────────────────────────────────
+    "XOM","COP","EOG","SLB","MPC","PSX","OXY","VLO","HES","FANG",
+    "DVN","HAL","BKR","TRGP","OKE","WMB","KMI","EQT","CTRA","APA","MRO",
+
+    # ── S&P 500 — Materials ──────────────────────────────────────
+    "LIN","APD","ECL","PPG","NEM","FCX","ALB","CE","MOS","CF",
+    "FMC","EMN","DD","DOW","IFF",
+
+    # ── S&P 500 — Real Estate ────────────────────────────────────
+    "PLD","AMT","EQIX","CCI","PSA","SPG","O","WELL","DLR","EQR",
+    "AVB","WY","ARE","MAA","ESS","UDR","REG","HST","INVH","EXR",
+    "IRM","CSGP","SBAC","VICI","CPT",
+
+    # ── S&P 500 — Utilities ──────────────────────────────────────
+    "NEE","SO","DUK","AEP","SRE","D","EXC","XEL","ED","EIX","PEG",
+    "ES","ETR","FE","AEE","WEC","DTE","CMS","NI","EVRG","AES","LNT",
+    "NRG","PCG","PNW","CEG","VST",
+
+    # ── Sector ETFs + leveraged ──────────────────────────────────
     "SPY","QQQ","IWM","SOXL","TQQQ","ARKK","GLD","SLV","USO","TLT",
-    "PYPL","SQ","V","MA","JPM","GS",
-    "XOM","CVX","OXY","SLB","HAL",
+    "XLF","XLE","XLK","XLV","XLI","XLRE","XLP","XLU","SOXX","SMH",
+
+    # ── High-beta / crypto-adjacent / growth ─────────────────────
+    "COIN","MSTR","HOOD","PLTR","SMCI","SHOP","SNOW","DDOG","SQ",
+    "SOFI","UPST","AFRM","RKLB","IONQ","RIVN","LCID","JOBY","ACHR",
+    "ASTS","SOUN","BBAI","APLD",
+
+    # ── Crypto miners ────────────────────────────────────────────
+    "MARA","RIOT","CLSK","HUT","CORZ","CIFR","BTBT",
+
+    # ── Russell 2000 small/mid-cap momentum ──────────────────────
+    "HIMS","DKNG","PENN","FUBO","OPEN","KTOS","PRCT","TMDX","WING",
+    "CELH","GNRC","SWAV","GKOS","DRVN","HLNE","MMSI","ITCI","RGEN",
+    "EXEL","ALKS","GMED","INSP","MGNI","CPRX","HRMY","RCKT","IMVT",
+    "KYMR","ARQT","RVMD","NTRA","TGTX","IBRX","ACAD","RXRX","SMMT",
+    "VKTX","NVAX","VERA","KRYS","SWTX","CARG","DNLI","ADMA","HALO",
+    "LBRT","CEIX","ARCH","AMR","MTDR","CIVI","VNOM","CHRD",
 ]
 
 CRYPTO = [
@@ -125,7 +208,7 @@ CRYPTO = [
     "ONDO-USD","POLYX-USD",
 ]
 
-ALL_TICKERS = STOCKS + CRYPTO
+ALL_TICKERS = list(dict.fromkeys(STOCKS + CRYPTO))  # dedup, preserve order
 HIGH_BETA   = {"TSLA","NVDA","AMD","COIN","MSTR","PLTR","SMCI","SOXL","TQQQ"}
 
 # High leverage crypto — stricter scoring

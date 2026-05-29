@@ -915,11 +915,11 @@ def format_digest(scalps, swings, sentiment, session, events):
     return "\n".join(lines)
 
 def send_email(subject, body):
-    if not SENDGRID_AVAILABLE:
-        print("  ⚠ Run: pip3 install sendgrid"); return
     c = CONFIG
     if not all([c["SENDGRID_API_KEY"], c["ALERT_EMAIL_FROM"], c["ALERT_EMAIL_TO"]]):
-        print("  ⚠ SendGrid credentials missing"); return
+        return  # email not configured — skip silently
+    if not SENDGRID_AVAILABLE:
+        return
     try:
         sg = sendgrid.SendGridAPIClient(api_key=c["SENDGRID_API_KEY"])
         sg.send(Mail(from_email=c["ALERT_EMAIL_FROM"], to_emails=c["ALERT_EMAIL_TO"],

@@ -4,13 +4,15 @@ GME-style momentum detection across crypto and stocks — any size, any age.
 Tracks Reddit post velocity, Twitter/X mentions, Dexscreener, Pump.fun.
 """
 
-import os, json, re, datetime, time, urllib.request, urllib.parse
+import os, json, re, datetime, time, urllib.request, urllib.parse, base64
 from typing import Optional
 
 # ── Config ────────────────────────────────────────────────────────────────────
 TELEGRAM_BOT_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID     = os.getenv("TELEGRAM_CHAT_ID", "")
-TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")  # optional
+TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")   # optional
+REDDIT_CLIENT_ID     = os.getenv("REDDIT_CLIENT_ID", "")       # reddit.com/prefs/apps
+REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "")
 
 ALERT_SCORE_MIN = 10
 RESCAN_HOURS    = 12   # don't re-alert same ticker within 12h
@@ -92,13 +94,52 @@ def save_seen(seen: dict):
         json.dump(seen, f, indent=2)
 
 
+# ── Reddit OAuth ──────────────────────────────────────────────────────────────
+def get_reddit_token() -> str:
+    """
+    Exchange Reddit client credentials for a bearer token.
+    Requires REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET repo secrets.
+    Create a 'script' app at reddit.com/prefs/apps to get these.
+    """
+    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
+        return ""
+    creds = base64.b64encode(f"{REDDIT_CLIENT_ID}:{REDDIT_CLIENT_SECRET}".encode()).decode()
+    data  = urllib.parse.urlencode({"grant_type": "client_credentials"}).encode()
+    req   = urllib.request.Request(
+        "https://www.reddit.com/api/v1/access_token",
+        data=data,
+        headers={
+            "Authorization": f"Basic {creds}",
+            "User-Agent":    "MomentumMonitor/2.0",
+            "Content-Type":  "application/x-www-form-urlencoded",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return json.loads(r.read()).get("access_token", "")
+    except Exception as e:
+        print(f"  [warn] Reddit auth: {e}")
+        return ""
+
+
 # ── Reddit velocity ────────────────────────────────────────────────────────────
 def fetch_reddit() -> dict:
     """
     Returns {TICKER: {velocity, upvotes, comments, subs, stock_subs, posts, recent_posts}}
-    velocity = number of posts created in the last VELOCITY_HOURS.
-    This is the core GME signal — post count exploded hours before price did.
+    velocity = posts created in last VELOCITY_HOURS — the core GME pattern signal.
+    Uses Reddit OAuth to bypass the 403-block on datacenter IPs.
     """
+    token = get_reddit_token()
+    if not token:
+        print("  Reddit: no OAuth token — add REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET secrets")
+        return {}
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "User-Agent":    "MomentumMonitor/2.0",
+    }
+    base_url = "https://oauth.reddit.com"
+
     now_ts = datetime.datetime.utcnow().timestamp()
     cutoff  = now_ts - VELOCITY_HOURS * 3600
     mentions: dict = {}
@@ -128,10 +169,10 @@ def fetch_reddit() -> dict:
 
     for sub in ALL_SUBS:
         for sort in ["new", "hot"]:
-            time.sleep(0.4)
+            time.sleep(0.5)
             data = get_json(
-                f"https://www.reddit.com/r/{sub}/{sort}.json?limit=100",
-                headers={"User-Agent": "MomentumMonitor/2.0 signal research"},
+                f"{base_url}/r/{sub}/{sort}?limit=100",
+                headers=headers,
             )
             if not data:
                 continue
@@ -149,7 +190,6 @@ def fetch_reddit() -> dict:
                 for t in re.findall(r'\b([A-Z]{2,8})\b', title):
                     record(t, upvotes, comments, sub, title, created)
 
-    # Filter: must have at least velocity>=1, upvotes>=200, or 2+ subs
     filtered = {
         k: v for k, v in mentions.items()
         if v["velocity"] >= 1 or v["upvotes"] >= 200 or len(v["subs"]) >= 2
@@ -214,7 +254,13 @@ def fetch_dexscreener() -> list:
         data = get_json(f"https://api.dexscreener.com{endpoint}")
         if not data:
             continue
-        tokens = data if isinstance(data, list) else []
+        # API returns either a list directly or {"pairs": [...]} or {"data": [...]}
+        if isinstance(data, list):
+            tokens = data
+        elif isinstance(data, dict):
+            tokens = data.get("pairs") or data.get("data") or data.get("tokens") or []
+        else:
+            tokens = []
         for tok in tokens[:40]:
             addr  = tok.get("tokenAddress", "")
             chain = tok.get("chainId", "")
@@ -273,11 +319,15 @@ def fetch_dexscreener() -> list:
 # ── Pump.fun ──────────────────────────────────────────────────────────────────
 def fetch_pumpfun() -> list:
     results = []
-    data = get_json(
-        "https://client-api-2-74b1891ee9f9.herokuapp.com/coins"
-        "?offset=0&limit=50&sort=last_reply&includeNsfw=false",
-        headers={"User-Agent": "MomentumMonitor/2.0"},
-    )
+    # Try current and legacy endpoints
+    data = None
+    for url in [
+        "https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=last_reply&includeNsfw=false",
+        "https://frontend-api-v2.pump.fun/coins?offset=0&limit=50&sort=last_reply&includeNsfw=false",
+    ]:
+        data = get_json(url, headers={"User-Agent": "MomentumMonitor/2.0"})
+        if data:
+            break
     if not data:
         return results
 

@@ -1,7 +1,7 @@
 """
 Momentum Monitor v2.0
 GME-style momentum detection across crypto and stocks — any size, any age.
-Tracks Reddit post velocity, Twitter/X mentions, Dexscreener, Pump.fun.
+Tracks StockTwits velocity, Twitter/X mentions, GeckoTerminal, CoinGecko trending.
 """
 
 import os, json, re, datetime, time, urllib.request, urllib.parse
@@ -110,12 +110,13 @@ def fetch_stocktwits() -> dict:
             sym = (item.get("symbol") or "").upper()
             if sym and sym not in SKIP:
                 trending_syms.append(sym)
+                wl = int(item.get("watchlist_count") or 0)
                 mentions[sym] = {
                     "velocity": 2,   # trending = baseline velocity signal
-                    "upvotes": 0, "comments": 0,
+                    "upvotes": wl, "comments": 0,  # watchlist_count → upvotes for scoring
                     "subs": {"stocktwits_trending"}, "stock_subs": set(),
                     "posts": [], "recent_posts": [],
-                    "watchlist_count": int(item.get("watchlist_count") or 0),
+                    "watchlist_count": wl,
                 }
 
     # 2. Per-ticker stream: message count + sentiment in last window
@@ -149,7 +150,7 @@ def fetch_stocktwits() -> dict:
                     mentions[sym]["recent_posts"].append(msg.get("body", "")[:80])
 
         mentions[sym]["velocity"]  += recent
-        mentions[sym]["upvotes"]    = bull
+        # upvotes stays as watchlist_count (set in step 1) — bull count is too small to score
         mentions[sym]["comments"]   = bear
         if bull > bear:
             mentions[sym]["subs"].add("stocktwits_bullish")
@@ -206,67 +207,64 @@ def fetch_twitter(tickers: list) -> dict:
     return results
 
 
-# ── Dexscreener ───────────────────────────────────────────────────────────────
-def fetch_dexscreener() -> list:
+# ── GeckoTerminal ─────────────────────────────────────────────────────────────
+def fetch_geckoterminal() -> list:
     """
-    Fetch trending/boosted tokens across all chains.
-    Captures h1/h24 price change and buy-rate ratio for whale detection.
-    No mcap or age filter — scoring handles weighting.
+    GeckoTerminal trending pools — free, no auth, not blocked on datacenter IPs.
+    Replaces Dexscreener which returns 403 from GitHub Actions.
     """
-    results  = []
+    results    = []
     seen_addrs = set()
 
-    for endpoint in ["/token-boosts/top/v1", "/token-profiles/latest/v1"]:
-        data = get_json(f"https://api.dexscreener.com{endpoint}")
+    for page in range(1, 3):
+        data = get_json(
+            f"https://api.geckoterminal.com/api/v2/networks/trending_pools?page={page}",
+            headers={"Accept": "application/json", "User-Agent": "MomentumMonitor/2.0"},
+        )
         if not data:
-            continue
-        # API returns either a list directly or {"pairs": [...]} or {"data": [...]}
-        if isinstance(data, list):
-            tokens = data
-        elif isinstance(data, dict):
-            tokens = data.get("pairs") or data.get("data") or data.get("tokens") or []
-        else:
-            tokens = []
-        for tok in tokens[:40]:
-            addr  = tok.get("tokenAddress", "")
-            chain = tok.get("chainId", "")
-            if not addr or addr in seen_addrs:
-                continue
-            seen_addrs.add(addr)
-            time.sleep(0.2)
-            pair_data = get_json(f"https://api.dexscreener.com/latest/dex/tokens/{addr}")
-            if not pair_data:
-                continue
-            pairs = pair_data.get("pairs") or []
-            if not pairs:
-                continue
-            p = pairs[0]
+            break
 
-            mcap     = float((p.get("fdv") or p.get("marketCap") or 0))
-            vol24    = float((p.get("volume") or {}).get("h24", 0) or 0)
-            vol1     = float((p.get("volume") or {}).get("h1",  0) or 0)
-            pc_h1    = float((p.get("priceChange") or {}).get("h1",  0) or 0)
-            pc_h6    = float((p.get("priceChange") or {}).get("h6",  0) or 0)
-            pc_h24   = float((p.get("priceChange") or {}).get("h24", 0) or 0)
-            buys_h1  = int((p.get("txns") or {}).get("h1",  {}).get("buys", 0) or 0)
-            buys_h24 = int((p.get("txns") or {}).get("h24", {}).get("buys", 0) or 0)
+        for pool in (data.get("data") or []):
+            attr = pool.get("attributes") or {}
+            rels = pool.get("relationships") or {}
 
-            symbol = ((p.get("baseToken") or {}).get("symbol") or tok.get("description") or "?").upper()
-            name   = (p.get("baseToken") or {}).get("name") or symbol
-            url    = p.get("url") or f"https://dexscreener.com/{chain}/{addr}"
+            pool_addr = attr.get("address", "")
+            if not pool_addr or pool_addr in seen_addrs:
+                continue
+            seen_addrs.add(pool_addr)
 
-            # Whale signal: h1 buy rate vs expected (24h / 24)
-            normal_h1  = buys_h24 / 24 if buys_h24 > 0 else 0
+            pool_name = attr.get("name", "")
+            symbol = pool_name.split(" / ")[0].strip().upper() if pool_name else "?"
+            if not symbol or symbol in SKIP:
+                continue
+
+            network = ((rels.get("network") or {}).get("data") or {}).get("id", "")
+
+            pc     = attr.get("price_change_percentage") or {}
+            pc_h1  = float(pc.get("h1",  0) or 0)
+            pc_h6  = float(pc.get("h6",  0) or 0)
+            pc_h24 = float(pc.get("h24", 0) or 0)
+
+            vol    = attr.get("volume_usd") or {}
+            vol24  = float(vol.get("h24", 0) or 0)
+            vol1   = float(vol.get("h1",  0) or 0)
+
+            mcap = float(attr.get("market_cap_usd") or attr.get("fdv_usd") or 0)
+
+            txns     = attr.get("transactions") or {}
+            buys_h1  = int((txns.get("h1")  or {}).get("buys", 0) or 0)
+            buys_h24 = int((txns.get("h24") or {}).get("buys", 0) or 0)
+
+            normal_h1   = buys_h24 / 24 if buys_h24 > 0 else 0
             whale_ratio = (buys_h1 / normal_h1) if normal_h1 > 0 else 0
-
-            vol_ratio = (vol24 / mcap * 100) if mcap > 0 else 0
+            vol_ratio   = (vol24 / mcap * 100) if mcap > 0 else 0
 
             results.append({
-                "source":      "dexscreener",
-                "address":     addr,
+                "source":      "geckoterminal",
+                "address":     pool_addr,
                 "symbol":      symbol,
-                "name":        name,
-                "chain":       chain,
+                "name":        pool_name,
+                "chain":       network,
                 "mcap":        mcap,
                 "vol24":       vol24,
                 "vol1":        vol1,
@@ -275,61 +273,72 @@ def fetch_dexscreener() -> list:
                 "pc_h6":       pc_h6,
                 "pc_h24":      pc_h24,
                 "whale_ratio": whale_ratio,
-                "url":         url,
+                "url":         f"https://www.geckoterminal.com/{network}/pools/{pool_addr}",
             })
 
-    print(f"  Dexscreener: {len(results)} tokens")
+        time.sleep(0.5)
+
+    print(f"  GeckoTerminal: {len(results)} tokens")
     return results
 
 
-# ── Pump.fun ──────────────────────────────────────────────────────────────────
-def fetch_pumpfun() -> list:
+# ── CoinGecko Trending ────────────────────────────────────────────────────────
+def fetch_coingecko_trending() -> list:
+    """
+    CoinGecko trending coins — free, no auth, not blocked on datacenter IPs.
+    Replaces Pump.fun which is down (530/503 on all known endpoints).
+    """
     results = []
-    # Try current and legacy endpoints
-    data = None
-    for url in [
-        "https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=last_reply&includeNsfw=false",
-        "https://frontend-api-v2.pump.fun/coins?offset=0&limit=50&sort=last_reply&includeNsfw=false",
-    ]:
-        data = get_json(url, headers={"User-Agent": "MomentumMonitor/2.0"})
-        if data:
-            break
+
+    data = get_json(
+        "https://api.coingecko.com/api/v3/search/trending",
+        headers={"Accept": "application/json", "User-Agent": "MomentumMonitor/2.0"},
+    )
     if not data:
+        print("  CoinGecko trending: no data")
         return results
 
-    now_ts = datetime.datetime.utcnow().timestamp()
-    for coin in (data if isinstance(data, list) else []):
-        addr        = coin.get("mint", "")
-        symbol      = (coin.get("symbol") or "").upper()
-        name        = coin.get("name") or symbol
-        mcap        = float(coin.get("usd_market_cap", 0) or 0)
-        reply_count = int(coin.get("reply_count", 0) or 0)
-        created_ts  = coin.get("created_timestamp", now_ts * 1000)
-        age_hours   = (now_ts - created_ts / 1000) / 3600
+    for entry in (data.get("coins") or []):
+        item = entry.get("item") or {}
+        symbol = (item.get("symbol") or "").upper()
+        name   = item.get("name") or symbol
 
-        if reply_count < 5 or not addr:
+        if not symbol or symbol in SKIP:
             continue
 
+        coin_data = item.get("data") or {}
+
+        pc_h24_map = coin_data.get("price_change_percentage_24h") or {}
+        pc_h24 = float(pc_h24_map.get("usd", 0) or 0)
+
+        # market_cap and total_volume may be formatted strings ("$1.23B") or numbers
+        mcap_raw = coin_data.get("market_cap", 0)
+        mcap = float(mcap_raw) if isinstance(mcap_raw, (int, float)) else 0.0
+
+        vol_raw = coin_data.get("total_volume", 0)
+        vol24 = float(vol_raw) if isinstance(vol_raw, (int, float)) else 0.0
+
+        vol_ratio = (vol24 / mcap * 100) if mcap > 0 else 0
+        coin_id   = item.get("id", "")
+
         results.append({
-            "source":      "pumpfun",
-            "address":     addr,
+            "source":      "coingecko",
+            "address":     coin_id,
             "symbol":      symbol,
             "name":        name,
-            "chain":       "solana",
+            "chain":       "various",
             "mcap":        mcap,
-            "vol24":       0,
+            "vol24":       vol24,
             "vol1":        0,
-            "vol_ratio":   0,
+            "vol_ratio":   vol_ratio,
             "pc_h1":       0,
             "pc_h6":       0,
-            "pc_h24":      0,
+            "pc_h24":      pc_h24,
             "whale_ratio": 0,
-            "age_hours":   age_hours,
-            "reply_count": reply_count,
-            "url":         f"https://pump.fun/{addr}",
+            "url":         f"https://www.coingecko.com/en/coins/{coin_id}" if coin_id else "",
         })
 
-    print(f"  Pump.fun: {len(results)} coins")
+    print(f"  CoinGecko trending: {len(results)} coins")
     return results
 
 
@@ -343,24 +352,24 @@ def score_ticker(
     s = 0
     reasons = []
 
-    # Reddit velocity — the GME signal
+    # StockTwits velocity — the GME signal
     if reddit:
         vel = reddit.get("velocity", 0)
-        if vel >= 20:   s += 5; reasons.append(f"🔥 Reddit surge: {vel} posts in {VELOCITY_HOURS}h")
-        elif vel >= 10: s += 4; reasons.append(f"📈 Reddit velocity: {vel} posts in {VELOCITY_HOURS}h")
-        elif vel >= 5:  s += 3; reasons.append(f"📊 Reddit activity: {vel} posts in {VELOCITY_HOURS}h")
-        elif vel >= 3:  s += 2; reasons.append(f"💬 Reddit rising: {vel} posts in {VELOCITY_HOURS}h")
-        elif vel >= 1:  s += 1; reasons.append(f"👀 Reddit mention: {vel} post in {VELOCITY_HOURS}h")
+        if vel >= 20:   s += 5; reasons.append(f"🔥 StockTwits surge: {vel} msgs in {VELOCITY_HOURS}h")
+        elif vel >= 10: s += 4; reasons.append(f"📈 StockTwits velocity: {vel} msgs in {VELOCITY_HOURS}h")
+        elif vel >= 5:  s += 3; reasons.append(f"📊 StockTwits activity: {vel} msgs in {VELOCITY_HOURS}h")
+        elif vel >= 3:  s += 2; reasons.append(f"💬 StockTwits rising: {vel} msgs in {VELOCITY_HOURS}h")
+        elif vel >= 1:  s += 1; reasons.append(f"👀 StockTwits mention: {vel} msg in {VELOCITY_HOURS}h")
 
-        up = reddit.get("upvotes", 0)
-        if up >= 10000: s += 3; reasons.append(f"⬆️ {up:,} upvotes")
-        elif up >= 2000: s += 2; reasons.append(f"⬆️ {up:,} upvotes")
-        elif up >= 500:  s += 1; reasons.append(f"⬆️ {up:,} upvotes")
+        up = reddit.get("upvotes", 0)  # watchlist_count for StockTwits
+        if up >= 10000: s += 3; reasons.append(f"👀 {up:,} watchlists")
+        elif up >= 2000: s += 2; reasons.append(f"👀 {up:,} watchlists")
+        elif up >= 500:  s += 1; reasons.append(f"👀 {up:,} watchlists")
 
         nsubs = len(reddit.get("subs", set()))
-        if nsubs >= 5:   s += 3; reasons.append(f"🌐 Trending in {nsubs} subreddits")
-        elif nsubs >= 3: s += 2; reasons.append(f"🌐 Mentioned in {nsubs} subreddits")
-        elif nsubs >= 2: s += 1; reasons.append(f"🌐 Mentioned in {nsubs} subreddits")
+        if nsubs >= 5:   s += 3; reasons.append(f"🌐 Trending in {nsubs} sources")
+        elif nsubs >= 3: s += 2; reasons.append(f"🌐 Mentioned in {nsubs} sources")
+        elif nsubs >= 2: s += 1; reasons.append(f"🌐 Mentioned in {nsubs} sources")
 
     # Twitter / X velocity
     if twitter:
@@ -394,8 +403,8 @@ def score_ticker(
         if vr >= 200: s += 2; reasons.append(f"💥 Vol/mcap: {vr:.0f}%")
         elif vr >= 50: s += 1; reasons.append(f"📊 Vol/mcap: {vr:.0f}%")
 
-        if dex.get("reply_count", 0) >= 50: s += 2; reasons.append("💬 50+ Pump.fun replies")
-        elif dex.get("reply_count", 0) >= 20: s += 1; reasons.append("💬 20+ Pump.fun replies")
+        if dex.get("reply_count", 0) >= 50: s += 2; reasons.append("💬 50+ community replies")
+        elif dex.get("reply_count", 0) >= 20: s += 1; reasons.append("💬 20+ community replies")
 
     return s, reasons
 
@@ -411,8 +420,6 @@ def _where_to_buy(chain: str, src: str, address: str, is_stock: bool) -> list:
         return lines
 
     if "solana" in chain or chain == "solana":
-        if src == "pumpfun":
-            lines.append("  • <b>Pump.fun</b> — buy direct if still on bonding curve")
         lines.append(f"  • <b>Trust Wallet</b> → Browser → <a href='https://jup.ag/swap/SOL-{address}'>Jupiter</a> (paste contract)")
         lines.append("  • <b>MetaMask</b> — ⚠️ Solana not natively supported; use Trust Wallet")
         lines.append("  • Blofin / Coinbase — check if listed; unlikely until after launch")
@@ -493,8 +500,8 @@ def format_alert(
 
     if url:
         lines.append(f"🔗 <a href='{url}'>Chart</a>")
-    if src == "pumpfun" and address:
-        lines.append(f"🔗 <a href='https://pump.fun/{address}'>Pump.fun</a>")
+    if src == "coingecko" and address:
+        lines.append(f"🔗 <a href='https://www.coingecko.com/en/coins/{address}'>CoinGecko</a>")
 
     buy = _where_to_buy(chain, src, address, is_stock)
     if buy:
@@ -525,16 +532,16 @@ def run_monitor():
     )[:10]
     twitter_data = fetch_twitter(top_tickers)
 
-    print("\n[3/4] Dexscreener scan...")
-    dex_coins = fetch_dexscreener()
+    print("\n[3/4] GeckoTerminal scan...")
+    dex_coins = fetch_geckoterminal()
     dex_by_sym: dict = {}
     for c in dex_coins:
         sym = c["symbol"]
         if sym not in dex_by_sym or c.get("mcap", 0) > dex_by_sym[sym].get("mcap", 0):
             dex_by_sym[sym] = c
 
-    print("\n[4/4] Pump.fun scan...")
-    for c in fetch_pumpfun():
+    print("\n[4/4] CoinGecko trending scan...")
+    for c in fetch_coingecko_trending():
         sym = c["symbol"]
         if sym not in dex_by_sym:
             dex_by_sym[sym] = c

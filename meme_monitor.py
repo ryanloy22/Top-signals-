@@ -4,15 +4,13 @@ GME-style momentum detection across crypto and stocks — any size, any age.
 Tracks Reddit post velocity, Twitter/X mentions, Dexscreener, Pump.fun.
 """
 
-import os, json, re, datetime, time, urllib.request, urllib.parse, base64
+import os, json, re, datetime, time, urllib.request, urllib.parse
 from typing import Optional
 
 # ── Config ────────────────────────────────────────────────────────────────────
 TELEGRAM_BOT_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID     = os.getenv("TELEGRAM_CHAT_ID", "")
 TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")   # optional
-REDDIT_CLIENT_ID     = os.getenv("REDDIT_CLIENT_ID", "")       # reddit.com/prefs/apps
-REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "")
 
 ALERT_SCORE_MIN = 10
 RESCAN_HOURS    = 12   # don't re-alert same ticker within 12h
@@ -20,15 +18,9 @@ VELOCITY_HOURS  = 2    # Reddit posts created in last N hours = "velocity"
 
 ALERT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "meme_alerts.json")
 
-CRYPTO_SUBS = [
-    "CryptoMoonShots", "SatoshiStreetBets", "memecoins",
-    "solana", "lowcapcrypto", "CryptoCurrency", "altcoin", "defi",
-]
-STOCK_SUBS = [
-    "wallstreetbets", "Superstonk", "shortsqueeze",
-    "pennystocks", "stocks", "options",
-]
-ALL_SUBS = CRYPTO_SUBS + STOCK_SUBS
+STOCK_SUBS = {
+    "wallstreetbets", "Superstonk", "shortsqueeze", "pennystocks", "stocks", "options",
+}
 
 SKIP = {
     "USD","BTC","ETH","SOL","THE","FOR","NOT","ALL","AND","ARE","YOU",
@@ -94,108 +86,82 @@ def save_seen(seen: dict):
         json.dump(seen, f, indent=2)
 
 
-# ── Reddit OAuth ──────────────────────────────────────────────────────────────
-def get_reddit_token() -> str:
+# ── StockTwits ────────────────────────────────────────────────────────────────
+def fetch_stocktwits() -> dict:
     """
-    Exchange Reddit client credentials for a bearer token.
-    Requires REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET repo secrets.
-    Create a 'script' app at reddit.com/prefs/apps to get these.
+    StockTwits public API — no auth required, works from any IP.
+    Pulls the trending tickers + message volume/sentiment for each.
+    Returns {TICKER: {velocity, upvotes, subs, stock_subs, posts, recent_posts}}
+    in the same shape the scorer expects, so no downstream changes needed.
     """
-    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
-        return ""
-    creds = base64.b64encode(f"{REDDIT_CLIENT_ID}:{REDDIT_CLIENT_SECRET}".encode()).decode()
-    data  = urllib.parse.urlencode({"grant_type": "client_credentials"}).encode()
-    req   = urllib.request.Request(
-        "https://www.reddit.com/api/v1/access_token",
-        data=data,
-        headers={
-            "Authorization": f"Basic {creds}",
-            "User-Agent":    "MomentumMonitor/2.0",
-            "Content-Type":  "application/x-www-form-urlencoded",
-        },
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=10) as r:
-            return json.loads(r.read()).get("access_token", "")
-    except Exception as e:
-        print(f"  [warn] Reddit auth: {e}")
-        return ""
-
-
-# ── Reddit velocity ────────────────────────────────────────────────────────────
-def fetch_reddit() -> dict:
-    """
-    Returns {TICKER: {velocity, upvotes, comments, subs, stock_subs, posts, recent_posts}}
-    velocity = posts created in last VELOCITY_HOURS — the core GME pattern signal.
-    Uses Reddit OAuth to bypass the 403-block on datacenter IPs.
-    """
-    token = get_reddit_token()
-    if not token:
-        print("  Reddit: no OAuth token — add REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET secrets")
-        return {}
-
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "User-Agent":    "MomentumMonitor/2.0",
-    }
-    base_url = "https://oauth.reddit.com"
-
+    mentions: dict = {}
     now_ts = datetime.datetime.utcnow().timestamp()
     cutoff  = now_ts - VELOCITY_HOURS * 3600
-    mentions: dict = {}
 
-    def record(ticker, upvotes, comments, sub, title, created_utc):
-        t = ticker.upper()
-        if t in SKIP or len(t) < 2 or len(t) > 10:
-            return
-        if t not in mentions:
-            mentions[t] = {
-                "velocity": 0, "upvotes": 0, "comments": 0,
-                "subs": set(), "stock_subs": set(),
-                "posts": [], "recent_posts": [],
-            }
-        m = mentions[t]
-        m["upvotes"]  += max(upvotes, 0)
-        m["comments"] += max(comments, 0)
-        m["subs"].add(sub)
-        if sub in STOCK_SUBS:
-            m["stock_subs"].add(sub)
-        if len(m["posts"]) < 3:
-            m["posts"].append(title[:80])
-        if created_utc >= cutoff:
-            m["velocity"] += 1
-            if len(m["recent_posts"]) < 2:
-                m["recent_posts"].append(title[:80])
+    # 1. Trending tickers (top 30 by message volume right now)
+    trending = get_json(
+        "https://api.stocktwits.com/api/2/trending/symbols.json"
+        "?limit=30",
+        headers={"User-Agent": "MomentumMonitor/2.0"},
+    )
+    trending_syms = []
+    if trending:
+        for item in (trending.get("symbols") or []):
+            sym = (item.get("symbol") or "").upper()
+            if sym and sym not in SKIP:
+                trending_syms.append(sym)
+                mentions[sym] = {
+                    "velocity": 2,   # trending = baseline velocity signal
+                    "upvotes": 0, "comments": 0,
+                    "subs": {"stocktwits_trending"}, "stock_subs": set(),
+                    "posts": [], "recent_posts": [],
+                    "watchlist_count": int(item.get("watchlist_count") or 0),
+                }
 
-    for sub in ALL_SUBS:
-        for sort in ["new", "hot"]:
-            time.sleep(0.5)
-            data = get_json(
-                f"{base_url}/r/{sub}/{sort}?limit=100",
-                headers=headers,
-            )
-            if not data:
-                continue
-            for post in (data.get("data") or {}).get("children", []):
-                p        = post.get("data", {})
-                title    = p.get("title", "")
-                text     = p.get("selftext", "")
-                upvotes  = int(p.get("score", 0) or 0)
-                comments = int(p.get("num_comments", 0) or 0)
-                created  = float(p.get("created_utc", 0) or 0)
-                combined = f"{title} {text}"
+    # 2. Per-ticker stream: message count + sentiment in last window
+    for sym in trending_syms[:20]:
+        time.sleep(0.3)
+        stream = get_json(
+            f"https://api.stocktwits.com/api/2/streams/symbol/{sym}.json"
+            f"?limit=30",
+            headers={"User-Agent": "MomentumMonitor/2.0"},
+        )
+        if not stream:
+            continue
+        messages = stream.get("messages") or []
+        bull, bear, recent = 0, 0, 0
+        for msg in messages:
+            created_str = msg.get("created_at", "")
+            try:
+                created_ts = datetime.datetime.strptime(
+                    created_str, "%Y-%m-%dT%H:%M:%SZ"
+                ).timestamp()
+            except Exception:
+                created_ts = 0
+            sentiment = (msg.get("entities") or {}).get("sentiment") or {}
+            if sentiment.get("basic") == "Bullish":
+                bull += 1
+            elif sentiment.get("basic") == "Bearish":
+                bear += 1
+            if created_ts >= cutoff:
+                recent += 1
+                if len(mentions[sym]["recent_posts"]) < 2:
+                    mentions[sym]["recent_posts"].append(msg.get("body", "")[:80])
 
-                for t in re.findall(r'\$([A-Za-z]{2,10})', combined):
-                    record(t, upvotes, comments, sub, title, created)
-                for t in re.findall(r'\b([A-Z]{2,8})\b', title):
-                    record(t, upvotes, comments, sub, title, created)
+        mentions[sym]["velocity"]  += recent
+        mentions[sym]["upvotes"]    = bull
+        mentions[sym]["comments"]   = bear
+        if bull > bear:
+            mentions[sym]["subs"].add("stocktwits_bullish")
+        # Flag as stock context if no crypto suffix pattern
+        if not re.search(r'\.(X|USD|BTC|ETH)$', sym):
+            mentions[sym]["stock_subs"].add("stocktwits")
 
-    filtered = {
-        k: v for k, v in mentions.items()
-        if v["velocity"] >= 1 or v["upvotes"] >= 200 or len(v["subs"]) >= 2
-    }
-    print(f"  Reddit: {len(filtered)} tickers with signal")
-    return filtered
+        if mentions[sym]["posts"] == []:
+            mentions[sym]["posts"] = [f"StockTwits: {bull}B/{bear}Be in last 30 msgs"]
+
+    print(f"  StockTwits: {len(mentions)} tickers with signal")
+    return mentions
 
 
 # ── Twitter / X ────────────────────────────────────────────────────────────────
@@ -502,12 +468,13 @@ def format_alert(
         lines.append("")
 
     if reddit:
-        vel   = reddit.get("velocity", 0)
-        up    = reddit.get("upvotes", 0)
-        nsubs = len(reddit.get("subs", set()))
-        subs_list = ", ".join(list(reddit.get("subs", set()))[:4])
-        lines.append(f"💬 Reddit: {vel} posts/{VELOCITY_HOURS}h  |  {up:,} upvotes  |  {nsubs} subs")
-        lines.append(f"   <i>Subs: {subs_list}</i>")
+        vel  = reddit.get("velocity", 0)
+        bull = reddit.get("upvotes", 0)
+        bear = reddit.get("comments", 0)
+        wl   = reddit.get("watchlist_count", 0)
+        lines.append(f"📊 StockTwits: velocity {vel}  |  🟢{bull} bull / 🔴{bear} bear")
+        if wl:
+            lines.append(f"   👀 {wl:,} watchlists")
         if reddit.get("recent_posts"):
             lines.append(f'   <i>"{reddit["recent_posts"][0]}"</i>')
         lines.append("")
@@ -548,13 +515,13 @@ def run_monitor():
 
     seen = load_seen()
 
-    print("\n[1/4] Reddit velocity scan...")
-    reddit_data = fetch_reddit()
+    print("\n[1/4] StockTwits scan...")
+    social_data = fetch_stocktwits()
 
-    # Only query Twitter for tickers with the strongest Reddit signal
-    print("\n[2/4] Twitter/X scan (top Reddit tickers)...")
+    # Twitter for top StockTwits tickers (optional — skips if no bearer token)
+    print("\n[2/4] Twitter/X scan (top tickers)...")
     top_tickers = sorted(
-        reddit_data, key=lambda t: reddit_data[t].get("velocity", 0), reverse=True
+        social_data, key=lambda t: social_data[t].get("velocity", 0), reverse=True
     )[:10]
     twitter_data = fetch_twitter(top_tickers)
 
@@ -572,7 +539,7 @@ def run_monitor():
         if sym not in dex_by_sym:
             dex_by_sym[sym] = c
 
-    all_tickers = set(reddit_data.keys()) | set(dex_by_sym.keys())
+    all_tickers = set(social_data.keys()) | set(dex_by_sym.keys())
     print(f"\n{'='*52}")
     print(f"  Scoring {len(all_tickers)} tickers...")
 
@@ -580,7 +547,7 @@ def run_monitor():
     now_iso = datetime.datetime.utcnow().isoformat()
 
     for ticker in all_tickers:
-        reddit  = reddit_data.get(ticker)
+        reddit  = social_data.get(ticker)   # same shape, scorer unchanged
         twitter = twitter_data.get(ticker)
         dex     = dex_by_sym.get(ticker)
 

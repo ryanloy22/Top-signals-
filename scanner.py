@@ -214,6 +214,179 @@ HIGH_BETA   = {"TSLA","NVDA","AMD","COIN","MSTR","PLTR","SMCI","SOXL","TQQQ"}
 # High leverage crypto — stricter scoring
 HIGH_LEV_CRYPTO = {"ETH-USD","BTC-USD","SOL-USD","BNB-USD","AVAX-USD"}
 
+# ── Sector ETFs used for rotation tracking ────────────────────────────────────
+SECTOR_ETFS = {
+    "XLK":  "Technology",
+    "XLC":  "Communication Services",
+    "XLY":  "Consumer Discretionary",
+    "XLP":  "Consumer Staples",
+    "XLV":  "Health Care",
+    "XLF":  "Financials",
+    "XLI":  "Industrials",
+    "XLE":  "Energy",
+    "XLB":  "Materials",
+    "XLRE": "Real Estate",
+    "XLU":  "Utilities",
+}
+
+# ── Ticker → sector map ───────────────────────────────────────────────────────
+SECTOR_MAP = {
+    # Dow 30 (manually mapped)
+    "AAPL":"Technology","MSFT":"Technology","NVDA":"Technology","IBM":"Technology",
+    "CRM":"Technology","CSCO":"Technology","AMZN":"Consumer Discretionary",
+    "JPM":"Financials","V":"Financials","GS":"Financials","AXP":"Financials","TRV":"Financials",
+    "WMT":"Consumer Staples","KO":"Consumer Staples","PG":"Consumer Staples",
+    "MCD":"Consumer Discretionary","NKE":"Consumer Discretionary","HD":"Consumer Discretionary",
+    "DIS":"Communication Services","VZ":"Communication Services",
+    "HON":"Industrials","CAT":"Industrials","BA":"Industrials","MMM":"Industrials",
+    "MRK":"Health Care","JNJ":"Health Care","AMGN":"Health Care","UNH":"Health Care",
+    "SHW":"Materials","CVX":"Energy",
+    # Technology
+    "META":"Communication Services","GOOGL":"Communication Services","GOOG":"Communication Services",
+    "AVGO":"Technology","ORCL":"Technology","ADBE":"Technology","ACN":"Technology",
+    "AMD":"Technology","TXN":"Technology","QCOM":"Technology","INTU":"Technology",
+    "NOW":"Technology","AMAT":"Technology","PANW":"Technology","ADI":"Technology",
+    "LRCX":"Technology","SNPS":"Technology","KLAC":"Technology","CDNS":"Technology",
+    "MSI":"Technology","MCHP":"Technology","FTNT":"Technology","NXPI":"Technology",
+    "ON":"Technology","KEYS":"Technology","ANSS":"Technology","MPWR":"Technology",
+    "GEN":"Technology","SWKS":"Technology","QRVO":"Technology","HPQ":"Technology",
+    "HPE":"Technology","JNPR":"Technology","EPAM":"Technology","AKAM":"Technology",
+    "CDW":"Technology","NTAP":"Technology","FFIV":"Technology","PTC":"Technology",
+    "ZBRA":"Technology","TDY":"Technology","TER":"Technology","TRMB":"Technology",
+    "WDC":"Technology","STX":"Technology","GDDY":"Technology",
+    # Communication Services
+    "NFLX":"Communication Services","CMCSA":"Communication Services","TMUS":"Communication Services",
+    "CHTR":"Communication Services","TTWO":"Communication Services","EA":"Communication Services",
+    "FOXA":"Communication Services","FOX":"Communication Services","WBD":"Communication Services",
+    "NWSA":"Communication Services","NWS":"Communication Services","LYV":"Communication Services",
+    "MTCH":"Communication Services","OMC":"Communication Services","IPG":"Communication Services",
+    # Consumer Discretionary
+    "TSLA":"Consumer Discretionary","LOW":"Consumer Discretionary","BKNG":"Consumer Discretionary",
+    "TJX":"Consumer Discretionary","SBUX":"Consumer Discretionary","ORLY":"Consumer Discretionary",
+    "CMG":"Consumer Discretionary","GM":"Consumer Discretionary","F":"Consumer Discretionary",
+    "APTV":"Consumer Discretionary","DHI":"Consumer Discretionary","LEN":"Consumer Discretionary",
+    "PHM":"Consumer Discretionary","NVR":"Consumer Discretionary","POOL":"Consumer Discretionary",
+    "TSCO":"Consumer Discretionary","ROST":"Consumer Discretionary","ULTA":"Consumer Discretionary",
+    "RCL":"Consumer Discretionary","CCL":"Consumer Discretionary","MGM":"Consumer Discretionary",
+    "WYNN":"Consumer Discretionary","LVS":"Consumer Discretionary","MAR":"Consumer Discretionary",
+    "HLT":"Consumer Discretionary","LKQ":"Consumer Discretionary","EXPE":"Consumer Discretionary",
+    "ABNB":"Consumer Discretionary","DASH":"Consumer Discretionary","UBER":"Consumer Discretionary",
+    "ETSY":"Consumer Discretionary","EBAY":"Consumer Discretionary","BWA":"Consumer Discretionary",
+    "KMX":"Consumer Discretionary","AZO":"Consumer Discretionary","GRMN":"Consumer Discretionary",
+    "MHK":"Consumer Discretionary","HAS":"Consumer Discretionary","RL":"Consumer Discretionary",
+    "TPR":"Consumer Discretionary","CPRT":"Consumer Discretionary","BBY":"Consumer Discretionary",
+    "WHR":"Consumer Discretionary","DRI":"Consumer Discretionary","YUM":"Consumer Discretionary",
+    "DPZ":"Consumer Discretionary","LW":"Consumer Discretionary",
+    # Consumer Staples
+    "PEP":"Consumer Staples","COST":"Consumer Staples","PM":"Consumer Staples",
+    "MO":"Consumer Staples","MDLZ":"Consumer Staples","CL":"Consumer Staples",
+    "GIS":"Consumer Staples","ADM":"Consumer Staples","KMB":"Consumer Staples",
+    "SJM":"Consumer Staples","KHC":"Consumer Staples","HRL":"Consumer Staples",
+    "CAG":"Consumer Staples","CPB":"Consumer Staples","MKC":"Consumer Staples",
+    "CHD":"Consumer Staples","CLX":"Consumer Staples","K":"Consumer Staples",
+    "WBA":"Consumer Staples","TAP":"Consumer Staples","BG":"Consumer Staples",
+    "BF-B":"Consumer Staples","KVUE":"Consumer Staples",
+    # Health Care
+    "LLY":"Health Care","ABBV":"Health Care","TMO":"Health Care","ABT":"Health Care",
+    "DHR":"Health Care","BMY":"Health Care","PFE":"Health Care","ISRG":"Health Care",
+    "SYK":"Health Care","MDT":"Health Care","CI":"Health Care","ELV":"Health Care",
+    "HCA":"Health Care","REGN":"Health Care","VRTX":"Health Care","BIIB":"Health Care",
+    "GILD":"Health Care","MCK":"Health Care","COR":"Health Care","CAH":"Health Care",
+    "MOH":"Health Care","HUM":"Health Care","IDXX":"Health Care","IQV":"Health Care",
+    "BDX":"Health Care","ZTS":"Health Care","EW":"Health Care","HOLX":"Health Care",
+    "BSX":"Health Care","BAX":"Health Care","DXCM":"Health Care","PODD":"Health Care",
+    "MRNA":"Health Care","WST":"Health Care","STE":"Health Care","RMD":"Health Care",
+    "HSIC":"Health Care","XRAY":"Health Care","ALGN":"Health Care","DGX":"Health Care",
+    "LH":"Health Care","RVTY":"Health Care","GEHC":"Health Care","MTD":"Health Care",
+    "A":"Health Care","CRL":"Health Care","ILMN":"Health Care","INCY":"Health Care",
+    "TECH":"Health Care","BIO":"Health Care",
+    # Financials
+    "MA":"Financials","BAC":"Financials","WFC":"Financials","MS":"Financials",
+    "BLK":"Financials","SCHW":"Financials","BX":"Financials","SPGI":"Financials",
+    "MCO":"Financials","ICE":"Financials","CME":"Financials","CB":"Financials",
+    "PGR":"Financials","MET":"Financials","PRU":"Financials","AFL":"Financials",
+    "AIG":"Financials","ALL":"Financials","BRK-B":"Financials","USB":"Financials",
+    "PNC":"Financials","TFC":"Financials","COF":"Financials","STT":"Financials",
+    "BK":"Financials","FITB":"Financials","RF":"Financials","HBAN":"Financials",
+    "CFG":"Financials","NTRS":"Financials","KEY":"Financials","MTB":"Financials",
+    "SYF":"Financials","DFS":"Financials","AMP":"Financials","IVZ":"Financials",
+    "BEN":"Financials","CBOE":"Financials","NDAQ":"Financials","RJF":"Financials",
+    "TROW":"Financials","FI":"Financials","FIS":"Financials","PYPL":"Financials",
+    "FDS":"Financials","MKTX":"Financials","CINF":"Financials","GL":"Financials",
+    "AIZ":"Financials","WRB":"Financials","EG":"Financials","PFG":"Financials",
+    "CPAY":"Financials","WTW":"Financials","MMC":"Financials","AON":"Financials",
+    # Industrials
+    "UPS":"Industrials","LMT":"Industrials","RTX":"Industrials","GE":"Industrials",
+    "DE":"Industrials","EMR":"Industrials","FDX":"Industrials","UNP":"Industrials",
+    "NSC":"Industrials","CSX":"Industrials","WM":"Industrials","RSG":"Industrials",
+    "PCAR":"Industrials","ROK":"Industrials","SNA":"Industrials","DOV":"Industrials",
+    "IR":"Industrials","FTV":"Industrials","FAST":"Industrials","ODFL":"Industrials",
+    "EXPD":"Industrials","GWW":"Industrials","PWR":"Industrials","CTAS":"Industrials",
+    "WAB":"Industrials","TT":"Industrials","CARR":"Industrials","OTIS":"Industrials",
+    "XYL":"Industrials","LDOS":"Industrials","LHX":"Industrials","HWM":"Industrials",
+    "TDG":"Industrials","HII":"Industrials","J":"Industrials","NDSN":"Industrials",
+    "ROL":"Industrials","AXON":"Industrials","EME":"Industrials","HUBB":"Industrials",
+    "MAS":"Industrials","MLM":"Industrials","VMC":"Industrials","NUE":"Industrials",
+    "STLD":"Industrials","PKG":"Industrials","IP":"Industrials","SEE":"Industrials",
+    "AVY":"Industrials","WRK":"Industrials","AME":"Industrials","ROP":"Industrials",
+    "IEX":"Industrials","VRSK":"Industrials","BLDR":"Industrials","DAL":"Industrials",
+    "UAL":"Industrials","AAL":"Industrials","LUV":"Industrials","SWK":"Industrials",
+    "PNR":"Industrials","AOS":"Industrials","ITW":"Industrials","PH":"Industrials",
+    "ETN":"Industrials",
+    # Energy
+    "XOM":"Energy","COP":"Energy","EOG":"Energy","SLB":"Energy","MPC":"Energy",
+    "PSX":"Energy","OXY":"Energy","VLO":"Energy","HES":"Energy","FANG":"Energy",
+    "DVN":"Energy","HAL":"Energy","BKR":"Energy","TRGP":"Energy","OKE":"Energy",
+    "WMB":"Energy","KMI":"Energy","EQT":"Energy","CTRA":"Energy","APA":"Energy","MRO":"Energy",
+    # Materials
+    "LIN":"Materials","APD":"Materials","ECL":"Materials","PPG":"Materials",
+    "NEM":"Materials","FCX":"Materials","ALB":"Materials","CE":"Materials",
+    "MOS":"Materials","CF":"Materials","FMC":"Materials","EMN":"Materials",
+    "DD":"Materials","DOW":"Materials","IFF":"Materials",
+    # Real Estate
+    "PLD":"Real Estate","AMT":"Real Estate","EQIX":"Real Estate","CCI":"Real Estate",
+    "PSA":"Real Estate","SPG":"Real Estate","O":"Real Estate","WELL":"Real Estate",
+    "DLR":"Real Estate","EQR":"Real Estate","AVB":"Real Estate","WY":"Real Estate",
+    "ARE":"Real Estate","MAA":"Real Estate","ESS":"Real Estate","UDR":"Real Estate",
+    "REG":"Real Estate","HST":"Real Estate","INVH":"Real Estate","EXR":"Real Estate",
+    "IRM":"Real Estate","CSGP":"Real Estate","SBAC":"Real Estate","VICI":"Real Estate",
+    "CPT":"Real Estate",
+    # Utilities
+    "NEE":"Utilities","SO":"Utilities","DUK":"Utilities","AEP":"Utilities",
+    "SRE":"Utilities","D":"Utilities","EXC":"Utilities","XEL":"Utilities",
+    "ED":"Utilities","EIX":"Utilities","PEG":"Utilities","ES":"Utilities",
+    "ETR":"Utilities","FE":"Utilities","AEE":"Utilities","WEC":"Utilities",
+    "DTE":"Utilities","CMS":"Utilities","NI":"Utilities","EVRG":"Utilities",
+    "AES":"Utilities","LNT":"Utilities","NRG":"Utilities","PCG":"Utilities",
+    "PNW":"Utilities","CEG":"Utilities","VST":"Utilities",
+    # High-beta / growth / crypto-adjacent → Technology
+    "COIN":"Technology","MSTR":"Technology","HOOD":"Financials","PLTR":"Technology",
+    "SMCI":"Technology","SHOP":"Technology","SNOW":"Technology","DDOG":"Technology",
+    "SQ":"Financials","SOFI":"Financials","UPST":"Financials","AFRM":"Financials",
+    "RKLB":"Industrials","IONQ":"Technology","RIVN":"Consumer Discretionary",
+    "LCID":"Consumer Discretionary","JOBY":"Industrials","ACHR":"Industrials",
+    "ASTS":"Technology","SOUN":"Technology","BBAI":"Technology","APLD":"Technology",
+    # Crypto miners → Energy
+    "MARA":"Energy","RIOT":"Energy","CLSK":"Energy","HUT":"Energy",
+    "CORZ":"Energy","CIFR":"Energy","BTBT":"Energy",
+    # Russell 2000 small/mid-cap
+    "HIMS":"Health Care","DKNG":"Consumer Discretionary","PENN":"Consumer Discretionary",
+    "FUBO":"Communication Services","OPEN":"Real Estate","KTOS":"Industrials",
+    "PRCT":"Health Care","TMDX":"Health Care","WING":"Consumer Discretionary",
+    "CELH":"Consumer Staples","GNRC":"Industrials","SWAV":"Health Care",
+    "GKOS":"Health Care","DRVN":"Consumer Discretionary","HLNE":"Financials",
+    "MMSI":"Health Care","ITCI":"Health Care","RGEN":"Health Care","EXEL":"Health Care",
+    "ALKS":"Health Care","GMED":"Health Care","INSP":"Health Care","MGNI":"Communication Services",
+    "CPRX":"Health Care","HRMY":"Health Care","RCKT":"Health Care","IMVT":"Health Care",
+    "KYMR":"Health Care","ARQT":"Health Care","RVMD":"Health Care","NTRA":"Health Care",
+    "TGTX":"Health Care","IBRX":"Health Care","ACAD":"Health Care","RXRX":"Health Care",
+    "SMMT":"Health Care","VKTX":"Health Care","NVAX":"Health Care","VERA":"Health Care",
+    "KRYS":"Health Care","SWTX":"Health Care","CARG":"Consumer Discretionary",
+    "DNLI":"Health Care","ADMA":"Health Care","HALO":"Health Care",
+    "LBRT":"Energy","CEIX":"Energy","ARCH":"Energy","AMR":"Energy",
+    "MTDR":"Energy","CIVI":"Energy","VNOM":"Energy","CHRD":"Energy",
+}
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # SESSION TIMING (Denver = MST/MDT)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -247,6 +420,76 @@ def get_session_info() -> dict:
         "hour_denver": round(hour, 1),
         "time_denver": now_denver.strftime("%I:%M %p MT"),
     }
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# SECTOR ROTATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+_sector_cache = {"data": None, "ts": 0}
+
+def get_sector_rotation() -> dict:
+    """
+    Download all 11 sector ETFs, rank by 5-day return.
+    Cached for 55 minutes so repeated calls in a scan don't re-download.
+    Returns:
+      rankings   — list of dicts sorted by 5d return (best first)
+      by_sector  — dict keyed by sector name for O(1) lookup
+      hot        — top-3 sectors (tailwind for longs, headwind for shorts)
+      cold       — bottom-3 sectors (headwind for longs, tailwind for shorts)
+    """
+    now = time.time()
+    if now - _sector_cache["ts"] < 3300 and _sector_cache["data"]:
+        return _sector_cache["data"]
+
+    etf_list = list(SECTOR_ETFS.keys())
+    try:
+        raw = yf.download(etf_list, period="1mo", interval="1d",
+                          progress=False, auto_adjust=True)["Close"]
+    except Exception as e:
+        print(f"  [sector] download failed: {e}")
+        return {"rankings": [], "by_sector": {}, "hot": set(), "cold": set(), "updated_at": None}
+
+    rankings = []
+    for etf, sector in SECTOR_ETFS.items():
+        col = etf if etf in raw.columns else None
+        if col is None:
+            continue
+        prices = raw[col].dropna()
+        if len(prices) < 6:
+            continue
+        ret_5d  = float((prices.iloc[-1] / prices.iloc[-6]  - 1) * 100)
+        ret_1mo = float((prices.iloc[-1] / prices.iloc[0]   - 1) * 100)
+        rankings.append({
+            "etf":     etf,
+            "sector":  sector,
+            "ret_5d":  round(ret_5d, 2),
+            "ret_1mo": round(ret_1mo, 2),
+        })
+
+    rankings.sort(key=lambda x: x["ret_5d"], reverse=True)
+
+    for i, r in enumerate(rankings):
+        if i < 3:    r["status"] = "hot"
+        elif i < 5:  r["status"] = "warm"
+        elif i < 8:  r["status"] = "neutral"
+        else:        r["status"] = "cold"
+
+    by_sector = {r["sector"]: r for r in rankings}
+    hot  = {r["sector"] for r in rankings[:3]}
+    cold = {r["sector"] for r in rankings[-3:]}
+
+    result = {
+        "rankings":    rankings,
+        "by_sector":   by_sector,
+        "hot":         hot,
+        "cold":        cold,
+        "top_sector":  rankings[0]["sector"]  if rankings else None,
+        "bot_sector":  rankings[-1]["sector"] if rankings else None,
+        "updated_at":  datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    }
+    _sector_cache["data"] = result
+    _sector_cache["ts"]   = now
+    return result
+
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # BTC TREND
@@ -546,7 +789,7 @@ def check_earnings(ticker):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # CORE SIGNAL ENGINE
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]:
+def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: dict = None) -> Optional[dict]:
     try:
         is_crypto   = ticker.endswith("-USD")
         is_hbeta    = ticker in HIGH_BETA
@@ -769,6 +1012,27 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
             score += CONFIG["BONUS_PRIME_SESSION"]
             penalty_notes.append(f"Prime +{CONFIG['BONUS_PRIME_SESSION']}")
 
+        # ── Sector rotation bonus/penalty (stocks only) ───────────────────
+        ticker_sector = SECTOR_MAP.get(ticker)
+        if ticker_sector and sector_rotation and sector_rotation.get("by_sector"):
+            sr_status = (sector_rotation["by_sector"].get(ticker_sector) or {}).get("status", "neutral")
+            if sr_status == "hot":
+                if direction == "LONG":
+                    score += 1
+                    penalty_notes.append(f"Sector↑ +1")
+                else:
+                    score -= 1
+                    penalty_notes.append(f"Sector↑ -1")
+            elif sr_status == "cold":
+                if direction == "SHORT":
+                    score += 1
+                    penalty_notes.append(f"Sector↓ +1")
+                else:
+                    score -= 1
+                    penalty_notes.append(f"Sector↓ -1")
+        else:
+            ticker_sector = None  # will be "Unknown" in output
+
         daily_trend = "neutral"
         if tf in ("15m", "1h"):
             daily_trend = get_daily_trend(ticker)
@@ -813,6 +1077,7 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict) -> Optional[dict]
         return {
             "ticker":          ticker,
             "type":            "crypto" if is_crypto else "stock",
+            "sector":          ticker_sector or "—",
             "signal_type":     stype,
             "trade_type":      trade_type,
             "price":           round(price, 6),
@@ -1387,6 +1652,14 @@ def run_scanner(send_alerts=True):
     sentiment = get_sentiment()
     print(f"  {sentiment['icon']} {sentiment['bias']}  F&G:{sentiment['fear_greed_score']}  VIX:{sentiment['vix']}")
 
+    print("\n🔄 Sector rotation scan...")
+    sector_rotation = get_sector_rotation()
+    if sector_rotation.get("rankings"):
+        top3 = " > ".join(r["sector"] for r in sector_rotation["rankings"][:3])
+        bot3 = " < ".join(r["sector"] for r in sector_rotation["rankings"][-3:])
+        print(f"  🔥 Hot:  {top3}")
+        print(f"  🧊 Cold: {bot3}")
+
     total = len(ALL_TICKERS)
     print(f"\n🔍 Scanning {total} assets...\n")
 
@@ -1394,7 +1667,7 @@ def run_scanner(send_alerts=True):
 
     for i, ticker in enumerate(ALL_TICKERS, 1):
         print(f"  [{i:02d}/{total}] {ticker:<18}", end=" ", flush=True)
-        r = analyze_ticker(ticker, btc_trend, session)
+        r = analyze_ticker(ticker, btc_trend, session, sector_rotation)
         if r:
             results.append(r)
             gl_icon  = "🟢" if r["green_lights"]["signal"] == "bullish" else "🟣"
@@ -1487,13 +1760,26 @@ def run_scanner(send_alerts=True):
     gc.collect()
     output_path = os.path.join(output_dir, "scan_results.json")
 
+    # sector_rotation has Python sets — convert for JSON serialization
+    sr_serializable = None
+    if sector_rotation and sector_rotation.get("rankings"):
+        sr_serializable = {
+            "rankings":   sector_rotation["rankings"],
+            "hot":        sorted(sector_rotation.get("hot", [])),
+            "cold":       sorted(sector_rotation.get("cold", [])),
+            "top_sector": sector_rotation.get("top_sector"),
+            "bot_sector": sector_rotation.get("bot_sector"),
+            "updated_at": sector_rotation.get("updated_at"),
+        }
+
     output = {
         "generated_at":     datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "scanner_version":  "5.0",
+        "scanner_version":  "5.2",
         "session":          session,
         "market_sentiment": sentiment,
         "btc_trend":        btc_trend,
         "economic_events":  events,
+        "sector_rotation":  sr_serializable,
         "account_info": {
             "crypto": f"${CONFIG['CRYPTO_ACCOUNT']:,} @ {CONFIG['CRYPTO_LEVERAGE']}x",
             "stocks": f"${CONFIG['STOCK_ACCOUNT']:,} @ 1x",

@@ -179,6 +179,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <!-- TAB: SIGNALS -->
 <div class="pane on" id="pane-signals">
+  <div class="sh"><div class="sh-title">🔄 Sector Rotation (5-Day)</div><span id="sr-updated" style="font-family:var(--mono);font-size:10px;color:var(--dim)"></span></div>
+  <div id="sr-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-bottom:12px"><div class="empty">Loading...</div></div>
   <div class="sh"><div class="sh-title">⚡ Top Scalps</div><span class="badge b-scalp">15 MIN — TRADE TODAY</span></div>
   <div class="grid" id="scalps-grid"><div class="empty">Loading...</div></div>
   <div class="sh"><div class="sh-title">📅 Top Swings</div><span class="badge b-swing">DAILY — HOLD DAYS/WEEKS</span></div>
@@ -237,8 +239,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="tbl-wrap">
     <table>
       <thead><tr>
-        <th>Log</th><th>Ticker</th><th>Dir</th><th>Type</th><th>Score</th>
-        <th>Entry</th><th>Stop</th><th>T1</th><th>T2</th><th>T3</th>
+        <th>Log</th><th>Ticker</th><th>Sector</th><th>Dir</th><th>Type</th><th>Score</th>
+        <th>Entry</th><th>Chg%</th><th>Stop</th><th>T1</th><th>T2</th><th>T3</th>
         <th>R/R</th><th>VWAP</th><th>MTF</th><th>RSI</th><th>RVOL</th><th>GL</th>
         <th>Units</th><th>$Risk</th><th>Signal</th>
       </tr></thead>
@@ -367,6 +369,7 @@ async function loadData() {
     allSignals.forEach(r => { signalStore[r.ticker + '_' + r.timeframe] = r; });
     renderSentiment(data);
     renderSignals(data);
+    renderSectorRotation(data);
     renderTable();
     renderCorr();
   } catch(e) {
@@ -492,7 +495,7 @@ function renderTable() {
 
   const tbody = document.getElementById('all-tbody');
   if (!sigs.length) {
-    tbody.innerHTML = '<tr><td colspan="19" class="empty">No signals match filter.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="21" class="empty">No signals match filter.</td></tr>';
     return;
   }
 
@@ -503,17 +506,29 @@ function renderTable() {
     const mtf = r.mtf_confirmed ? '✅' : '⚠️';
     const slCol = r.direction==='LONG' ? 'var(--red)' : 'var(--green)';
     const tCol  = r.direction==='LONG' ? 'var(--green)' : 'var(--red)';
+    const slPct = pct(r.entry, r.stop_loss);
+    const t1Pct = pct(r.entry, r.target1);
+    const t2Pct = pct(r.entry, r.target2);
+    const t3Pct = pct(r.entry, r.target3);
+    const chg   = r.candle_pct != null ? r.candle_pct : null;
+    const chgCol = chg == null ? '' : (chg >= 0 ? 'color:var(--green)' : 'color:var(--red)');
+    const chgTxt = chg == null ? '—' : (chg >= 0 ? '+' : '') + chg + '%';
+    const sectorHot  = scanData && (scanData.sector_rotation?.hot  || []).includes(r.sector);
+    const sectorCold = scanData && (scanData.sector_rotation?.cold || []).includes(r.sector);
+    const sectorCol  = sectorHot ? 'color:var(--green)' : sectorCold ? 'color:var(--red)' : 'color:var(--dim)';
     return `<tr>
       <td><button class="btn-edit" data-key="${key}" onclick="openLog(this.dataset.key)">📓 LOG</button></td>
       <td style="color:#fff;font-weight:600">${r.ticker}${r.has_earnings?' 💰':''}</td>
+      <td style="font-size:10px;${sectorCol}">${r.sector||'—'}</td>
       <td class="t-${(r.direction||'').toLowerCase()}">${r.direction}</td>
       <td style="color:var(--dim)">${r.timeframe==='15m'?'⚡ Scalp':'📅 Swing'}</td>
       <td style="color:var(--yellow)">${r.score}</td>
       <td>${r.entry}</td>
-      <td style="color:${slCol}">${r.stop_loss}</td>
-      <td style="color:${tCol}">${r.target1}</td>
-      <td style="color:${tCol}">${r.target2}</td>
-      <td style="color:${tCol}">${r.target3}</td>
+      <td style="${chgCol}">${chgTxt}</td>
+      <td style="color:${slCol}">${r.stop_loss}<br><span style="font-size:9px;opacity:.7">${slPct}%</span></td>
+      <td style="color:${tCol}">${r.target1}<br><span style="font-size:9px;opacity:.7">${t1Pct}%</span></td>
+      <td style="color:${tCol}">${r.target2}<br><span style="font-size:9px;opacity:.7">${t2Pct}%</span></td>
+      <td style="color:${tCol}">${r.target3}<br><span style="font-size:9px;opacity:.7">${t3Pct}%</span></td>
       <td style="color:var(--yellow)">${r.rr_ratio}</td>
       <td style="color:${r.vwap_bias==='above'?'var(--green)':'var(--red)'}">${r.vwap_bias||'—'}</td>
       <td>${mtf} ${(r.mtf_bias||'?').toUpperCase()}</td>
@@ -525,6 +540,30 @@ function renderTable() {
       <td style="color:var(--dim)">${r.signal_type||''}</td>
     </tr>`;
   }).join('');
+}
+
+// ── Sector rotation ───────────────────────────────────────────
+function renderSectorRotation(data) {
+  const grid = document.getElementById('sr-grid');
+  const sr   = data.sector_rotation;
+  if (!sr || !sr.rankings || !sr.rankings.length) {
+    grid.innerHTML = '<div class="empty">No sector data yet — runs next scan.</div>';
+    return;
+  }
+  const hot  = new Set(sr.hot  || []);
+  const cold = new Set(sr.cold || []);
+  const statusColor = s => s === 'hot' ? 'var(--green)' : s === 'warm' ? 'var(--yellow)' : s === 'cold' ? 'var(--red)' : 'var(--dim)';
+  const statusIcon  = s => s === 'hot' ? '🔥' : s === 'warm' ? '📈' : s === 'cold' ? '🧊' : '➡️';
+  grid.innerHTML = sr.rankings.map((r,i) => `
+    <div class="mi-card" style="border-color:${statusColor(r.status)};opacity:${r.status==='neutral'?'.65':'1'}">
+      <div class="mi-lbl">${statusIcon(r.status)} ${r.sector}</div>
+      <div class="mi-val" style="color:${r.ret_5d>=0?'var(--green)':'var(--red)'}">${r.ret_5d>=0?'+':''}${r.ret_5d}%</div>
+      <div class="mi-sub">${r.ret_1mo>=0?'+':''}${r.ret_1mo}% 1mo&nbsp;·&nbsp;${r.etf}</div>
+    </div>`).join('');
+  if (sr.updated_at) {
+    const updEl = document.getElementById('sr-updated');
+    if (updEl) updEl.textContent = 'Updated ' + new Date(sr.updated_at).toLocaleTimeString();
+  }
 }
 
 // ── Correlation grid ──────────────────────────────────────────

@@ -2,8 +2,8 @@ name: TradeSignal Scanner
 
 on:
   schedule:
-    # Backup: every hour 12:00-23:00 UTC (GitHub may delay these)
-    - cron: '0 12-23 * * *'
+    # Every hour 6:00 AM – 5:00 PM Denver MDT (UTC-7): 13:00-23:00 UTC + midnight UTC
+    - cron: '0 0,13-23 * * *'
   workflow_dispatch:
   repository_dispatch:
     types: [run-scanner]

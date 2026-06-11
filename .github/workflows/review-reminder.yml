@@ -1,0 +1,22 @@
+name: Scanner Review Reminder
+
+on:
+  schedule:
+    # July 20 at 9:00 AM Denver MDT (16:00 UTC)
+    - cron: '0 16 20 7 *'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram reminder
+        run: |
+          MSG="📋 REVIEW DAY — TradeSignal Scanner%0A%0AReview checklist:%0A• HC win rate still above 45%25? (was 66.7%25 at launch)%0A• Did sector rotation improve signal quality?%0A• Alpaca stock trades — how many, how did they perform?%0A• Is 8-indicator scoring worth the complexity vs simple 4-condition system?%0A• Any sectors consistently hot/cold to reweight?%0A%0AOpen Claude and run: review tradesignal scanner performance"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=${MSG}" \
+            -d "parse_mode=HTML"

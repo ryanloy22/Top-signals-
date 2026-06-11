@@ -1559,15 +1559,23 @@ def place_alpaca_trade(client, signal: dict) -> bool:
         pos              = signal.get("position") or {}
         dollar_risk      = float(pos.get("dollar_risk") or 0)
 
-        # Calculate unlevered qty from dollar risk and per-unit risk
+        # Calculate qty from dollar risk and per-unit risk
         risk_per = abs(entry - stop_price)
         if risk_per <= 0 or dollar_risk <= 0:
-            print(f"  ⚠ Alpaca: invalid sizing for {symbol}")
+            print(f"  ⚠ Alpaca: invalid sizing for {symbol} (risk_per={risk_per} dollar_risk={dollar_risk})")
             return False
-        qty = round(dollar_risk / risk_per, 6 if is_crypto else 2)
+
+        if is_crypto:
+            qty = round(dollar_risk / risk_per, 6)
+        else:
+            # Bracket orders do NOT support fractional shares — floor to whole shares
+            qty = int(dollar_risk / risk_per)
+
         if qty <= 0:
-            print(f"  ⚠ Alpaca: qty is 0 for {symbol}")
+            print(f"  ⚠ Alpaca: qty rounds to 0 for {symbol} (dollar_risk=${dollar_risk:.0f} risk_per=${risk_per:.2f})")
             return False
+
+        print(f"  📋 Alpaca order: {symbol} {direction} qty={qty} entry={entry} TP={take_profit_price} SL={stop_price}")
 
         # Alpaca crypto doesn't support bracket orders (otoco) — plain market only
         # Stocks get full bracket (entry + TP + SL in one order)
@@ -1739,7 +1747,7 @@ def run_scanner(send_alerts=True):
                 is_crypto = r["ticker"].endswith("-USD")
                 # Stock bracket orders require market to be open; crypto trades 24/7
                 if not is_crypto and not mkt_open:
-                    print(f"  ⚠ Market closed — skipping stock order for {r['ticker']}")
+                    print(f"  ⏸ Market closed — stock order for {r['ticker']} queued until open")
                     continue
                 sym = alpaca_symbol(r["ticker"])
                 if sym in state["open_symbols"]:

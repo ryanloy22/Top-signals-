@@ -68,7 +68,7 @@ except ImportError:
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CONFIG = {
     "CRYPTO_ACCOUNT":       23000,
-    "STOCK_ACCOUNT":        2100,
+    "STOCK_ACCOUNT":        1000,
     "RISK_PCT":             0.05,
     "CRYPTO_LEVERAGE":      5,
     "MIN_SCORE_STOCK":            5,
@@ -97,10 +97,12 @@ CONFIG = {
     "ALERT_EMAIL_FROM":     os.getenv("ALERT_EMAIL_FROM", ""),
     "ALERT_EMAIL_TO":       os.getenv("ALERT_EMAIL_TO",   ""),
 
-    # Alpaca paper trading
+    # Alpaca — live keys take priority; fall back to paper keys
+    "ALPACA_LIVE_API_KEY":     os.getenv("ALPACA_LIVE_API_KEY",    ""),
+    "ALPACA_LIVE_SECRET_KEY":  os.getenv("ALPACA_LIVE_SECRET_KEY", ""),
     "ALPACA_API_KEY":          os.getenv("ALPACA_API_KEY",    ""),
     "ALPACA_SECRET_KEY":       os.getenv("ALPACA_SECRET_KEY", ""),
-    "ALPACA_DAILY_LOSS_LIMIT": 3.0,   # stop trading if paper account down 3% today
+    "ALPACA_DAILY_LOSS_LIMIT": 2.0,   # stop trading if account down 2% today (~$20)
     "ALPACA_MAX_POSITIONS":    3,      # max concurrent open positions
 }
 
@@ -1702,13 +1704,23 @@ def alpaca_symbol(ticker: str) -> str:
     return ticker
 
 def get_alpaca_client():
-    key    = CONFIG.get("ALPACA_API_KEY", "")
-    secret = CONFIG.get("ALPACA_SECRET_KEY", "")
-    if not key or not secret:
+    live_key    = CONFIG.get("ALPACA_LIVE_API_KEY", "")
+    live_secret = CONFIG.get("ALPACA_LIVE_SECRET_KEY", "")
+    paper_key    = CONFIG.get("ALPACA_API_KEY", "")
+    paper_secret = CONFIG.get("ALPACA_SECRET_KEY", "")
+
+    if live_key and live_secret:
+        key, secret, is_paper = live_key, live_secret, False
+    elif paper_key and paper_secret:
+        key, secret, is_paper = paper_key, paper_secret, True
+    else:
         return None
+
     try:
         from alpaca.trading.client import TradingClient
-        return TradingClient(key, secret, paper=True)
+        client = TradingClient(key, secret, paper=is_paper)
+        client._is_paper = is_paper
+        return client
     except Exception as e:
         print(f"  ⚠ Alpaca client error: {e}")
         return None
@@ -1742,7 +1754,13 @@ def place_alpaca_trade(client, signal: dict) -> bool:
         direction = signal["direction"]
         symbol    = alpaca_symbol(ticker)
 
-        # Alpaca spot doesn't support crypto shorts
+        # Live account: stocks only — crypto has no bracket order support
+        is_live = not getattr(client, "_is_paper", True)
+        if is_crypto and is_live:
+            print(f"  ⏭ Alpaca live: skipping crypto ({symbol}) — stocks only, no bracket order support")
+            return False
+
+        # Paper account: skip crypto shorts (spot only)
         if is_crypto and direction == "SHORT":
             print(f"  ⚠ Alpaca: skipping crypto short ({symbol}) — spot only")
             return False
@@ -1927,12 +1945,13 @@ def run_scanner(send_alerts=True):
                 print(f"  ⚠ HC alert format error: {e}")
             save_hc_alert(r, output_dir)
 
-    # Alpaca paper trading
+    # Alpaca trading (live if ALPACA_LIVE_API_KEY set, else paper)
     alpaca = get_alpaca_client()
     if alpaca and hc_signals:
         state      = get_alpaca_account_state(alpaca)
         mkt_open   = is_market_open(alpaca)
-        print(f"\n  💰 Alpaca paper | Equity:${state['equity']:,.2f} | Day P&L:{state['daily_pnl']:+.2f}% | Market:{'OPEN' if mkt_open else 'CLOSED'}")
+        acct_mode  = "LIVE 💵" if not getattr(alpaca, "_is_paper", True) else "paper"
+        print(f"\n  💰 Alpaca {acct_mode} | Equity:${state['equity']:,.2f} | Day P&L:{state['daily_pnl']:+.2f}% | Market:{'OPEN' if mkt_open else 'CLOSED'}")
         if state["daily_pnl"] <= -CONFIG["ALPACA_DAILY_LOSS_LIMIT"]:
             print(f"  🛑 Daily loss limit hit ({state['daily_pnl']:.2f}%) — no new trades")
             send_telegram(f"🛑 <b>Daily loss limit hit</b> ({state['daily_pnl']:.2f}%) — trading paused for today")

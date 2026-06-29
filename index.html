@@ -234,15 +234,22 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <option value="rvol">Sort: RVOL</option>
       <option value="ticker">Sort: Ticker</option>
     </select>
+    <select class="f-sel" id="regime-sel" onchange="renderTable()">
+      <option value="all">Regime: All</option>
+      <option value="trend">Trend only</option>
+      <option value="chop">Chop only</option>
+      <option value="transition">Transition only</option>
+    </select>
+    <input type="text" id="ticker-search" class="f-inp" placeholder="Search ticker…" oninput="renderTable()" style="width:120px;padding:5px 10px;"/>
     <span id="f-count"></span>
   </div>
   <div class="tbl-wrap">
     <table>
       <thead><tr>
-        <th>Log</th><th>Ticker</th><th>Sector</th><th>Dir</th><th>Type</th><th>Score</th>
+        <th>Log</th><th>Ticker</th><th>Sector</th><th>Dir</th><th>Type</th><th>Regime</th><th>Score</th>
         <th>Entry</th><th>Chg%</th><th>Stop</th><th>T1</th><th>T2</th><th>T3</th>
-        <th>R/R</th><th>VWAP</th><th>MTF</th><th>RSI</th><th>RVOL</th><th>GL</th>
-        <th>Units</th><th>$Risk</th><th>Signal</th>
+        <th>R/R</th><th>VWAP</th><th>MTF</th><th>RSI</th><th>ADX</th><th>RVOL</th><th>GL</th>
+        <th>News</th><th>Units</th><th>$Risk</th><th>Signal</th>
       </tr></thead>
       <tbody id="all-tbody"></tbody>
     </table>
@@ -422,6 +429,11 @@ function card(r, idx, kind) {
   const mtf   = r.mtf_confirmed ? '✅' : '⚠️';
   const earn  = r.has_earnings ? '<span style="color:var(--yellow);font-size:10px"> ⚠️ EARNINGS</span>' : '';
   const rsDiv = (r.rsi_divergence && (r.rsi_divergence.bullish || r.rsi_divergence.bearish)) ? '<span class="pill" style="background:rgba(194,19,233,.1);color:var(--purple);border:1px solid rgba(194,19,233,.2)">🔀 RSI DIV</span>' : '';
+  const ns     = r.news_sentiment || {};
+  const nsIcon = ns.label === 'bullish' ? '🟢' : ns.label === 'bearish' ? '🔴' : '';
+  const nsDiv  = nsIcon ? `<span class="pill" style="background:rgba(255,255,255,.05);color:var(--dim);border:1px solid var(--bord)" title="${(ns.headlines||[]).join(' | ')}">${nsIcon} News</span>` : '';
+  const rg    = r.regime || 'trend';
+  const rgDiv = rg === 'chop' ? '<span class="pill" style="background:rgba(194,19,233,.1);color:var(--purple);border:1px solid rgba(194,19,233,.2)">🔄 CHOP</span>' : '';
   const key   = r.ticker + '_' + r.timeframe;
 
   return `<div class="card ${dir}" style="animation-delay:${idx*70}ms">
@@ -430,7 +442,7 @@ function card(r, idx, kind) {
       <span class="pill p-${dir}">${r.direction}</span>
       <span class="pill p-score">Score ${r.score}</span>
       <span class="pill ${kind === 'scalp' ? 'p-scalp' : 'p-swing'}">${kind === 'scalp' ? '⚡ SCALP' : '📅 SWING'}</span>
-      ${rsDiv}
+      ${rgDiv}${rsDiv}${nsDiv}
     </div>
     <div class="c-prices">
       <div><div class="pi-lbl">Entry</div><div class="pi-val">${r.entry}</div></div>
@@ -476,11 +488,15 @@ function filter(type) {
 }
 
 function renderTable() {
-  const dir  = document.getElementById('dir-sel').value;
-  const sort = document.getElementById('sort-sel').value;
+  const dir    = document.getElementById('dir-sel').value;
+  const sort   = document.getElementById('sort-sel').value;
+  const regime = document.getElementById('regime-sel').value;
+  const search = (document.getElementById('ticker-search').value || '').trim().toUpperCase();
   let sigs = [...allSignals];
   if (currentFilter !== 'all') sigs = sigs.filter(r => r.type === currentFilter);
-  if (dir !== 'all') sigs = sigs.filter(r => r.direction === dir);
+  if (dir !== 'all')    sigs = sigs.filter(r => r.direction === dir);
+  if (regime !== 'all') sigs = sigs.filter(r => (r.regime || 'trend') === regime);
+  if (search)           sigs = sigs.filter(r => (r.ticker || '').toUpperCase().includes(search));
   sigs.sort((a,b) => {
     if (sort === 'score')  return (b.score||0) - (a.score||0);
     if (sort === 'rr')     return (b.rr_ratio||0) - (a.rr_ratio||0);
@@ -495,13 +511,14 @@ function renderTable() {
 
   const tbody = document.getElementById('all-tbody');
   if (!sigs.length) {
-    tbody.innerHTML = '<tr><td colspan="21" class="empty">No signals match filter.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="24" class="empty">No signals match filter.</td></tr>';
     return;
   }
 
   tbody.innerHTML = sigs.map(r => {
     const gl  = r.green_lights || {};
     const pos = r.position || {};
+    const ns  = r.news_sentiment || {};
     const key = r.ticker + '_' + r.timeframe;
     const mtf = r.mtf_confirmed ? '✅' : '⚠️';
     const slCol = r.direction==='LONG' ? 'var(--red)' : 'var(--green)';
@@ -516,12 +533,22 @@ function renderTable() {
     const sectorHot  = scanData && (scanData.sector_rotation?.hot  || []).includes(r.sector);
     const sectorCold = scanData && (scanData.sector_rotation?.cold || []).includes(r.sector);
     const sectorCol  = sectorHot ? 'color:var(--green)' : sectorCold ? 'color:var(--red)' : 'color:var(--dim)';
+    const rg = r.regime || 'trend';
+    const rgColor = rg === 'chop' ? 'var(--purple)' : rg === 'transition' ? 'var(--yellow)' : 'var(--green)';
+    const rgLabel = rg === 'chop' ? '🔄 CHOP' : rg === 'transition' ? '⚠️ TRANS' : '📈 TREND';
+    const typeLabel = r.signal_type && r.signal_type.includes('REVERSION')
+      ? '<span style="color:var(--purple)">🔄 Rev</span>'
+      : (r.timeframe === '15m' ? '⚡ Scalp' : r.timeframe === '1h' ? '⚡ 1H' : '📅 Swing');
+    const newsCol  = ns.label === 'bullish' ? 'var(--green)' : ns.label === 'bearish' ? 'var(--red)' : 'var(--dim)';
+    const newsIcon = ns.label === 'bullish' ? '🟢' : ns.label === 'bearish' ? '🔴' : '⚪';
+    const newsTip  = (ns.headlines || []).slice(0,2).join(' | ') || '—';
     return `<tr>
       <td><button class="btn-edit" data-key="${key}" onclick="openLog(this.dataset.key)">📓 LOG</button></td>
       <td style="color:#fff;font-weight:600">${r.ticker}${r.has_earnings?' 💰':''}</td>
       <td style="font-size:10px;${sectorCol}">${r.sector||'—'}</td>
       <td class="t-${(r.direction||'').toLowerCase()}">${r.direction}</td>
-      <td style="color:var(--dim)">${r.timeframe==='15m'?'⚡ Scalp':'📅 Swing'}</td>
+      <td style="color:var(--dim)">${typeLabel}</td>
+      <td style="color:${rgColor};font-size:10px">${rgLabel}</td>
       <td style="color:var(--yellow)">${r.score}</td>
       <td>${r.entry}</td>
       <td style="${chgCol}">${chgTxt}</td>
@@ -533,8 +560,10 @@ function renderTable() {
       <td style="color:${r.vwap_bias==='above'?'var(--green)':'var(--red)'}">${r.vwap_bias||'—'}</td>
       <td>${mtf} ${(r.mtf_bias||'?').toUpperCase()}</td>
       <td>${r.rsi||'—'}</td>
+      <td style="color:var(--dim)">${r.adx != null ? r.adx : '—'}</td>
       <td>${r.rvol||r.vol_ratio}x</td>
       <td class="${gl.signal==='bullish'?'t-bull':'t-bear'}">${gl.signal==='bullish'?'🟢':'🟣'}</td>
+      <td style="color:${newsCol}" title="${newsTip.replace(/"/g,'&quot;')}">${newsIcon} ${ns.label||'—'}</td>
       <td style="color:var(--yellow)">${pos.units||'—'}</td>
       <td style="color:var(--red)">${pos.dollar_risk?'$'+pos.dollar_risk:'—'}</td>
       <td style="color:var(--dim)">${r.signal_type||''}</td>

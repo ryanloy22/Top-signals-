@@ -69,7 +69,7 @@ except ImportError:
 CONFIG = {
     "CRYPTO_ACCOUNT":       23000,
     "STOCK_ACCOUNT":        1000,
-    "RISK_PCT":             0.05,
+    "RISK_PCT":             0.02,
     "CRYPTO_LEVERAGE":      5,
     "MIN_SCORE_STOCK":            5,
     "MIN_SCORE_CRYPTO":           5,
@@ -102,7 +102,7 @@ CONFIG = {
     "ALPACA_LIVE_SECRET_KEY":  os.getenv("ALPACA_LIVE_SECRET_KEY", ""),
     "ALPACA_API_KEY":          os.getenv("ALPACA_API_KEY",    ""),
     "ALPACA_SECRET_KEY":       os.getenv("ALPACA_SECRET_KEY", ""),
-    "ALPACA_DAILY_LOSS_LIMIT": 2.0,   # stop trading if account down 2% today (~$20)
+    "ALPACA_DAILY_LOSS_LIMIT": 5.0,   # stop trading if account down 5% today (~$50)
     "ALPACA_MAX_POSITIONS":    3,      # max concurrent open positions
 }
 
@@ -785,8 +785,8 @@ def calc_atr_position_size(ticker, price, stop_loss, atr_val, is_crypto, directi
         units         = raw_units * leverage if is_crypto else raw_units
         pos_value     = units * price / leverage if is_crypto else units * price
 
-        # Cap at 30% of account
-        max_pos = account * 0.30 * leverage if is_crypto else account * 0.30
+        # Cap per position at 1/MAX_POSITIONS of account (fully deploy capital)
+        max_pos = account * 0.34 * leverage if is_crypto else account * 0.34
         if pos_value > max_pos:
             units     = max_pos / price
             pos_value = max_pos

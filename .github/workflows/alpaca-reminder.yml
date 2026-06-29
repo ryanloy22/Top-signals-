@@ -1,0 +1,30 @@
+name: Alpaca Live Setup Reminder
+
+on:
+  schedule:
+    - cron: '0 18 29 6 *'   # June 29 at noon MDT (18:00 UTC)
+  workflow_dispatch:
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram reminder
+        run: |
+          MESSAGE="🔔 <b>Alpaca Live Account Setup</b>
+
+1️⃣ Go to alpaca.markets → upgrade to a Live account (or open new)
+2️⃣ Fund with \$1,000
+3️⃣ Enable <b>Margin</b> in account settings (required for short selling)
+4️⃣ Go to API Keys → generate a <b>Live</b> key pair
+
+5️⃣ Add to GitHub repo secrets:
+   Repo → Settings → Secrets → Actions → New secret
+   • Name: <code>ALPACA_LIVE_API_KEY</code>  → your live key ID
+   • Name: <code>ALPACA_LIVE_SECRET_KEY</code> → your live secret
+
+✅ Once secrets are set, scanner auto-switches to live (stocks only, bracket orders with TP+SL). Falls back to paper if keys are missing."
+
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\": \"${{ secrets.TELEGRAM_CHAT_ID }}\", \"text\": \"$MESSAGE\", \"parse_mode\": \"HTML\"}"

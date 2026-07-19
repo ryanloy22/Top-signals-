@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-19T16:48:55.323929+00:00",
+  "generated_at": "2026-07-19T17:53:59.451739+00:00",
   "scanner_version": "5.2",
   "session": {
     "prime": false,
     "in_range": true,
     "session": "STANDARD",
-    "hour_denver": 10.6,
-    "time_denver": "10:38 AM MT"
+    "hour_denver": 11.7,
+    "time_denver": "11:44 AM MT"
   },
   "market_sentiment": {
     "bias": "RISK-OFF",
@@ -115,45 +115,195 @@
     ],
     "top_sector": "Energy",
     "bot_sector": "Technology",
-    "updated_at": "2026-07-19T16:38:38.226285+00:00"
+    "updated_at": "2026-07-19T17:44:17.342155+00:00"
   },
   "account_info": {
     "crypto": "$23,000 @ 5x",
     "stocks": "$1,000 @ 1x",
     "risk_pct": "2%"
   },
-  "total_signals": 233,
-  "high_conviction": 1,
+  "total_signals": 232,
+  "high_conviction": 0,
   "vol_spikes": 0,
   "ema_crossovers": 17,
   "top_scalps": [
+    {
+      "ticker": "BTC-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 64556.5,
+      "direction": "LONG",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 64556.5,
+      "stop_loss": 64281.864841,
+      "target1": 65105.7703,
+      "target2": 65517.7231,
+      "target3": 65929.6758,
+      "risk_per_unit": 274.635159,
+      "atr": 183.090106,
+      "vwap": 64499.362529495425,
+      "vwap_bias": "above",
+      "rsi": 55.14,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 3.64,
+      "vol_ratio": 3.64,
+      "candle_pct": 0.1,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "bearish",
+      "session": "STANDARD",
+      "penalty_notes": [
+        "ADX:23.1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 64476.7587,
+        "slope": 9.448031,
+        "strength": 9.448031
+      },
+      "position": {
+        "units": 0.6057,
+        "dollar_risk": 33.27,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.284
+      },
+      "timeframe": "1h",
+      "regime": "transition",
+      "adx": 23.1,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:53:37.174569+00:00"
+    },
+    {
+      "ticker": "ETH-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 1867.680054,
+      "direction": "LONG",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 1867.680054,
+      "stop_loss": 1855.277331,
+      "target1": 1892.4855,
+      "target2": 1911.0896,
+      "target3": 1929.6937,
+      "risk_per_unit": 12.402723,
+      "atr": 8.268482,
+      "vwap": 1868.694979229956,
+      "vwap_bias": "below",
+      "rsi": 55.6,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 2.89,
+      "vol_ratio": 2.89,
+      "candle_pct": 0.12,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "bearish",
+      "session": "STANDARD",
+      "penalty_notes": [
+        "ADX:36.7"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 1861.5348,
+        "slope": 0.571651,
+        "strength": 0.571651
+      },
+      "position": {
+        "units": 20.9351,
+        "dollar_risk": 51.93,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.443
+      },
+      "timeframe": "1h",
+      "regime": "trend",
+      "adx": 36.7,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:53:38.400156+00:00"
+    },
     {
       "ticker": "AAVE-USD",
       "type": "crypto",
       "sector": "\u2014",
       "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 89.239998,
+      "price": 89.260002,
       "direction": "SHORT",
-      "score": 12,
+      "score": 10,
       "rr_ratio": 5.0,
-      "entry": 89.239998,
-      "stop_loss": 90.045442,
-      "target1": 87.6291,
-      "target2": 86.4209,
-      "target3": 85.2128,
-      "risk_per_unit": 0.805444,
-      "atr": 0.536963,
-      "vwap": 90.09217124966547,
+      "entry": 89.260002,
+      "stop_loss": 90.144751,
+      "target1": 87.4905,
+      "target2": 86.1634,
+      "target3": 84.8363,
+      "risk_per_unit": 0.884749,
+      "atr": 0.589832,
+      "vwap": 89.48721477602253,
       "vwap_bias": "below",
-      "rsi": 42.19,
+      "rsi": 43.26,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 2.83,
-      "vol_ratio": 2.83,
-      "candle_pct": 0.42,
+      "rvol": 6.74,
+      "vol_ratio": 6.74,
+      "candle_pct": 0.17,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
@@ -166,103 +316,28 @@
       "btc_trend": "bearish",
       "session": "STANDARD",
       "penalty_notes": [
-        "ADX:20.5"
+        "ADX:21.3"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bearish",
-        "smoothed": 89.6358,
-        "slope": -0.008277,
-        "strength": 0.008277
+        "smoothed": 89.6222,
+        "slope": -0.008193,
+        "strength": 0.008193
       },
       "position": {
-        "units": 438.1443,
-        "dollar_risk": 70.58,
+        "units": 438.0461,
+        "dollar_risk": 77.51,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 1.1,
-        "atr_pct": 0.602
+        "atr_pct": 0.661
       },
       "timeframe": "1h",
       "regime": "transition",
-      "adx": 20.5,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": true,
-      "scanned_at": "2026-07-19T16:48:46.991640+00:00"
-    },
-    {
-      "ticker": "BTC-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 64548.421875,
-      "direction": "LONG",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 64548.421875,
-      "stop_loss": 64294.623976,
-      "target1": 65056.0177,
-      "target2": 65436.7145,
-      "target3": 65817.4114,
-      "risk_per_unit": 253.797899,
-      "atr": 169.198599,
-      "vwap": 64494.09470269222,
-      "vwap_bias": "above",
-      "rsi": 55.0,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 4.27,
-      "vol_ratio": 4.27,
-      "candle_pct": 0.01,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:24.7"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 64469.5047,
-        "slope": 9.999641,
-        "strength": 9.999641
-      },
-      "position": {
-        "units": 0.6057,
-        "dollar_risk": 30.75,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.262
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 24.7,
+      "adx": 21.3,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -275,82 +350,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:31.748719+00:00"
-    },
-    {
-      "ticker": "AVAX-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 6.45,
-      "direction": "SHORT",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 6.45,
-      "stop_loss": 6.501895,
-      "target1": 6.3462,
-      "target2": 6.2684,
-      "target3": 6.1905,
-      "risk_per_unit": 0.051895,
-      "atr": 0.034597,
-      "vwap": 6.469471848907418,
-      "vwap_bias": "below",
-      "rsi": 36.5,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.73,
-      "vol_ratio": 0.73,
-      "candle_pct": 0.15,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:20.0"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 6.5353,
-        "slope": -0.004603,
-        "strength": 0.004603
-      },
-      "position": {
-        "units": 6062.0157,
-        "dollar_risk": 62.92,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.536
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 20.0,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:40.807996+00:00"
+      "scanned_at": "2026-07-19T17:53:51.458211+00:00"
     },
     {
       "ticker": "TQQQ",
@@ -425,7 +425,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:42.558189+00:00"
+      "scanned_at": "2026-07-19T17:51:54.072675+00:00"
     },
     {
       "ticker": "TSLA",
@@ -500,7 +500,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:15.841138+00:00"
+      "scanned_at": "2026-07-19T17:45:49.765770+00:00"
     }
   ],
   "top_swings": [
@@ -577,7 +577,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:26.596104+00:00"
+      "scanned_at": "2026-07-19T17:49:43.934660+00:00"
     },
     {
       "ticker": "SNPS",
@@ -653,7 +653,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:23.949367+00:00"
+      "scanned_at": "2026-07-19T17:44:59.602327+00:00"
     },
     {
       "ticker": "TRV",
@@ -726,7 +726,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:56.396402+00:00"
+      "scanned_at": "2026-07-19T17:44:33.254662+00:00"
     },
     {
       "ticker": "ORCL",
@@ -801,7 +801,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:14.745589+00:00"
+      "scanned_at": "2026-07-19T17:44:51.146579+00:00"
     },
     {
       "ticker": "DGX",
@@ -874,86 +874,11 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:11.073802+00:00"
+      "scanned_at": "2026-07-19T17:47:40.218004+00:00"
     }
   ],
   "top_setups": [
     {
-      "ticker": "AAVE-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 89.239998,
-      "direction": "SHORT",
-      "score": 12,
-      "rr_ratio": 5.0,
-      "entry": 89.239998,
-      "stop_loss": 90.045442,
-      "target1": 87.6291,
-      "target2": 86.4209,
-      "target3": 85.2128,
-      "risk_per_unit": 0.805444,
-      "atr": 0.536963,
-      "vwap": 90.09217124966547,
-      "vwap_bias": "below",
-      "rsi": 42.19,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 2.83,
-      "vol_ratio": 2.83,
-      "candle_pct": 0.42,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
-      "daily_trend": "bullish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:20.5"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 89.6358,
-        "slope": -0.008277,
-        "strength": 0.008277
-      },
-      "position": {
-        "units": 438.1443,
-        "dollar_risk": 70.58,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.602
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 20.5,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": true,
-      "scanned_at": "2026-07-19T16:48:46.991640+00:00"
-    },
-    {
       "ticker": "HII",
       "type": "stock",
       "sector": "Industrials",
@@ -1026,7 +951,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:26.596104+00:00"
+      "scanned_at": "2026-07-19T17:49:43.934660+00:00"
     },
     {
       "ticker": "SNPS",
@@ -1102,7 +1027,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:23.949367+00:00"
+      "scanned_at": "2026-07-19T17:44:59.602327+00:00"
     },
     {
       "ticker": "TRV",
@@ -1175,7 +1100,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:56.396402+00:00"
+      "scanned_at": "2026-07-19T17:44:33.254662+00:00"
     },
     {
       "ticker": "ORCL",
@@ -1250,383 +1175,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:14.745589+00:00"
-    }
-  ],
-  "all_signals": [
-    {
-      "ticker": "AAVE-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 89.239998,
-      "direction": "SHORT",
-      "score": 12,
-      "rr_ratio": 5.0,
-      "entry": 89.239998,
-      "stop_loss": 90.045442,
-      "target1": 87.6291,
-      "target2": 86.4209,
-      "target3": 85.2128,
-      "risk_per_unit": 0.805444,
-      "atr": 0.536963,
-      "vwap": 90.09217124966547,
-      "vwap_bias": "below",
-      "rsi": 42.19,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 2.83,
-      "vol_ratio": 2.83,
-      "candle_pct": 0.42,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
-      "daily_trend": "bullish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:20.5"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 89.6358,
-        "slope": -0.008277,
-        "strength": 0.008277
-      },
-      "position": {
-        "units": 438.1443,
-        "dollar_risk": 70.58,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.602
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 20.5,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": true,
-      "scanned_at": "2026-07-19T16:48:46.991640+00:00"
-    },
-    {
-      "ticker": "HII",
-      "type": "stock",
-      "sector": "Industrials",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
-      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
-      "price": 269.130005,
-      "direction": "SHORT",
-      "score": 11,
-      "rr_ratio": 5.0,
-      "entry": 269.130005,
-      "stop_loss": 280.161134,
-      "target1": 247.0677,
-      "target2": 230.5211,
-      "target3": 213.9744,
-      "risk_per_unit": 11.031129,
-      "atr": 7.7475,
-      "vwap": 281.6734793584484,
-      "vwap_bias": "below",
-      "rsi": 31.11,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 1.87,
-      "vol_ratio": 1.87,
-      "candle_pct": 0.71,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.085,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "neutral",
-      "funding_rate": null,
-      "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [
-        "Sector\u2193 +1"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 288.6337,
-        "slope": -1.193513,
-        "strength": 1.193513
-      },
-      "position": {
-        "units": 1.2633,
-        "dollar_risk": 13.94,
-        "pos_value": 340.0,
-        "account": "stocks",
-        "leverage": 1,
-        "atr_scale": 0.85,
-        "atr_pct": 2.879
-      },
-      "timeframe": "1d",
-      "regime": "trend",
-      "adx": 36.6,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:26.596104+00:00"
-    },
-    {
-      "ticker": "SNPS",
-      "type": "stock",
-      "sector": "Technology",
-      "signal_type": "BB REVERSION \ud83d\udd04",
-      "trade_type": "\ud83d\udd04 Mean Rev",
-      "price": 384.279999,
-      "direction": "LONG",
-      "score": 10,
-      "rr_ratio": 6.15,
-      "entry": 384.279999,
-      "stop_loss": 399.165791,
-      "target1": 441.424,
-      "target2": 459.7998,
-      "target3": 475.7848,
-      "risk_per_unit": 14.885792,
-      "atr": 18.355031,
-      "vwap": 428.2168606284269,
-      "vwap_bias": "below",
-      "rsi": 23.86,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 2.44,
-      "vol_ratio": 2.44,
-      "candle_pct": 7.85,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": false,
-      "daily_trend": "neutral",
-      "funding_rate": null,
-      "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:13.8(CHOP)",
-        "Sector\u2193 -1"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 450.641,
-        "slope": -3.509307,
-        "strength": 3.509307
-      },
-      "position": {
-        "units": 0.8848,
-        "dollar_risk": 13.17,
-        "pos_value": 340.0,
-        "account": "stocks",
-        "leverage": 1,
-        "atr_scale": 0.7,
-        "atr_pct": 4.776
-      },
-      "timeframe": "1d",
-      "regime": "chop",
-      "adx": 13.8,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:23.949367+00:00"
-    },
-    {
-      "ticker": "TRV",
-      "type": "stock",
-      "sector": "Financials",
-      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
-      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
-      "price": 368.980011,
-      "direction": "LONG",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 368.980011,
-      "stop_loss": 355.0077,
-      "target1": 396.9246,
-      "target2": 417.8831,
-      "target3": 438.8416,
-      "risk_per_unit": 13.972311,
-      "atr": 9.314874,
-      "vwap": 340.59571225892233,
-      "vwap_bias": "above",
-      "rsi": 75.56,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": true
-      },
-      "rvol": 1.92,
-      "vol_ratio": 1.92,
-      "candle_pct": 9.22,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bull",
-      "stochrsi_k": 0.373,
-      "mtf_bias": "bullish",
-      "mtf_confirmed": true,
-      "daily_trend": "neutral",
-      "funding_rate": null,
-      "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 324.1407,
-        "slope": 2.399089,
-        "strength": 2.399089
-      },
-      "position": {
-        "units": 0.9215,
-        "dollar_risk": 12.87,
-        "pos_value": 340.0,
-        "account": "stocks",
-        "leverage": 1,
-        "atr_scale": 0.85,
-        "atr_pct": 2.524
-      },
-      "timeframe": "1d",
-      "regime": "trend",
-      "adx": 31.2,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:56.396402+00:00"
-    },
-    {
-      "ticker": "ORCL",
-      "type": "stock",
-      "sector": "Technology",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
-      "price": 126.410004,
-      "direction": "SHORT",
-      "score": 10,
-      "rr_ratio": 5.0,
-      "entry": 126.410004,
-      "stop_loss": 134.329922,
-      "target1": 110.5702,
-      "target2": 98.6903,
-      "target3": 86.8104,
-      "risk_per_unit": 7.919919,
-      "atr": 8.45221,
-      "vwap": 137.5048630514726,
-      "vwap_bias": "below",
-      "rsi": 29.39,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 1.0,
-      "vol_ratio": 1.0,
-      "candle_pct": 1.77,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.483,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "neutral",
-      "funding_rate": null,
-      "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [
-        "Sector\u2193 +1"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 160.2784,
-        "slope": -2.25756,
-        "strength": 2.25756
-      },
-      "position": {
-        "units": 1.7677,
-        "dollar_risk": 14.0,
-        "pos_value": 223.45,
-        "account": "stocks",
-        "leverage": 1,
-        "atr_scale": 0.7,
-        "atr_pct": 6.686
-      },
-      "timeframe": "1d",
-      "regime": "trend",
-      "adx": 37.2,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:14.745589+00:00"
+      "scanned_at": "2026-07-19T17:44:51.146579+00:00"
     },
     {
       "ticker": "DGX",
@@ -1699,7 +1248,381 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:11.073802+00:00"
+      "scanned_at": "2026-07-19T17:47:40.218004+00:00"
+    }
+  ],
+  "all_signals": [
+    {
+      "ticker": "HII",
+      "type": "stock",
+      "sector": "Industrials",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
+      "price": 269.130005,
+      "direction": "SHORT",
+      "score": 11,
+      "rr_ratio": 5.0,
+      "entry": 269.130005,
+      "stop_loss": 280.161134,
+      "target1": 247.0677,
+      "target2": 230.5211,
+      "target3": 213.9744,
+      "risk_per_unit": 11.031129,
+      "atr": 7.7475,
+      "vwap": 281.6734793584484,
+      "vwap_bias": "below",
+      "rsi": 31.11,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.87,
+      "vol_ratio": 1.87,
+      "candle_pct": 0.71,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.085,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "STANDARD",
+      "penalty_notes": [
+        "Sector\u2193 +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 288.6337,
+        "slope": -1.193513,
+        "strength": 1.193513
+      },
+      "position": {
+        "units": 1.2633,
+        "dollar_risk": 13.94,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.879
+      },
+      "timeframe": "1d",
+      "regime": "trend",
+      "adx": 36.6,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:49:43.934660+00:00"
+    },
+    {
+      "ticker": "SNPS",
+      "type": "stock",
+      "sector": "Technology",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 384.279999,
+      "direction": "LONG",
+      "score": 10,
+      "rr_ratio": 6.15,
+      "entry": 384.279999,
+      "stop_loss": 399.165791,
+      "target1": 441.424,
+      "target2": 459.7998,
+      "target3": 475.7848,
+      "risk_per_unit": 14.885792,
+      "atr": 18.355031,
+      "vwap": 428.2168606284269,
+      "vwap_bias": "below",
+      "rsi": 23.86,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 2.44,
+      "vol_ratio": 2.44,
+      "candle_pct": 7.85,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "STANDARD",
+      "penalty_notes": [
+        "ADX:13.8(CHOP)",
+        "Sector\u2193 -1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 450.641,
+        "slope": -3.509307,
+        "strength": 3.509307
+      },
+      "position": {
+        "units": 0.8848,
+        "dollar_risk": 13.17,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.7,
+        "atr_pct": 4.776
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 13.8,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:44:59.602327+00:00"
+    },
+    {
+      "ticker": "TRV",
+      "type": "stock",
+      "sector": "Financials",
+      "signal_type": "RSI DIVERGENCE \ud83d\udd00",
+      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
+      "price": 368.980011,
+      "direction": "LONG",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 368.980011,
+      "stop_loss": 355.0077,
+      "target1": 396.9246,
+      "target2": 417.8831,
+      "target3": 438.8416,
+      "risk_per_unit": 13.972311,
+      "atr": 9.314874,
+      "vwap": 340.59571225892233,
+      "vwap_bias": "above",
+      "rsi": 75.56,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": true
+      },
+      "rvol": 1.92,
+      "vol_ratio": 1.92,
+      "candle_pct": 9.22,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.373,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "STANDARD",
+      "penalty_notes": [],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 324.1407,
+        "slope": 2.399089,
+        "strength": 2.399089
+      },
+      "position": {
+        "units": 0.9215,
+        "dollar_risk": 12.87,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.524
+      },
+      "timeframe": "1d",
+      "regime": "trend",
+      "adx": 31.2,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:44:33.254662+00:00"
+    },
+    {
+      "ticker": "ORCL",
+      "type": "stock",
+      "sector": "Technology",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
+      "price": 126.410004,
+      "direction": "SHORT",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 126.410004,
+      "stop_loss": 134.329922,
+      "target1": 110.5702,
+      "target2": 98.6903,
+      "target3": 86.8104,
+      "risk_per_unit": 7.919919,
+      "atr": 8.45221,
+      "vwap": 137.5048630514726,
+      "vwap_bias": "below",
+      "rsi": 29.39,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.0,
+      "vol_ratio": 1.0,
+      "candle_pct": 1.77,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.483,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "STANDARD",
+      "penalty_notes": [
+        "Sector\u2193 +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 160.2784,
+        "slope": -2.25756,
+        "strength": 2.25756
+      },
+      "position": {
+        "units": 1.7677,
+        "dollar_risk": 14.0,
+        "pos_value": 223.45,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.7,
+        "atr_pct": 6.686
+      },
+      "timeframe": "1d",
+      "regime": "trend",
+      "adx": 37.2,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:44:51.146579+00:00"
+    },
+    {
+      "ticker": "DGX",
+      "type": "stock",
+      "sector": "Health Care",
+      "signal_type": "EMA CROSSOVER \u26a1",
+      "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
+      "price": 210.679993,
+      "direction": "LONG",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 210.679993,
+      "stop_loss": 206.948286,
+      "target1": 218.1434,
+      "target2": 223.741,
+      "target3": 229.3385,
+      "risk_per_unit": 3.731706,
+      "atr": 4.929856,
+      "vwap": 209.76202160677627,
+      "vwap_bias": "above",
+      "rsi": 58.95,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.05,
+      "vol_ratio": 1.05,
+      "candle_pct": 0.61,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": true,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.328,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "STANDARD",
+      "penalty_notes": [],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 204.2684,
+        "slope": 0.446041,
+        "strength": 0.446041
+      },
+      "position": {
+        "units": 1.6138,
+        "dollar_risk": 6.02,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.34
+      },
+      "timeframe": "1d",
+      "regime": "trend",
+      "adx": 25.2,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:47:40.218004+00:00"
     },
     {
       "ticker": "AIG",
@@ -1772,7 +1695,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:49.092284+00:00"
+      "scanned_at": "2026-07-19T17:48:16.932668+00:00"
     },
     {
       "ticker": "RF",
@@ -1845,7 +1768,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:03.328889+00:00"
+      "scanned_at": "2026-07-19T17:48:29.358503+00:00"
     },
     {
       "ticker": "CFG",
@@ -1864,7 +1787,7 @@
       "target3": 78.8523,
       "risk_per_unit": 1.292468,
       "atr": 1.765403,
-      "vwap": 71.1352270089221,
+      "vwap": 71.13522700892209,
       "vwap_bias": "above",
       "rsi": 60.87,
       "rsi_divergence": {
@@ -1918,7 +1841,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:06.918552+00:00"
+      "scanned_at": "2026-07-19T17:48:31.798237+00:00"
     },
     {
       "ticker": "EME",
@@ -1993,7 +1916,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:32.098295+00:00"
+      "scanned_at": "2026-07-19T17:49:49.778015+00:00"
     },
     {
       "ticker": "O",
@@ -2068,7 +1991,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:49.072072+00:00"
+      "scanned_at": "2026-07-19T17:51:01.009487+00:00"
     },
     {
       "ticker": "WELL",
@@ -2143,7 +2066,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:51.064173+00:00"
+      "scanned_at": "2026-07-19T17:51:03.776728+00:00"
     },
     {
       "ticker": "JOBY",
@@ -2218,7 +2141,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:14.697242+00:00"
+      "scanned_at": "2026-07-19T17:52:25.887989+00:00"
     },
     {
       "ticker": "ACHR",
@@ -2293,7 +2216,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:16.322926+00:00"
+      "scanned_at": "2026-07-19T17:52:28.287320+00:00"
     },
     {
       "ticker": "TGTX",
@@ -2366,7 +2289,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:06.897261+00:00"
+      "scanned_at": "2026-07-19T17:53:12.556179+00:00"
     },
     {
       "ticker": "BTC-USD",
@@ -2374,27 +2297,27 @@
       "sector": "\u2014",
       "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 64548.421875,
+      "price": 64556.5,
       "direction": "LONG",
       "score": 10,
       "rr_ratio": 5.0,
-      "entry": 64548.421875,
-      "stop_loss": 64294.623976,
-      "target1": 65056.0177,
-      "target2": 65436.7145,
-      "target3": 65817.4114,
-      "risk_per_unit": 253.797899,
-      "atr": 169.198599,
-      "vwap": 64494.09470269222,
+      "entry": 64556.5,
+      "stop_loss": 64281.864841,
+      "target1": 65105.7703,
+      "target2": 65517.7231,
+      "target3": 65929.6758,
+      "risk_per_unit": 274.635159,
+      "atr": 183.090106,
+      "vwap": 64499.362529495425,
       "vwap_bias": "above",
-      "rsi": 55.0,
+      "rsi": 55.14,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 4.27,
-      "vol_ratio": 4.27,
-      "candle_pct": 0.01,
+      "rvol": 3.64,
+      "vol_ratio": 3.64,
+      "candle_pct": 0.1,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
@@ -2407,28 +2330,28 @@
       "btc_trend": "bearish",
       "session": "STANDARD",
       "penalty_notes": [
-        "ADX:24.7"
+        "ADX:23.1"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bullish",
-        "smoothed": 64469.5047,
-        "slope": 9.999641,
-        "strength": 9.999641
+        "smoothed": 64476.7587,
+        "slope": 9.448031,
+        "strength": 9.448031
       },
       "position": {
         "units": 0.6057,
-        "dollar_risk": 30.75,
+        "dollar_risk": 33.27,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 1.2,
-        "atr_pct": 0.262
+        "atr_pct": 0.284
       },
       "timeframe": "1h",
       "regime": "transition",
-      "adx": 24.7,
+      "adx": 23.1,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -2441,37 +2364,37 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:31.748719+00:00"
+      "scanned_at": "2026-07-19T17:53:37.174569+00:00"
     },
     {
-      "ticker": "AVAX-USD",
+      "ticker": "ETH-USD",
       "type": "crypto",
       "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 6.45,
-      "direction": "SHORT",
+      "price": 1867.680054,
+      "direction": "LONG",
       "score": 10,
       "rr_ratio": 5.0,
-      "entry": 6.45,
-      "stop_loss": 6.501895,
-      "target1": 6.3462,
-      "target2": 6.2684,
-      "target3": 6.1905,
-      "risk_per_unit": 0.051895,
-      "atr": 0.034597,
-      "vwap": 6.469471848907418,
+      "entry": 1867.680054,
+      "stop_loss": 1855.277331,
+      "target1": 1892.4855,
+      "target2": 1911.0896,
+      "target3": 1929.6937,
+      "risk_per_unit": 12.402723,
+      "atr": 8.268482,
+      "vwap": 1868.694979229956,
       "vwap_bias": "below",
-      "rsi": 36.5,
+      "rsi": 55.6,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.73,
-      "vol_ratio": 0.73,
-      "candle_pct": 0.15,
+      "rvol": 2.89,
+      "vol_ratio": 2.89,
+      "candle_pct": 0.12,
       "vol_spike": false,
-      "bb_squeeze": false,
+      "bb_squeeze": true,
       "ema_cross": false,
       "macd_signal": "bear",
       "stochrsi_k": 0.0,
@@ -2482,28 +2405,28 @@
       "btc_trend": "bearish",
       "session": "STANDARD",
       "penalty_notes": [
-        "ADX:20.0"
+        "ADX:36.7"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
-        "signal": "bearish",
-        "smoothed": 6.5353,
-        "slope": -0.004603,
-        "strength": 0.004603
+        "signal": "bullish",
+        "smoothed": 1861.5348,
+        "slope": 0.571651,
+        "strength": 0.571651
       },
       "position": {
-        "units": 6062.0157,
-        "dollar_risk": 62.92,
+        "units": 20.9351,
+        "dollar_risk": 51.93,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.536
+        "atr_scale": 1.2,
+        "atr_pct": 0.443
       },
       "timeframe": "1h",
-      "regime": "transition",
-      "adx": 20.0,
+      "regime": "trend",
+      "adx": 36.7,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -2516,7 +2439,82 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:40.807996+00:00"
+      "scanned_at": "2026-07-19T17:53:38.400156+00:00"
+    },
+    {
+      "ticker": "AAVE-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 89.260002,
+      "direction": "SHORT",
+      "score": 10,
+      "rr_ratio": 5.0,
+      "entry": 89.260002,
+      "stop_loss": 90.144751,
+      "target1": 87.4905,
+      "target2": 86.1634,
+      "target3": 84.8363,
+      "risk_per_unit": 0.884749,
+      "atr": 0.589832,
+      "vwap": 89.48721477602253,
+      "vwap_bias": "below",
+      "rsi": 43.26,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 6.74,
+      "vol_ratio": 6.74,
+      "candle_pct": 0.17,
+      "vol_spike": false,
+      "bb_squeeze": true,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "neutral",
+      "mtf_confirmed": true,
+      "daily_trend": "bullish",
+      "funding_rate": null,
+      "btc_trend": "bearish",
+      "session": "STANDARD",
+      "penalty_notes": [
+        "ADX:21.3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 89.6222,
+        "slope": -0.008193,
+        "strength": 0.008193
+      },
+      "position": {
+        "units": 438.0461,
+        "dollar_risk": 77.51,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.1,
+        "atr_pct": 0.661
+      },
+      "timeframe": "1h",
+      "regime": "transition",
+      "adx": 21.3,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [
+          "",
+          "",
+          ""
+        ],
+        "count": 5
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-07-19T17:53:51.458211+00:00"
     },
     {
       "ticker": "CDNS",
@@ -2592,7 +2590,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:26.103261+00:00"
+      "scanned_at": "2026-07-19T17:45:01.377725+00:00"
     },
     {
       "ticker": "TQQQ",
@@ -2667,7 +2665,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:42.558189+00:00"
+      "scanned_at": "2026-07-19T17:51:54.072675+00:00"
     },
     {
       "ticker": "UPS",
@@ -2743,7 +2741,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:46.480971+00:00"
+      "scanned_at": "2026-07-19T17:49:08.149869+00:00"
     },
     {
       "ticker": "MARA",
@@ -2819,7 +2817,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:22.009432+00:00"
+      "scanned_at": "2026-07-19T17:52:33.017624+00:00"
     },
     {
       "ticker": "IBM",
@@ -2894,7 +2892,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:50.799168+00:00"
+      "scanned_at": "2026-07-19T17:44:28.347998+00:00"
     },
     {
       "ticker": "AXP",
@@ -2967,7 +2965,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:54.614279+00:00"
+      "scanned_at": "2026-07-19T17:44:31.843484+00:00"
     },
     {
       "ticker": "ON",
@@ -3042,7 +3040,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:33.272485+00:00"
+      "scanned_at": "2026-07-19T17:45:08.892870+00:00"
     },
     {
       "ticker": "QRVO",
@@ -3117,7 +3115,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:40.867285+00:00"
+      "scanned_at": "2026-07-19T17:45:15.594047+00:00"
     },
     {
       "ticker": "NFLX",
@@ -3190,7 +3188,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:57.456436+00:00"
+      "scanned_at": "2026-07-19T17:45:32.879043+00:00"
     },
     {
       "ticker": "EA",
@@ -3263,7 +3261,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:02.696120+00:00"
+      "scanned_at": "2026-07-19T17:45:38.314614+00:00"
     },
     {
       "ticker": "TSLA",
@@ -3338,7 +3336,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:15.841138+00:00"
+      "scanned_at": "2026-07-19T17:45:49.765770+00:00"
     },
     {
       "ticker": "APTV",
@@ -3413,7 +3411,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:24.380179+00:00"
+      "scanned_at": "2026-07-19T17:45:57.886833+00:00"
     },
     {
       "ticker": "DASH",
@@ -3488,7 +3486,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:43.067169+00:00"
+      "scanned_at": "2026-07-19T17:46:15.635275+00:00"
     },
     {
       "ticker": "BWA",
@@ -3563,7 +3561,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:47.533083+00:00"
+      "scanned_at": "2026-07-19T17:46:20.362881+00:00"
     },
     {
       "ticker": "REGN",
@@ -3636,7 +3634,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:41.800040+00:00"
+      "scanned_at": "2026-07-19T17:47:13.884640+00:00"
     },
     {
       "ticker": "HSIC",
@@ -3709,7 +3707,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:07.040604+00:00"
+      "scanned_at": "2026-07-19T17:47:37.181594+00:00"
     },
     {
       "ticker": "BAC",
@@ -3782,7 +3780,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:25.529703+00:00"
+      "scanned_at": "2026-07-19T17:47:56.319629+00:00"
     },
     {
       "ticker": "PRU",
@@ -3855,7 +3853,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:45.363355+00:00"
+      "scanned_at": "2026-07-19T17:48:13.748363+00:00"
     },
     {
       "ticker": "AFL",
@@ -3928,7 +3926,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:47.202861+00:00"
+      "scanned_at": "2026-07-19T17:48:15.434441+00:00"
     },
     {
       "ticker": "ALL",
@@ -4001,7 +3999,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:50.943084+00:00"
+      "scanned_at": "2026-07-19T17:48:18.319993+00:00"
     },
     {
       "ticker": "HBAN",
@@ -4074,7 +4072,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:05.111051+00:00"
+      "scanned_at": "2026-07-19T17:48:30.658185+00:00"
     },
     {
       "ticker": "MTB",
@@ -4093,7 +4091,7 @@
       "target3": 276.6397,
       "risk_per_unit": 5.479943,
       "atr": 4.979313,
-      "vwap": 242.77362448556144,
+      "vwap": 242.77362448556147,
       "vwap_bias": "above",
       "rsi": 66.39,
       "rsi_divergence": {
@@ -4147,7 +4145,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:12.336206+00:00"
+      "scanned_at": "2026-07-19T17:48:36.811480+00:00"
     },
     {
       "ticker": "PNR",
@@ -4222,7 +4220,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:54.171300+00:00"
+      "scanned_at": "2026-07-19T17:50:10.930497+00:00"
     },
     {
       "ticker": "MPC",
@@ -4297,7 +4295,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:03.571930+00:00"
+      "scanned_at": "2026-07-19T17:50:20.745604+00:00"
     },
     {
       "ticker": "PSX",
@@ -4372,7 +4370,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:05.410484+00:00"
+      "scanned_at": "2026-07-19T17:50:22.062513+00:00"
     },
     {
       "ticker": "VLO",
@@ -4447,7 +4445,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:08.999328+00:00"
+      "scanned_at": "2026-07-19T17:50:24.911192+00:00"
     },
     {
       "ticker": "ALB",
@@ -4520,7 +4518,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:30.795660+00:00"
+      "scanned_at": "2026-07-19T17:50:44.709120+00:00"
     },
     {
       "ticker": "REG",
@@ -4595,7 +4593,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:02.659809+00:00"
+      "scanned_at": "2026-07-19T17:51:15.036717+00:00"
     },
     {
       "ticker": "RKLB",
@@ -4670,7 +4668,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:09.442500+00:00"
+      "scanned_at": "2026-07-19T17:52:20.849908+00:00"
     },
     {
       "ticker": "IONQ",
@@ -4745,7 +4743,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:11.018551+00:00"
+      "scanned_at": "2026-07-19T17:52:22.037606+00:00"
     },
     {
       "ticker": "BBAI",
@@ -4820,7 +4818,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:18.930578+00:00"
+      "scanned_at": "2026-07-19T17:52:30.679265+00:00"
     },
     {
       "ticker": "APLD",
@@ -4895,7 +4893,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:20.503353+00:00"
+      "scanned_at": "2026-07-19T17:52:31.817294+00:00"
     },
     {
       "ticker": "GNRC",
@@ -4970,7 +4968,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:39.887754+00:00"
+      "scanned_at": "2026-07-19T17:52:47.525881+00:00"
     },
     {
       "ticker": "RGEN",
@@ -5043,7 +5041,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:48.757163+00:00"
+      "scanned_at": "2026-07-19T17:52:55.837466+00:00"
     },
     {
       "ticker": "AMR",
@@ -5118,35 +5116,35 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:26.532827+00:00"
+      "scanned_at": "2026-07-19T17:53:32.457506+00:00"
     },
     {
-      "ticker": "ETH-USD",
+      "ticker": "SOL-USD",
       "type": "crypto",
       "sector": "\u2014",
-      "signal_type": "SQUEEZE BREAKOUT \ud83d\udca5",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 1866.780029,
-      "direction": "SHORT",
+      "price": 75.959999,
+      "direction": "LONG",
       "score": 9,
       "rr_ratio": 5.0,
-      "entry": 1866.780029,
-      "stop_loss": 1877.641279,
-      "target1": 1845.0575,
-      "target2": 1828.7657,
-      "target3": 1812.4738,
-      "risk_per_unit": 10.86125,
-      "atr": 7.785499,
-      "vwap": 1869.2320280380588,
+      "entry": 75.959999,
+      "stop_loss": 75.367721,
+      "target1": 77.1446,
+      "target2": 78.033,
+      "target3": 78.9214,
+      "risk_per_unit": 0.592278,
+      "atr": 0.394852,
+      "vwap": 76.0763253135202,
       "vwap_bias": "below",
-      "rsi": 54.81,
+      "rsi": 53.91,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 1.98,
-      "vol_ratio": 1.98,
-      "candle_pct": 0.15,
+      "rvol": 1.37,
+      "vol_ratio": 1.37,
+      "candle_pct": 0.13,
       "vol_spike": false,
       "bb_squeeze": true,
       "ema_cross": false,
@@ -5159,28 +5157,28 @@
       "btc_trend": "bearish",
       "session": "STANDARD",
       "penalty_notes": [
-        "ADX:39.2"
+        "ADX:34.6"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bullish",
-        "smoothed": 1861.0216,
-        "slope": 0.569251,
-        "strength": 0.569251
+        "smoothed": 75.7068,
+        "slope": 0.024159,
+        "strength": 0.024159
       },
       "position": {
-        "units": 20.9452,
-        "dollar_risk": 45.5,
+        "units": 514.7446,
+        "dollar_risk": 60.97,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.417
+        "atr_scale": 1.1,
+        "atr_pct": 0.52
       },
       "timeframe": "1h",
       "regime": "trend",
-      "adx": 39.2,
+      "adx": 34.6,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -5193,7 +5191,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:33.339559+00:00"
+      "scanned_at": "2026-07-19T17:53:39.536787+00:00"
     },
     {
       "ticker": "NRG",
@@ -5268,7 +5266,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:34.423324+00:00"
+      "scanned_at": "2026-07-19T17:51:46.245511+00:00"
     },
     {
       "ticker": "XLE",
@@ -5343,7 +5341,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:51.839802+00:00"
+      "scanned_at": "2026-07-19T17:52:03.353885+00:00"
     },
     {
       "ticker": "MCK",
@@ -5418,7 +5416,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:45.593155+00:00"
+      "scanned_at": "2026-07-19T17:47:17.281598+00:00"
     },
     {
       "ticker": "UPST",
@@ -5493,7 +5491,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:07.138987+00:00"
+      "scanned_at": "2026-07-19T17:52:17.673595+00:00"
     },
     {
       "ticker": "BMY",
@@ -5568,7 +5566,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:32.114074+00:00"
+      "scanned_at": "2026-07-19T17:47:01.740733+00:00"
     },
     {
       "ticker": "NVAX",
@@ -5643,7 +5641,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:12.657022+00:00"
+      "scanned_at": "2026-07-19T17:53:19.634501+00:00"
     },
     {
       "ticker": "JPM",
@@ -5716,7 +5714,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:43.462237+00:00"
+      "scanned_at": "2026-07-19T17:44:21.774430+00:00"
     },
     {
       "ticker": "V",
@@ -5735,7 +5733,7 @@
       "target3": 383.9783,
       "risk_per_unit": 5.08366,
       "atr": 8.331256,
-      "vwap": 352.36815027608577,
+      "vwap": 352.3681502760858,
       "vwap_bias": "above",
       "rsi": 62.33,
       "rsi_divergence": {
@@ -5789,7 +5787,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:44.940514+00:00"
+      "scanned_at": "2026-07-19T17:44:22.992733+00:00"
     },
     {
       "ticker": "MCHP",
@@ -5864,7 +5862,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:28.516995+00:00"
+      "scanned_at": "2026-07-19T17:45:04.208766+00:00"
     },
     {
       "ticker": "NXPI",
@@ -5939,7 +5937,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:31.653398+00:00"
+      "scanned_at": "2026-07-19T17:45:06.744431+00:00"
     },
     {
       "ticker": "SWKS",
@@ -6014,7 +6012,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:39.210112+00:00"
+      "scanned_at": "2026-07-19T17:45:14.389380+00:00"
     },
     {
       "ticker": "WDC",
@@ -6033,7 +6031,7 @@
       "target3": 199.171,
       "risk_per_unit": 55.609809,
       "atr": 54.524377,
-      "vwap": 557.3557583920328,
+      "vwap": 557.355758392033,
       "vwap_bias": "below",
       "rsi": 39.76,
       "rsi_divergence": {
@@ -6089,7 +6087,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:53.586607+00:00"
+      "scanned_at": "2026-07-19T17:45:28.806384+00:00"
     },
     {
       "ticker": "STX",
@@ -6164,7 +6162,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:55.198230+00:00"
+      "scanned_at": "2026-07-19T17:45:31.198647+00:00"
     },
     {
       "ticker": "NWSA",
@@ -6237,7 +6235,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:06.560764+00:00"
+      "scanned_at": "2026-07-19T17:45:42.736578+00:00"
     },
     {
       "ticker": "MTCH",
@@ -6310,7 +6308,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:10.609420+00:00"
+      "scanned_at": "2026-07-19T17:45:45.904496+00:00"
     },
     {
       "ticker": "ORLY",
@@ -6385,7 +6383,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:20.967652+00:00"
+      "scanned_at": "2026-07-19T17:45:55.013454+00:00"
     },
     {
       "ticker": "LVS",
@@ -6404,7 +6402,7 @@
       "target3": 42.261,
       "risk_per_unit": 0.61981,
       "atr": 1.214678,
-      "vwap": 46.007343401729656,
+      "vwap": 46.00734340172964,
       "vwap_bias": "below",
       "rsi": 37.08,
       "rsi_divergence": {
@@ -6460,7 +6458,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:36.059569+00:00"
+      "scanned_at": "2026-07-19T17:46:08.037343+00:00"
     },
     {
       "ticker": "CPRT",
@@ -6535,7 +6533,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:56.956160+00:00"
+      "scanned_at": "2026-07-19T17:46:29.093735+00:00"
     },
     {
       "ticker": "ADM",
@@ -6610,7 +6608,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:09.853958+00:00"
+      "scanned_at": "2026-07-19T17:46:40.612121+00:00"
     },
     {
       "ticker": "TMO",
@@ -6683,7 +6681,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:26.460092+00:00"
+      "scanned_at": "2026-07-19T17:46:56.237137+00:00"
     },
     {
       "ticker": "ABT",
@@ -6756,7 +6754,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:28.146684+00:00"
+      "scanned_at": "2026-07-19T17:46:57.678550+00:00"
     },
     {
       "ticker": "DHR",
@@ -6775,7 +6773,7 @@
       "target3": 230.0839,
       "risk_per_unit": 5.250782,
       "atr": 5.00768,
-      "vwap": 197.14200357031098,
+      "vwap": 197.14200357031092,
       "vwap_bias": "above",
       "rsi": 66.18,
       "rsi_divergence": {
@@ -6829,7 +6827,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:29.922984+00:00"
+      "scanned_at": "2026-07-19T17:47:00.024002+00:00"
     },
     {
       "ticker": "ISRG",
@@ -6902,7 +6900,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:34.861807+00:00"
+      "scanned_at": "2026-07-19T17:47:06.063659+00:00"
     },
     {
       "ticker": "COR",
@@ -6975,7 +6973,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:47.363431+00:00"
+      "scanned_at": "2026-07-19T17:47:18.655695+00:00"
     },
     {
       "ticker": "IQV",
@@ -7048,7 +7046,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:53.993561+00:00"
+      "scanned_at": "2026-07-19T17:47:25.199148+00:00"
     },
     {
       "ticker": "XRAY",
@@ -7121,7 +7119,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:08.758103+00:00"
+      "scanned_at": "2026-07-19T17:47:38.456119+00:00"
     },
     {
       "ticker": "MTD",
@@ -7194,7 +7192,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:15.885931+00:00"
+      "scanned_at": "2026-07-19T17:47:45.254626+00:00"
     },
     {
       "ticker": "MA",
@@ -7267,7 +7265,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:23.777155+00:00"
+      "scanned_at": "2026-07-19T17:47:53.795878+00:00"
     },
     {
       "ticker": "SCHW",
@@ -7340,7 +7338,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:31.509217+00:00"
+      "scanned_at": "2026-07-19T17:48:01.221792+00:00"
     },
     {
       "ticker": "PGR",
@@ -7413,7 +7411,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:41.920582+00:00"
+      "scanned_at": "2026-07-19T17:48:10.889733+00:00"
     },
     {
       "ticker": "MET",
@@ -7486,7 +7484,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:43.646689+00:00"
+      "scanned_at": "2026-07-19T17:48:12.127515+00:00"
     },
     {
       "ticker": "COF",
@@ -7559,7 +7557,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:57.444799+00:00"
+      "scanned_at": "2026-07-19T17:48:24.557222+00:00"
     },
     {
       "ticker": "STT",
@@ -7632,7 +7630,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:59.188908+00:00"
+      "scanned_at": "2026-07-19T17:48:25.914023+00:00"
     },
     {
       "ticker": "FITB",
@@ -7651,7 +7649,7 @@
       "target3": 61.6121,
       "risk_per_unit": 0.720417,
       "atr": 1.449123,
-      "vwap": 57.2322495137077,
+      "vwap": 57.232249513707686,
       "vwap_bias": "above",
       "rsi": 62.48,
       "rsi_divergence": {
@@ -7705,7 +7703,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:01.617378+00:00"
+      "scanned_at": "2026-07-19T17:48:27.935370+00:00"
     },
     {
       "ticker": "NTRS",
@@ -7778,7 +7776,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:08.793227+00:00"
+      "scanned_at": "2026-07-19T17:48:33.015154+00:00"
     },
     {
       "ticker": "KEY",
@@ -7851,7 +7849,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:10.550251+00:00"
+      "scanned_at": "2026-07-19T17:48:35.538347+00:00"
     },
     {
       "ticker": "AMP",
@@ -7924,7 +7922,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:15.974217+00:00"
+      "scanned_at": "2026-07-19T17:48:39.750191+00:00"
     },
     {
       "ticker": "PYPL",
@@ -7997,7 +7995,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:28.630598+00:00"
+      "scanned_at": "2026-07-19T17:48:52.739219+00:00"
     },
     {
       "ticker": "MKTX",
@@ -8070,7 +8068,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:30.973128+00:00"
+      "scanned_at": "2026-07-19T17:48:54.510150+00:00"
     },
     {
       "ticker": "GL",
@@ -8143,7 +8141,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:33.649904+00:00"
+      "scanned_at": "2026-07-19T17:48:57.882772+00:00"
     },
     {
       "ticker": "EG",
@@ -8216,7 +8214,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:38.903092+00:00"
+      "scanned_at": "2026-07-19T17:49:02.155952+00:00"
     },
     {
       "ticker": "WTW",
@@ -8289,7 +8287,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:41.838826+00:00"
+      "scanned_at": "2026-07-19T17:49:04.537424+00:00"
     },
     {
       "ticker": "AON",
@@ -8362,7 +8360,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:44.759176+00:00"
+      "scanned_at": "2026-07-19T17:49:06.814770+00:00"
     },
     {
       "ticker": "RTX",
@@ -8437,7 +8435,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:49.209835+00:00"
+      "scanned_at": "2026-07-19T17:49:10.399863+00:00"
     },
     {
       "ticker": "WM",
@@ -8456,7 +8454,7 @@
       "target3": 265.8922,
       "risk_per_unit": 5.316439,
       "atr": 5.438391,
-      "vwap": 232.2044335059969,
+      "vwap": 232.20443350599686,
       "vwap_bias": "above",
       "rsi": 63.12,
       "rsi_divergence": {
@@ -8512,7 +8510,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:00.286370+00:00"
+      "scanned_at": "2026-07-19T17:49:21.025522+00:00"
     },
     {
       "ticker": "IR",
@@ -8587,7 +8585,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:07.402985+00:00"
+      "scanned_at": "2026-07-19T17:49:26.937692+00:00"
     },
     {
       "ticker": "EXPD",
@@ -8662,7 +8660,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:10.837928+00:00"
+      "scanned_at": "2026-07-19T17:49:29.885405+00:00"
     },
     {
       "ticker": "PWR",
@@ -8737,7 +8735,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:14.415955+00:00"
+      "scanned_at": "2026-07-19T17:49:32.636523+00:00"
     },
     {
       "ticker": "TDG",
@@ -8812,7 +8810,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:24.924771+00:00"
+      "scanned_at": "2026-07-19T17:49:42.701892+00:00"
     },
     {
       "ticker": "ITW",
@@ -8831,7 +8829,7 @@
       "target3": 297.4988,
       "risk_per_unit": 4.289754,
       "atr": 5.967084,
-      "vwap": 271.30798274281386,
+      "vwap": 271.3079827428138,
       "vwap_bias": "above",
       "rsi": 60.09,
       "rsi_divergence": {
@@ -8887,7 +8885,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:56.653324+00:00"
+      "scanned_at": "2026-07-19T17:50:13.909287+00:00"
     },
     {
       "ticker": "SLB",
@@ -8962,7 +8960,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:02.049603+00:00"
+      "scanned_at": "2026-07-19T17:50:19.584859+00:00"
     },
     {
       "ticker": "BKR",
@@ -9037,7 +9035,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:14.773334+00:00"
+      "scanned_at": "2026-07-19T17:50:30.759230+00:00"
     },
     {
       "ticker": "EQT",
@@ -9112,7 +9110,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:20.052396+00:00"
+      "scanned_at": "2026-07-19T17:50:35.379684+00:00"
     },
     {
       "ticker": "FCX",
@@ -9185,7 +9183,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:29.110144+00:00"
+      "scanned_at": "2026-07-19T17:50:43.338978+00:00"
     },
     {
       "ticker": "AVB",
@@ -9260,7 +9258,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:56.483882+00:00"
+      "scanned_at": "2026-07-19T17:51:07.801004+00:00"
     },
     {
       "ticker": "D",
@@ -9333,7 +9331,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:14.965593+00:00"
+      "scanned_at": "2026-07-19T17:51:25.747681+00:00"
     },
     {
       "ticker": "EIX",
@@ -9406,7 +9404,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:20.121937+00:00"
+      "scanned_at": "2026-07-19T17:51:30.429678+00:00"
     },
     {
       "ticker": "AES",
@@ -9479,7 +9477,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:32.238719+00:00"
+      "scanned_at": "2026-07-19T17:51:44.301107+00:00"
     },
     {
       "ticker": "GLD",
@@ -9552,7 +9550,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:44.620870+00:00"
+      "scanned_at": "2026-07-19T17:51:56.079981+00:00"
     },
     {
       "ticker": "SLV",
@@ -9625,7 +9623,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:46.154297+00:00"
+      "scanned_at": "2026-07-19T17:51:58.229651+00:00"
     },
     {
       "ticker": "XLF",
@@ -9644,7 +9642,7 @@
       "target3": 59.0221,
       "risk_per_unit": 0.552429,
       "atr": 0.753747,
-      "vwap": 55.57529242339028,
+      "vwap": 55.57529242339029,
       "vwap_bias": "above",
       "rsi": 65.58,
       "rsi_divergence": {
@@ -9698,7 +9696,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:50.220165+00:00"
+      "scanned_at": "2026-07-19T17:52:02.206231+00:00"
     },
     {
       "ticker": "HOOD",
@@ -9771,7 +9769,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:58.920072+00:00"
+      "scanned_at": "2026-07-19T17:52:10.870226+00:00"
     },
     {
       "ticker": "PENN",
@@ -9846,7 +9844,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:32.458173+00:00"
+      "scanned_at": "2026-07-19T17:52:41.370786+00:00"
     },
     {
       "ticker": "PRCT",
@@ -9919,7 +9917,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:36.736348+00:00"
+      "scanned_at": "2026-07-19T17:52:44.717273+00:00"
     },
     {
       "ticker": "MMSI",
@@ -9992,7 +9990,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:46.141403+00:00"
+      "scanned_at": "2026-07-19T17:52:53.765259+00:00"
     },
     {
       "ticker": "CPRX",
@@ -10065,7 +10063,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:57.520042+00:00"
+      "scanned_at": "2026-07-19T17:53:03.938663+00:00"
     },
     {
       "ticker": "IMVT",
@@ -10138,7 +10136,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:00.404640+00:00"
+      "scanned_at": "2026-07-19T17:53:07.338764+00:00"
     },
     {
       "ticker": "KYMR",
@@ -10211,7 +10209,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:01.976582+00:00"
+      "scanned_at": "2026-07-19T17:53:08.572602+00:00"
     },
     {
       "ticker": "ARQT",
@@ -10284,7 +10282,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:03.632995+00:00"
+      "scanned_at": "2026-07-19T17:53:09.920132+00:00"
     },
     {
       "ticker": "CARG",
@@ -10359,7 +10357,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:17.663773+00:00"
+      "scanned_at": "2026-07-19T17:53:24.405709+00:00"
     },
     {
       "ticker": "MKR-USD",
@@ -10367,27 +10365,27 @@
       "sector": "\u2014",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 1469.796021,
+      "price": 1479.122803,
       "direction": "LONG",
       "score": 8,
       "rr_ratio": 5.0,
-      "entry": 1469.796021,
-      "stop_loss": 1435.671598,
-      "target1": 1538.0449,
-      "target2": 1589.2315,
-      "target3": 1640.4181,
-      "risk_per_unit": 34.124422,
-      "atr": 76.579437,
-      "vwap": 1489.1994349989477,
+      "entry": 1479.122803,
+      "stop_loss": 1436.687145,
+      "target1": 1563.9941,
+      "target2": 1627.6476,
+      "target3": 1691.3011,
+      "risk_per_unit": 42.435658,
+      "atr": 90.926564,
+      "vwap": 1489.6808578424502,
       "vwap_bias": "below",
-      "rsi": 54.12,
+      "rsi": 55.32,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.06,
-      "vol_ratio": 0.06,
-      "candle_pct": 3.11,
+      "rvol": 0.16,
+      "vol_ratio": 0.16,
+      "candle_pct": 0.65,
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
@@ -10400,28 +10398,28 @@
       "btc_trend": "bearish",
       "session": "STANDARD",
       "penalty_notes": [
-        "ADX:46.3"
+        "ADX:49.2"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bullish",
-        "smoothed": 1445.6156,
-        "slope": 0.413667,
-        "strength": 0.413667
+        "smoothed": 1446.4598,
+        "slope": 0.853848,
+        "strength": 0.853848
       },
       "position": {
-        "units": 47.1803,
+        "units": 37.9398,
         "dollar_risk": 322.0,
-        "pos_value": 13869.08,
+        "pos_value": 11223.52,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 0.7,
-        "atr_pct": 5.21
+        "atr_pct": 6.147
       },
       "timeframe": "1h",
       "regime": "trend",
-      "adx": 46.3,
+      "adx": 49.2,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -10434,7 +10432,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:48.761390+00:00"
+      "scanned_at": "2026-07-19T17:53:54.221502+00:00"
     },
     {
       "ticker": "GRMN",
@@ -10510,7 +10508,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:52.520366+00:00"
+      "scanned_at": "2026-07-19T17:46:25.331358+00:00"
     },
     {
       "ticker": "PLD",
@@ -10586,7 +10584,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:40.990128+00:00"
+      "scanned_at": "2026-07-19T17:50:54.234790+00:00"
     },
     {
       "ticker": "OKE",
@@ -10662,7 +10660,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:17.006689+00:00"
+      "scanned_at": "2026-07-19T17:50:32.710735+00:00"
     },
     {
       "ticker": "HLT",
@@ -10738,7 +10736,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:38.489696+00:00"
+      "scanned_at": "2026-07-19T17:46:09.905784+00:00"
     },
     {
       "ticker": "LHX",
@@ -10814,7 +10812,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:22.780808+00:00"
+      "scanned_at": "2026-07-19T17:49:40.832928+00:00"
     },
     {
       "ticker": "AAPL",
@@ -10889,7 +10887,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:39.729602+00:00"
+      "scanned_at": "2026-07-19T17:44:18.488465+00:00"
     },
     {
       "ticker": "UNH",
@@ -10962,7 +10960,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:06.055874+00:00"
+      "scanned_at": "2026-07-19T17:44:43.536311+00:00"
     },
     {
       "ticker": "MPWR",
@@ -11037,7 +11035,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:37.077170+00:00"
+      "scanned_at": "2026-07-19T17:45:12.683185+00:00"
     },
     {
       "ticker": "NWS",
@@ -11110,7 +11108,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:08.262440+00:00"
+      "scanned_at": "2026-07-19T17:45:43.895940+00:00"
     },
     {
       "ticker": "OMC",
@@ -11183,7 +11181,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:12.831001+00:00"
+      "scanned_at": "2026-07-19T17:45:47.261920+00:00"
     },
     {
       "ticker": "TJX",
@@ -11258,7 +11256,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:18.904627+00:00"
+      "scanned_at": "2026-07-19T17:45:53.270355+00:00"
     },
     {
       "ticker": "ETSY",
@@ -11333,7 +11331,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:45.090139+00:00"
+      "scanned_at": "2026-07-19T17:46:17.352177+00:00"
     },
     {
       "ticker": "KMX",
@@ -11408,7 +11406,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:49.072973+00:00"
+      "scanned_at": "2026-07-19T17:46:21.540681+00:00"
     },
     {
       "ticker": "BBY",
@@ -11483,7 +11481,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:58.553269+00:00"
+      "scanned_at": "2026-07-19T17:46:30.375147+00:00"
     },
     {
       "ticker": "HRL",
@@ -11558,7 +11556,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:13.941213+00:00"
+      "scanned_at": "2026-07-19T17:46:44.196840+00:00"
     },
     {
       "ticker": "ABBV",
@@ -11631,7 +11629,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:24.780520+00:00"
+      "scanned_at": "2026-07-19T17:46:54.967228+00:00"
     },
     {
       "ticker": "HCA",
@@ -11704,7 +11702,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:40.213884+00:00"
+      "scanned_at": "2026-07-19T17:47:11.679673+00:00"
     },
     {
       "ticker": "MOH",
@@ -11777,7 +11775,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:49.899360+00:00"
+      "scanned_at": "2026-07-19T17:47:20.957627+00:00"
     },
     {
       "ticker": "BSX",
@@ -11850,7 +11848,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:58.664660+00:00"
+      "scanned_at": "2026-07-19T17:47:29.123812+00:00"
     },
     {
       "ticker": "INCY",
@@ -11923,7 +11921,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:19.754257+00:00"
+      "scanned_at": "2026-07-19T17:47:50.650546+00:00"
     },
     {
       "ticker": "MS",
@@ -11996,7 +11994,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:29.147967+00:00"
+      "scanned_at": "2026-07-19T17:47:59.327882+00:00"
     },
     {
       "ticker": "SPGI",
@@ -12069,7 +12067,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:34.193507+00:00"
+      "scanned_at": "2026-07-19T17:48:04.539423+00:00"
     },
     {
       "ticker": "MCO",
@@ -12142,7 +12140,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:35.867997+00:00"
+      "scanned_at": "2026-07-19T17:48:05.879965+00:00"
     },
     {
       "ticker": "USB",
@@ -12215,7 +12213,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:53.359347+00:00"
+      "scanned_at": "2026-07-19T17:48:20.253218+00:00"
     },
     {
       "ticker": "IVZ",
@@ -12288,7 +12286,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:17.692955+00:00"
+      "scanned_at": "2026-07-19T17:48:41.055967+00:00"
     },
     {
       "ticker": "NDAQ",
@@ -12361,7 +12359,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:21.915621+00:00"
+      "scanned_at": "2026-07-19T17:48:46.307969+00:00"
     },
     {
       "ticker": "RJF",
@@ -12434,7 +12432,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:23.654074+00:00"
+      "scanned_at": "2026-07-19T17:48:47.721181+00:00"
     },
     {
       "ticker": "TROW",
@@ -12507,7 +12505,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:25.445617+00:00"
+      "scanned_at": "2026-07-19T17:48:50.191431+00:00"
     },
     {
       "ticker": "UNP",
@@ -12582,7 +12580,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:55.127230+00:00"
+      "scanned_at": "2026-07-19T17:49:15.664288+00:00"
     },
     {
       "ticker": "PCAR",
@@ -12657,7 +12655,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:03.746308+00:00"
+      "scanned_at": "2026-07-19T17:49:23.711852+00:00"
     },
     {
       "ticker": "GWW",
@@ -12732,7 +12730,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:12.623334+00:00"
+      "scanned_at": "2026-07-19T17:49:31.431810+00:00"
     },
     {
       "ticker": "CTAS",
@@ -12807,7 +12805,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:16.224577+00:00"
+      "scanned_at": "2026-07-19T17:49:35.096376+00:00"
     },
     {
       "ticker": "XYL",
@@ -12882,7 +12880,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:20.151180+00:00"
+      "scanned_at": "2026-07-19T17:49:38.535818+00:00"
     },
     {
       "ticker": "VRSK",
@@ -12957,7 +12955,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:44.291765+00:00"
+      "scanned_at": "2026-07-19T17:50:01.080664+00:00"
     },
     {
       "ticker": "UAL",
@@ -13032,7 +13030,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:48.254188+00:00"
+      "scanned_at": "2026-07-19T17:50:04.051408+00:00"
     },
     {
       "ticker": "AAL",
@@ -13107,7 +13105,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:49.935808+00:00"
+      "scanned_at": "2026-07-19T17:50:05.392120+00:00"
     },
     {
       "ticker": "APD",
@@ -13180,7 +13178,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:25.153606+00:00"
+      "scanned_at": "2026-07-19T17:50:39.759287+00:00"
     },
     {
       "ticker": "CE",
@@ -13253,7 +13251,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:32.552346+00:00"
+      "scanned_at": "2026-07-19T17:50:46.121470+00:00"
     },
     {
       "ticker": "CF",
@@ -13272,7 +13270,7 @@
       "target3": 144.3597,
       "risk_per_unit": 4.587949,
       "atr": 4.186995,
-      "vwap": 114.5834187296539,
+      "vwap": 114.58341872965389,
       "vwap_bias": "above",
       "rsi": 63.8,
       "rsi_divergence": {
@@ -13326,7 +13324,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:34.849137+00:00"
+      "scanned_at": "2026-07-19T17:50:47.916765+00:00"
     },
     {
       "ticker": "DD",
@@ -13399,7 +13397,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:38.092663+00:00"
+      "scanned_at": "2026-07-19T17:50:50.573902+00:00"
     },
     {
       "ticker": "SPG",
@@ -13474,7 +13472,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:47.364570+00:00"
+      "scanned_at": "2026-07-19T17:50:59.331254+00:00"
     },
     {
       "ticker": "DLR",
@@ -13549,7 +13547,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:52.762927+00:00"
+      "scanned_at": "2026-07-19T17:51:05.032789+00:00"
     },
     {
       "ticker": "HST",
@@ -13624,7 +13622,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:04.457699+00:00"
+      "scanned_at": "2026-07-19T17:51:16.504171+00:00"
     },
     {
       "ticker": "ED",
@@ -13697,7 +13695,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:18.313365+00:00"
+      "scanned_at": "2026-07-19T17:51:28.811865+00:00"
     },
     {
       "ticker": "ETR",
@@ -13770,7 +13768,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:24.444145+00:00"
+      "scanned_at": "2026-07-19T17:51:35.151100+00:00"
     },
     {
       "ticker": "FE",
@@ -13843,7 +13841,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:26.167257+00:00"
+      "scanned_at": "2026-07-19T17:51:37.615526+00:00"
     },
     {
       "ticker": "DDOG",
@@ -13918,7 +13916,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:03.737364+00:00"
+      "scanned_at": "2026-07-19T17:52:14.863933+00:00"
     },
     {
       "ticker": "RIOT",
@@ -13993,7 +13991,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:23.810915+00:00"
+      "scanned_at": "2026-07-19T17:52:34.200194+00:00"
     },
     {
       "ticker": "CORZ",
@@ -14068,7 +14066,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:27.517434+00:00"
+      "scanned_at": "2026-07-19T17:52:37.206745+00:00"
     },
     {
       "ticker": "OPEN",
@@ -14143,7 +14141,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:34.555157+00:00"
+      "scanned_at": "2026-07-19T17:52:43.025732+00:00"
     },
     {
       "ticker": "GKOS",
@@ -14216,7 +14214,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:42.337390+00:00"
+      "scanned_at": "2026-07-19T17:52:49.914446+00:00"
     },
     {
       "ticker": "DRVN",
@@ -14291,7 +14289,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:43.873713+00:00"
+      "scanned_at": "2026-07-19T17:52:52.091206+00:00"
     },
     {
       "ticker": "INSP",
@@ -14364,7 +14362,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:54.359994+00:00"
+      "scanned_at": "2026-07-19T17:52:59.534036+00:00"
     },
     {
       "ticker": "MGNI",
@@ -14437,7 +14435,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:55.951164+00:00"
+      "scanned_at": "2026-07-19T17:53:00.678940+00:00"
     },
     {
       "ticker": "RXRX",
@@ -14510,7 +14508,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:09.791659+00:00"
+      "scanned_at": "2026-07-19T17:53:17.226339+00:00"
     },
     {
       "ticker": "HALO",
@@ -14583,82 +14581,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:21.439659+00:00"
-    },
-    {
-      "ticker": "SOL-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 75.879997,
-      "direction": "SHORT",
-      "score": 7,
-      "rr_ratio": 5.0,
-      "entry": 75.879997,
-      "stop_loss": 76.388815,
-      "target1": 74.8624,
-      "target2": 74.0991,
-      "target3": 73.3359,
-      "risk_per_unit": 0.508817,
-      "atr": 0.373302,
-      "vwap": 76.09004953271055,
-      "vwap_bias": "below",
-      "rsi": 52.22,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.27,
-      "vol_ratio": 0.27,
-      "candle_pct": 0.38,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "neutral",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:36.6"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 75.6835,
-        "slope": 0.022286,
-        "strength": 0.022286
-      },
-      "position": {
-        "units": 515.2873,
-        "dollar_risk": 52.44,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.492
-      },
-      "timeframe": "1h",
-      "regime": "trend",
-      "adx": 36.6,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [
-          "",
-          "",
-          ""
-        ],
-        "count": 5
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:34.773417+00:00"
+      "scanned_at": "2026-07-19T17:53:28.417448+00:00"
     },
     {
       "ticker": "CVX",
@@ -14733,7 +14656,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:08.577932+00:00"
+      "scanned_at": "2026-07-19T17:44:45.969465+00:00"
     },
     {
       "ticker": "CSCO",
@@ -14808,7 +14731,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:10.823278+00:00"
+      "scanned_at": "2026-07-19T17:44:47.850177+00:00"
     },
     {
       "ticker": "PANW",
@@ -14883,7 +14806,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:21.274147+00:00"
+      "scanned_at": "2026-07-19T17:44:57.319545+00:00"
     },
     {
       "ticker": "FFIV",
@@ -14958,7 +14881,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:49.084945+00:00"
+      "scanned_at": "2026-07-19T17:45:23.722106+00:00"
     },
     {
       "ticker": "MGM",
@@ -15033,7 +14956,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:33.751019+00:00"
+      "scanned_at": "2026-07-19T17:46:06.223819+00:00"
     },
     {
       "ticker": "AZO",
@@ -15108,7 +15031,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:50.868371+00:00"
+      "scanned_at": "2026-07-19T17:46:22.802485+00:00"
     },
     {
       "ticker": "YUM",
@@ -15183,7 +15106,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:01.510518+00:00"
+      "scanned_at": "2026-07-19T17:46:32.903397+00:00"
     },
     {
       "ticker": "ELV",
@@ -15256,7 +15179,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:38.431958+00:00"
+      "scanned_at": "2026-07-19T17:47:10.317762+00:00"
     },
     {
       "ticker": "HUM",
@@ -15329,7 +15252,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:41:51.742969+00:00"
+      "scanned_at": "2026-07-19T17:47:22.308527+00:00"
     },
     {
       "ticker": "BAX",
@@ -15402,7 +15325,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:00.489664+00:00"
+      "scanned_at": "2026-07-19T17:47:30.511140+00:00"
     },
     {
       "ticker": "WST",
@@ -15475,7 +15398,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:04.245468+00:00"
+      "scanned_at": "2026-07-19T17:47:33.865321+00:00"
     },
     {
       "ticker": "LH",
@@ -15494,7 +15417,7 @@
       "target3": 314.2638,
       "risk_per_unit": 6.180765,
       "atr": 7.548808,
-      "vwap": 279.29764265378356,
+      "vwap": 279.2976426537836,
       "vwap_bias": "above",
       "rsi": 62.6,
       "rsi_divergence": {
@@ -15548,7 +15471,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:12.742058+00:00"
+      "scanned_at": "2026-07-19T17:47:41.501266+00:00"
     },
     {
       "ticker": "TECH",
@@ -15621,7 +15544,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:21.477378+00:00"
+      "scanned_at": "2026-07-19T17:47:51.933322+00:00"
     },
     {
       "ticker": "WFC",
@@ -15694,7 +15617,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:27.367226+00:00"
+      "scanned_at": "2026-07-19T17:47:57.760116+00:00"
     },
     {
       "ticker": "ICE",
@@ -15767,7 +15690,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:37.525624+00:00"
+      "scanned_at": "2026-07-19T17:48:07.080933+00:00"
     },
     {
       "ticker": "PNC",
@@ -15840,7 +15763,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:55.095580+00:00"
+      "scanned_at": "2026-07-19T17:48:21.600693+00:00"
     },
     {
       "ticker": "AIZ",
@@ -15913,7 +15836,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:35.418813+00:00"
+      "scanned_at": "2026-07-19T17:48:59.263394+00:00"
     },
     {
       "ticker": "GE",
@@ -15988,7 +15911,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:51.099378+00:00"
+      "scanned_at": "2026-07-19T17:49:11.948945+00:00"
     },
     {
       "ticker": "NSC",
@@ -16063,7 +15986,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:56.902863+00:00"
+      "scanned_at": "2026-07-19T17:49:17.024849+00:00"
     },
     {
       "ticker": "CSX",
@@ -16138,7 +16061,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:58.615477+00:00"
+      "scanned_at": "2026-07-19T17:49:18.481515+00:00"
     },
     {
       "ticker": "RSG",
@@ -16213,7 +16136,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:01.991508+00:00"
+      "scanned_at": "2026-07-19T17:49:22.413817+00:00"
     },
     {
       "ticker": "LUV",
@@ -16288,7 +16211,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:51.699530+00:00"
+      "scanned_at": "2026-07-19T17:50:07.928721+00:00"
     },
     {
       "ticker": "OXY",
@@ -16363,7 +16286,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:07.212035+00:00"
+      "scanned_at": "2026-07-19T17:50:23.447257+00:00"
     },
     {
       "ticker": "HAL",
@@ -16438,7 +16361,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:13.012631+00:00"
+      "scanned_at": "2026-07-19T17:50:29.390397+00:00"
     },
     {
       "ticker": "AMT",
@@ -16513,7 +16436,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:42.637137+00:00"
+      "scanned_at": "2026-07-19T17:50:55.507295+00:00"
     },
     {
       "ticker": "CCI",
@@ -16588,7 +16511,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:44.800589+00:00"
+      "scanned_at": "2026-07-19T17:50:57.291541+00:00"
     },
     {
       "ticker": "EQR",
@@ -16663,7 +16586,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:45:54.558843+00:00"
+      "scanned_at": "2026-07-19T17:51:06.527386+00:00"
     },
     {
       "ticker": "SBAC",
@@ -16682,7 +16605,7 @@
       "target3": 190.7307,
       "risk_per_unit": 1.008132,
       "atr": 5.759676,
-      "vwap": 183.35275220750032,
+      "vwap": 183.35275220750034,
       "vwap_bias": "above",
       "rsi": 45.65,
       "rsi_divergence": {
@@ -16738,7 +16661,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:08.507327+00:00"
+      "scanned_at": "2026-07-19T17:51:19.941254+00:00"
     },
     {
       "ticker": "USO",
@@ -16811,7 +16734,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:47.865711+00:00"
+      "scanned_at": "2026-07-19T17:51:59.363419+00:00"
     },
     {
       "ticker": "LCID",
@@ -16886,7 +16809,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:13.166330+00:00"
+      "scanned_at": "2026-07-19T17:52:24.733917+00:00"
     },
     {
       "ticker": "HUT",
@@ -16961,7 +16884,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:25.910063+00:00"
+      "scanned_at": "2026-07-19T17:52:35.964168+00:00"
     },
     {
       "ticker": "BTBT",
@@ -17036,7 +16959,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:29.563498+00:00"
+      "scanned_at": "2026-07-19T17:52:38.882566+00:00"
     },
     {
       "ticker": "EXEL",
@@ -17109,7 +17032,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:50.498342+00:00"
+      "scanned_at": "2026-07-19T17:52:57.016669+00:00"
     },
     {
       "ticker": "KRYS",
@@ -17182,7 +17105,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:14.896302+00:00"
+      "scanned_at": "2026-07-19T17:53:21.333333+00:00"
     },
     {
       "ticker": "DNLI",
@@ -17255,7 +17178,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:19.295011+00:00"
+      "scanned_at": "2026-07-19T17:53:26.671285+00:00"
     },
     {
       "ticker": "LBRT",
@@ -17330,7 +17253,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:23.032288+00:00"
+      "scanned_at": "2026-07-19T17:53:29.651955+00:00"
     },
     {
       "ticker": "MMM",
@@ -17405,7 +17328,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:38:59.270125+00:00"
+      "scanned_at": "2026-07-19T17:44:36.629807+00:00"
     },
     {
       "ticker": "FTNT",
@@ -17480,7 +17403,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:30.109653+00:00"
+      "scanned_at": "2026-07-19T17:45:05.562936+00:00"
     },
     {
       "ticker": "HPE",
@@ -17499,7 +17422,7 @@
       "target3": 47.8664,
       "risk_per_unit": 0.409285,
       "atr": 2.94093,
-      "vwap": 45.6790006533998,
+      "vwap": 45.67900065339981,
       "vwap_bias": "above",
       "rsi": 50.94,
       "rsi_divergence": {
@@ -17555,7 +17478,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:43.162043+00:00"
+      "scanned_at": "2026-07-19T17:45:17.522607+00:00"
     },
     {
       "ticker": "NTAP",
@@ -17630,7 +17553,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:47.504824+00:00"
+      "scanned_at": "2026-07-19T17:45:22.413743+00:00"
     },
     {
       "ticker": "CMCSA",
@@ -17703,7 +17626,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:39:59.171220+00:00"
+      "scanned_at": "2026-07-19T17:45:34.388551+00:00"
     },
     {
       "ticker": "POOL",
@@ -17778,7 +17701,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:28.519443+00:00"
+      "scanned_at": "2026-07-19T17:46:01.589017+00:00"
     },
     {
       "ticker": "EXPE",
@@ -17853,7 +17776,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:40:40.600322+00:00"
+      "scanned_at": "2026-07-19T17:46:12.892023+00:00"
     },
     {
       "ticker": "CB",
@@ -17926,7 +17849,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:42:40.059398+00:00"
+      "scanned_at": "2026-07-19T17:48:09.385902+00:00"
     },
     {
       "ticker": "CBOE",
@@ -17999,7 +17922,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:20.252648+00:00"
+      "scanned_at": "2026-07-19T17:48:42.963992+00:00"
     },
     {
       "ticker": "WRB",
@@ -18072,7 +17995,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:43:37.138528+00:00"
+      "scanned_at": "2026-07-19T17:49:00.657022+00:00"
     },
     {
       "ticker": "AXON",
@@ -18147,7 +18070,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:30.475028+00:00"
+      "scanned_at": "2026-07-19T17:49:48.538562+00:00"
     },
     {
       "ticker": "DAL",
@@ -18222,7 +18145,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:44:46.615895+00:00"
+      "scanned_at": "2026-07-19T17:50:02.877027+00:00"
     },
     {
       "ticker": "ESS",
@@ -18297,7 +18220,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:00.306915+00:00"
+      "scanned_at": "2026-07-19T17:51:12.164244+00:00"
     },
     {
       "ticker": "ES",
@@ -18370,7 +18293,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:46:22.632280+00:00"
+      "scanned_at": "2026-07-19T17:51:32.579196+00:00"
     },
     {
       "ticker": "SNOW",
@@ -18445,7 +18368,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:47:02.118930+00:00"
+      "scanned_at": "2026-07-19T17:52:13.710638+00:00"
     },
     {
       "ticker": "CHRD",
@@ -18464,7 +18387,7 @@
       "target3": 159.8846,
       "risk_per_unit": 6.35691,
       "atr": 4.42848,
-      "vwap": 118.70972790409841,
+      "vwap": 118.70972790409844,
       "vwap_bias": "above",
       "rsi": 56.64,
       "rsi_divergence": {
@@ -18520,7 +18443,7 @@
         "count": 5
       },
       "high_conviction": false,
-      "scanned_at": "2026-07-19T16:48:30.554578+00:00"
+      "scanned_at": "2026-07-19T17:53:35.939577+00:00"
     }
   ]
 }

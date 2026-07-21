@@ -807,6 +807,8 @@ def get_higher_tf_bias(ticker, primary_tf):
     try:
         if primary_tf == "15m":
             higher_tfs = [("1h", "1mo"), ("4h", "3mo")]
+        elif primary_tf == "1h":
+            higher_tfs = [("4h", "3mo"), ("1d", "6mo")]
         elif primary_tf == "1d":
             higher_tfs = [("1wk", "1y")]
         else:
@@ -1210,6 +1212,16 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
             htf_bias == "neutral"
         )
 
+        # ── Counter-trend penalty ──────────────────────────────────────────
+        # ADX only gates trend *strength*, not direction — a strong uptrend
+        # passes the ADX gate just as easily as a strong downtrend, so a
+        # SHORT could still fire straight into a persistent rally (and vice
+        # versa). Penalize signals that fight the higher-timeframe bias
+        # instead of trusting the strength gate alone.
+        if not mtf_confirmed:
+            score -= 3
+            penalty_notes.append(f"CounterTrend({htf_bias}) -3")
+
         # ── Score threshold ───────────────────────────────────────────────
         if regime == "chop":
             min_score = CONFIG["MIN_SCORE_CHOP"]
@@ -1490,9 +1502,15 @@ def check_outcome(alert: dict) -> dict:
     t1, t2, t3 = float(alert["target1"]), float(alert["target2"]), float(alert["target3"])
     alerted_at = datetime.datetime.fromisoformat(alert["alerted_at"])
     try:
-        # period="5d" avoids the weekend gap issue — stocks have no 15m data on Sat/Sun
-        df = yf.download(ticker, period="5d", interval="15m",
-                         progress=False, auto_adjust=True)
+        # Fetch from the alert's own timestamp forward, not a fixed trailing
+        # window — a fixed "last 5 days" window silently graded anything
+        # older than 5 days against the wrong price action entirely.
+        # yfinance only keeps ~60 days of 15m history, so clamp the start.
+        now      = datetime.datetime.now(datetime.timezone.utc)
+        earliest = max(alerted_at, now - datetime.timedelta(days=59))
+        df = yf.download(ticker, start=earliest.strftime("%Y-%m-%d"),
+                         end=(now + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
+                         interval="15m", progress=False, auto_adjust=True)
         if df is None or df.empty:
             return {"outcome": "⏳ Active"}
         df.index = pd.to_datetime(df.index, utc=True)
@@ -1500,28 +1518,35 @@ def check_outcome(alert: dict) -> dict:
         if df.empty:
             return {"outcome": "⏳ Active"}
         # Handle MultiIndex columns from newer yfinance
-        def col(name):
-            c = df[name]
-            if isinstance(c.columns if hasattr(c, "columns") else None, pd.MultiIndex):
-                c = c.iloc[:, 0]
-            return c.squeeze() if hasattr(c, "squeeze") else c
         hi_s  = df["High"].squeeze() if not isinstance(df.columns, pd.MultiIndex) else df["High"].iloc[:, 0]
         lo_s  = df["Low"].squeeze()  if not isinstance(df.columns, pd.MultiIndex) else df["Low"].iloc[:, 0]
         cl_s  = df["Close"].squeeze() if not isinstance(df.columns, pd.MultiIndex) else df["Close"].iloc[:, 0]
-        hi  = float(hi_s.max())
-        lo  = float(lo_s.min())
         cur = float(cl_s.iloc[-1] if hasattr(cl_s, "iloc") else cl_s)
-        if direction == "LONG":
-            hit_t3, hit_t2, hit_t1 = hi >= t3, hi >= t2, hi >= t1
-            hit_stop = lo <= stop
-        else:
-            hit_t3, hit_t2, hit_t1 = lo <= t3, lo <= t2, lo <= t1
-            hit_stop = hi >= stop
-        if hit_t3:        label = "✅ WIN  (T3)"
-        elif hit_t2:      label = "✅ WIN  (T2)"
-        elif hit_t1:      label = "✅ WIN  (T1)"
-        elif hit_stop:    label = "❌ LOSS (SL hit)"
-        else:             label = "⏳ Active"
+
+        # Walk bars in time order and stop as soon as either side is hit —
+        # checking hi.max()/lo.min() independently let a trade that got
+        # stopped out and *later* chopped back up through T1 score as a WIN.
+        label = "⏳ Active"
+        for i in range(len(df)):
+            hi = float(hi_s.iloc[i])
+            lo = float(lo_s.iloc[i])
+            if direction == "LONG":
+                stop_hit = lo <= stop
+                t3_hit, t2_hit, t1_hit = hi >= t3, hi >= t2, hi >= t1
+            else:
+                stop_hit = hi >= stop
+                t3_hit, t2_hit, t1_hit = lo <= t3, lo <= t2, lo <= t1
+            # same-candle ambiguity: assume stop hit first (conservative)
+            if stop_hit:
+                label = "❌ LOSS (SL hit)"; break
+            if t3_hit:
+                label = "✅ WIN  (T3)"; break
+            if t2_hit:
+                label = "✅ WIN  (T2)"; break
+            if t1_hit:
+                label = "✅ WIN  (T1)"; break
+        hi = float(hi_s.max())
+        lo = float(lo_s.min())
         return {"outcome": label, "current": round(cur, 4), "high": round(hi, 4), "low": round(lo, 4)}
     except Exception:
         return {"outcome": "⏳ Active"}

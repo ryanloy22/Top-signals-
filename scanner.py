@@ -80,6 +80,8 @@ CONFIG = {
     "MIN_RR":               2.5,
     "VOL_SPIKE_PCT":        15.0,
     "VOL_SURGE_RATIO":      1.5,
+    "GAP_THRESHOLD_PCT":    6.0,   # min overnight gap size to treat as a gap-fill setup
+    "GAP_LOOKBACK_DAYS":    10,    # how far back to look for an unfilled gap
     "MIN_DAILY_VOLUME_USD": 10_000_000,  # $10M minimum liquidity
     "TOP_N":                5,
 
@@ -845,6 +847,58 @@ def check_earnings(ticker):
     except Exception:
         return False
 
+
+def detect_unfilled_gap(op, high, low, close, lookback, threshold_pct):
+    """Find the most recent overnight gap (>= threshold_pct) in the last
+    `lookback` daily bars that hasn't filled to its midpoint yet. Gaps
+    statistically tend to get partially or fully retraced — this returns
+    the fill direction and target levels so that thesis can compete
+    directly against trend-following signals instead of being ignored.
+    Returns None if no qualifying, still-open gap is found."""
+    n = len(close)
+    if n < lookback + 2:
+        return None
+    price = float(close.iloc[-1])
+    best = None
+    for i in range(max(1, n - lookback), n):
+        prior_close = float(close.iloc[i - 1])
+        gap_open    = float(op.iloc[i])
+        if prior_close <= 0:
+            continue
+        gap_pct = (gap_open - prior_close) / prior_close * 100
+        if abs(gap_pct) < threshold_pct:
+            continue
+
+        midpoint = (prior_close + gap_open) / 2
+        post_gap_low  = float(low.iloc[i:].min())
+        post_gap_high = float(high.iloc[i:].max())
+
+        if gap_pct < 0:
+            direction  = "LONG"   # gapped down — fill direction is up
+            filled     = price >= midpoint
+            still_open = price < prior_close
+            stop_ref   = post_gap_low
+        else:
+            direction  = "SHORT"  # gapped up — fill direction is down
+            filled     = price <= midpoint
+            still_open = price > prior_close
+            stop_ref   = post_gap_high
+
+        if filled or not still_open:
+            continue  # already reached midpoint or fully filled — nothing left to trade
+
+        best = {
+            "direction":   direction,
+            "gap_pct":     round(gap_pct, 2),
+            "prior_close": prior_close,
+            "gap_open":    gap_open,
+            "midpoint":    round(midpoint, 4),
+            "stop_ref":    stop_ref,
+            "days_ago":    n - 1 - i,
+        }
+    return best
+
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # CORE SIGNAL ENGINE
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -871,6 +925,7 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
         high  = df["High"].squeeze()
         low   = df["Low"].squeeze()
         vol   = df["Volume"].squeeze()
+        op    = df["Open"].squeeze()
 
         price   = float(close.iloc[-1])
         avg_vol = float(vol.tail(20).mean())
@@ -923,6 +978,8 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
         bb_mid_val   = float(bb.bollinger_mavg().iloc[-1])
         bb_upper_val = float(bb.bollinger_hband().iloc[-1])
         stype        = None  # set in path or auto-detected below
+        gap             = None   # only populated on the stock-trend path
+        gap_fill_active = False
 
         # ══════════════════════════════════════════════════════════════════
         # CRYPTO PATH — regime-aware: trend (EMA 21/55) + chop (BB reversion)
@@ -1112,36 +1169,71 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
                     bull_div = bear_div = False
                 rsi_div = {"bullish": bool(bull_div), "bearish": bool(bear_div)}
 
-                bull_score = sum([
-                    cross_bull * 3, trend_up * 2, macd_bull * 2,
-                    (gl["signal"] == "bullish") * 2, vwap_bull * 2,
-                    bull_div * 2, srsi_bull * 1, vol_surge * 1,
-                    bb_squeeze * 1, vol_spike * 1,
-                ]) - trend_pen
-                bear_score = sum([
-                    cross_bear * 3, trend_down * 2, macd_bear * 2,
-                    (gl["signal"] == "bearish") * 2, vwap_bear * 2,
-                    bear_div * 2, srsi_bear * 1, vol_surge * 1,
-                    bb_squeeze * 1, vol_spike * 1,
-                ]) - trend_pen
+                gap = detect_unfilled_gap(
+                    op, high, low, close,
+                    CONFIG["GAP_LOOKBACK_DAYS"], CONFIG["GAP_THRESHOLD_PCT"],
+                ) if tf == "1d" else None
 
-                direction  = "LONG" if bull_score >= bear_score else "SHORT"
-                score      = bull_score if direction == "LONG" else bear_score
-                ema_cross  = cross_bull or cross_bear
-                adx_note   = None
-                trade_type = "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)"
-
-                if direction == "LONG":
-                    stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
+                if gap is not None:
+                    # A qualifying unfilled gap overrides the EMA-momentum vote
+                    # rather than just nudging its score. Right after a violent
+                    # gap, VWAP/MACD/MTF are near-mechanically still reading in
+                    # the crash's direction — that's an echo of the same event
+                    # that made the gap, not independent evidence against it
+                    # filling. Bigger gap = more conviction in the fill.
+                    gap_fill_active = True
+                    direction  = gap["direction"]
+                    score      = 8 + min(6, round(abs(gap["gap_pct"]) / 5))
+                    ema_cross  = cross_bull or cross_bear
+                    adx_note   = None
+                    trade_type = "📅 Swing (days-weeks)"
+                    stype      = "GAP FILL \U0001f573️"
+                    buf = atr_val * 0.3
+                    stop_loss = gap["stop_ref"] - buf if direction == "LONG" else gap["stop_ref"] + buf
                 else:
-                    stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
+                    gap_fill_active = False
+                    bull_score = sum([
+                        cross_bull * 3, trend_up * 2, macd_bull * 2,
+                        (gl["signal"] == "bullish") * 2, vwap_bull * 2,
+                        bull_div * 2, srsi_bull * 1, vol_surge * 1,
+                        bb_squeeze * 1, vol_spike * 1,
+                    ]) - trend_pen
+                    bear_score = sum([
+                        cross_bear * 3, trend_down * 2, macd_bear * 2,
+                        (gl["signal"] == "bearish") * 2, vwap_bear * 2,
+                        bear_div * 2, srsi_bear * 1, vol_surge * 1,
+                        bb_squeeze * 1, vol_spike * 1,
+                    ]) - trend_pen
+
+                    direction  = "LONG" if bull_score >= bear_score else "SHORT"
+                    score      = bull_score if direction == "LONG" else bear_score
+                    ema_cross  = cross_bull or cross_bear
+                    adx_note   = None
+                    trade_type = "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)"
+
+                    if direction == "LONG":
+                        stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
+                    else:
+                        stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
 
         # ── Shared: risk / targets ────────────────────────────────────────
         risk = abs(price - stop_loss)
         if risk <= 0:
             return None
 
-        if regime == "chop":
+        if gap_fill_active:
+            # Gap fill: T1 = midpoint (50% fill), T2 = 75% fill, T3 = full fill
+            quarter = abs(gap["prior_close"] - gap["gap_open"]) / 4
+            if direction == "LONG":
+                t1 = round(gap["midpoint"], 4)
+                t2 = round(gap["gap_open"] + quarter * 3, 4)
+                t3 = round(gap["prior_close"], 4)
+            else:
+                t1 = round(gap["midpoint"], 4)
+                t2 = round(gap["gap_open"] - quarter * 3, 4)
+                t3 = round(gap["prior_close"], 4)
+            min_rr = 1.5  # mean-reversion economics, same reasoning as the chop path's 1.3
+        elif regime == "chop":
             # Mean reversion: fade to BB midband → midway → opposite band
             if direction == "LONG":
                 t1 = round(bb_mid_val, 4)
@@ -1273,6 +1365,7 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
             "target1":         t1,
             "target2":         t2,
             "target3":         t3,
+            "gap_fill":        gap if gap_fill_active else None,
             "risk_per_unit":   round(risk, 6),
             "atr":             round(atr_val, 6),
             "vwap":            safe(vwap_val),

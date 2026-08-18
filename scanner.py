@@ -1096,10 +1096,18 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
                 srsi_bear = sk < sd and sk > 0.2
 
                 try:
+                    # Anchored on *today* vs the prior 13 bars — a stale extreme
+                    # buried mid-window (e.g. a pre-gap high days ago) must not
+                    # count as "divergence" unless today itself sets the new
+                    # high/low. Previously this compared two 5-bar sub-windows
+                    # against each other, so a spike from over a week ago could
+                    # still trigger a "fresh" signal today even though price had
+                    # already crashed and moved on — see TPR 2026-08-18 SHORT,
+                    # fired off an Aug-11 pre-crash high days after the crash.
                     pr = close.values[-14:]
                     rs = rsi_series.values[-14:]
-                    bull_div = min(pr[-5:]) < min(pr[:5]) and min(rs[-5:]) > min(rs[:5])
-                    bear_div = max(pr[-5:]) > max(pr[:5]) and max(rs[-5:]) < max(rs[:5])
+                    bull_div = pr[-1] < min(pr[:-1]) and rs[-1] > min(rs[:-1])
+                    bear_div = pr[-1] > max(pr[:-1]) and rs[-1] < max(rs[:-1])
                 except Exception:
                     bull_div = bear_div = False
                 rsi_div = {"bullish": bool(bull_div), "bearish": bool(bear_div)}

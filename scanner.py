@@ -104,6 +104,13 @@ CONFIG = {
     "ALPACA_SECRET_KEY":       os.getenv("ALPACA_SECRET_KEY", ""),
     "ALPACA_DAILY_LOSS_LIMIT": 5.0,   # stop trading if account down 5% today (~$50)
     "ALPACA_MAX_POSITIONS":    3,      # max concurrent open positions
+    "ALPACA_MAX_HOLD_DAYS":    5,      # force-close any position older than this —
+                                        # crypto orders carry no stop/target (Alpaca
+                                        # has no bracket support for crypto) and even
+                                        # stock brackets can sit open indefinitely if
+                                        # price never reaches either level; this is
+                                        # what silently wedged the account at its
+                                        # position cap for 2+ months
 }
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1769,6 +1776,62 @@ def get_alpaca_account_state(client) -> dict:
         print(f"  ⚠ Alpaca account fetch error: {e}")
         return {"equity": 0, "daily_pnl": 0, "open_symbols": set()}
 
+def manage_stale_positions(client) -> None:
+    """Force-close anything open longer than ALPACA_MAX_HOLD_DAYS. Must run
+    every cycle regardless of whether new signals fired — this is the fix
+    for positions silently wedging the account at its MAX_POSITIONS cap with
+    no automatic exit (crypto orders have no stop/target at all; stock
+    brackets can still sit open indefinitely if price never reaches either
+    level). Entry time is read from each symbol's own order history rather
+    than tracked locally, so this also cleans up positions that predate this
+    function.
+    """
+    from alpaca.trading.requests import GetOrdersRequest
+    from alpaca.trading.enums import QueryOrderStatus, OrderSide
+
+    try:
+        positions = client.get_all_positions()
+    except Exception as e:
+        print(f"  ⚠ Alpaca: couldn't fetch positions for staleness check: {e}")
+        return
+
+    cutoff_days = CONFIG["ALPACA_MAX_HOLD_DAYS"]
+    now = datetime.datetime.now(datetime.timezone.utc)
+
+    for pos in positions:
+        symbol = pos.symbol
+        entry_side = OrderSide.BUY if str(pos.side).lower().endswith("long") else OrderSide.SELL
+
+        try:
+            orders = client.get_orders(GetOrdersRequest(
+                status=QueryOrderStatus.CLOSED, symbols=[symbol], limit=100,
+            ))
+        except Exception as e:
+            print(f"  ⚠ Alpaca: couldn't fetch order history for {symbol}: {e}")
+            continue
+
+        entry_fills = [o.filled_at for o in orders if o.filled_at is not None and o.side == entry_side]
+        if entry_fills:
+            opened_at = min(entry_fills)
+            age_note = f"open {(now - opened_at).days}d"
+        else:
+            # No discoverable entry order — can't verify age, so don't assume
+            # it's recent either. Close it rather than leave an unexplained
+            # position wedging the account indefinitely.
+            opened_at = None
+            age_note = "age unknown (no entry order found in recent history)"
+
+        if opened_at is not None and (now - opened_at) < datetime.timedelta(days=cutoff_days):
+            continue
+
+        try:
+            client.close_position(symbol)
+            msg = f"⏰ Alpaca: force-closed {symbol} ({age_note}, past the {cutoff_days}d safety cap)"
+            print(f"  {msg}")
+            send_telegram(msg)
+        except Exception as e:
+            print(f"  ⚠ Alpaca: failed to force-close {symbol}: {e}")
+
 def place_alpaca_trade(client, signal: dict) -> bool:
     try:
         from alpaca.trading.requests import MarketOrderRequest, TakeProfitRequest, StopLossRequest
@@ -1972,6 +2035,11 @@ def run_scanner(send_alerts=True):
 
     # Alpaca trading (live if ALPACA_LIVE_API_KEY set, else paper)
     alpaca = get_alpaca_client()
+    if alpaca:
+        # Runs every cycle regardless of hc_signals — this is what frees up
+        # slots wedged by positions with no automatic exit (see
+        # manage_stale_positions docstring).
+        manage_stale_positions(alpaca)
     if alpaca and hc_signals:
         state      = get_alpaca_account_state(alpaca)
         mkt_open   = is_market_open(alpaca)

@@ -1144,39 +1144,28 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
                 stype      = "BB REVERSION 🔄"
 
             else:
-                # ── Trend / transition: EMA 5/9/50 momentum ──────────────
-                trend_pen = 1 if regime == "transition" else 0
+                # ── Trend / transition: EMA21/55 direction + ADX(14)>=25
+                # strength gate + 20-bar Donchian breakout trigger. Ported
+                # from Edge Lab's backtest (strategies/trend_adx.py) — the
+                # only one of six strategies tested there that cleared 4 of
+                # 5 gate checks (12 BloFin crypto pairs, 1d bars: holdout
+                # mean R=+0.519, 95% CI=[0.001,1.037], win rate 48.9%, 16.2%
+                # max drawdown; only short on raw holdout trade count, a
+                # sample-size issue, not a quality one). Hard gate, not a
+                # soft score — replaces the old EMA5/9/50 weighted-scoring
+                # system entirely. Not separately validated on stocks or on
+                # the 15m high-beta timeframe — this applies the same gate
+                # there too rather than leave the old ~20%-WR scoring system
+                # running on a subset of names.
+                ema21 = close.ewm(span=21, adjust=False).mean()
+                ema55 = close.ewm(span=55, adjust=False).mean()
+                e21, e55 = float(ema21.iloc[-1]), float(ema55.iloc[-1])
+                trend_up, trend_down = e21 > e55, e21 < e55
 
-                ema5   = close.ewm(span=5,  adjust=False).mean()
-                ema9   = close.ewm(span=9,  adjust=False).mean()
-                ema50  = close.ewm(span=50, adjust=False).mean()
-                e5, e9, e50 = float(ema5.iloc[-1]), float(ema9.iloc[-1]), float(ema50.iloc[-1])
-                e5p, e9p    = float(ema5.iloc[-2]), float(ema9.iloc[-2])
-
-                cross_bull = e5p < e9p and e5 > e9
-                cross_bear = e5p > e9p and e5 < e9
-                trend_up   = e5 > e9 > e50
-                trend_down = e5 < e9 < e50
-
-                srsi_bull = sk > sd and sk < 0.8
-                srsi_bear = sk < sd and sk > 0.2
-
-                try:
-                    # Anchored on *today* vs the prior 13 bars — a stale extreme
-                    # buried mid-window (e.g. a pre-gap high days ago) must not
-                    # count as "divergence" unless today itself sets the new
-                    # high/low. Previously this compared two 5-bar sub-windows
-                    # against each other, so a spike from over a week ago could
-                    # still trigger a "fresh" signal today even though price had
-                    # already crashed and moved on — see TPR 2026-08-18 SHORT,
-                    # fired off an Aug-11 pre-crash high days after the crash.
-                    pr = close.values[-14:]
-                    rs = rsi_series.values[-14:]
-                    bull_div = pr[-1] < min(pr[:-1]) and rs[-1] > min(rs[:-1])
-                    bear_div = pr[-1] > max(pr[:-1]) and rs[-1] < max(rs[:-1])
-                except Exception:
-                    bull_div = bear_div = False
-                rsi_div = {"bullish": bool(bull_div), "bearish": bool(bear_div)}
+                donch_high = float(high.shift(1).rolling(20).max().iloc[-1])
+                donch_low  = float(low.shift(1).rolling(20).min().iloc[-1])
+                breakout_long  = price > donch_high
+                breakout_short = price < donch_low
 
                 gap = detect_unfilled_gap(
                     op, high, low, close,
@@ -1184,46 +1173,48 @@ def analyze_ticker(ticker: str, btc_trend: str, session: dict, sector_rotation: 
                 ) if tf == "1d" else None
 
                 if gap is not None:
-                    # A qualifying unfilled gap overrides the EMA-momentum vote
-                    # rather than just nudging its score. Right after a violent
-                    # gap, VWAP/MACD/MTF are near-mechanically still reading in
-                    # the crash's direction — that's an echo of the same event
-                    # that made the gap, not independent evidence against it
-                    # filling. Bigger gap = more conviction in the fill.
+                    # Unchanged — a qualifying unfilled gap still overrides
+                    # the trend/breakout read, same as it overrode the old
+                    # scoring system.
                     gap_fill_active = True
                     direction  = gap["direction"]
                     score      = 8 + min(6, round(abs(gap["gap_pct"]) / 5))
-                    ema_cross  = cross_bull or cross_bear
+                    ema_cross  = False
+                    bull_div = bear_div = False
+                    rsi_div    = {"bullish": False, "bearish": False}
                     adx_note   = None
                     trade_type = "📅 Swing (days-weeks)"
                     stype      = "GAP FILL \U0001f573️"
                     buf = atr_val * 0.3
                     stop_loss = gap["stop_ref"] - buf if direction == "LONG" else gap["stop_ref"] + buf
-                else:
+                elif regime == "trend" and trend_up and breakout_long:
                     gap_fill_active = False
-                    bull_score = sum([
-                        cross_bull * 3, trend_up * 2, macd_bull * 2,
-                        (gl["signal"] == "bullish") * 2, vwap_bull * 2,
-                        bull_div * 2, srsi_bull * 1, vol_surge * 1,
-                        bb_squeeze * 1, vol_spike * 1,
-                    ]) - trend_pen
-                    bear_score = sum([
-                        cross_bear * 3, trend_down * 2, macd_bear * 2,
-                        (gl["signal"] == "bearish") * 2, vwap_bear * 2,
-                        bear_div * 2, srsi_bear * 1, vol_surge * 1,
-                        bb_squeeze * 1, vol_spike * 1,
-                    ]) - trend_pen
-
-                    direction  = "LONG" if bull_score >= bear_score else "SHORT"
-                    score      = bull_score if direction == "LONG" else bear_score
-                    ema_cross  = cross_bull or cross_bear
-                    adx_note   = None
+                    direction  = "LONG"
+                    score      = CONFIG["MIN_SCORE_HIGH_CONVICTION"]
+                    ema_cross  = False
+                    bull_div = bear_div = False
+                    rsi_div    = {"bullish": False, "bearish": False}
+                    adx_note   = f"ADX:{adx_val:.1f}(TREND+ADX)"
                     trade_type = "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)"
-
-                    if direction == "LONG":
-                        stop_loss = max(e9 * 0.995, price - 1.5 * atr_val)
-                    else:
-                        stop_loss = min(e9 * 1.005, price + 1.5 * atr_val)
+                    stype      = "TREND+ADX BREAKOUT 📊"
+                    stop_loss  = price - atr_val * 2.0
+                elif regime == "trend" and trend_down and breakout_short:
+                    gap_fill_active = False
+                    direction  = "SHORT"
+                    score      = CONFIG["MIN_SCORE_HIGH_CONVICTION"]
+                    ema_cross  = False
+                    bull_div = bear_div = False
+                    rsi_div    = {"bullish": False, "bearish": False}
+                    adx_note   = f"ADX:{adx_val:.1f}(TREND+ADX)"
+                    trade_type = "⚡ Scalp (mins-hours)" if tf == "15m" else "📅 Swing (days-weeks)"
+                    stype      = "TREND+ADX BREAKOUT 📊"
+                    stop_loss  = price + atr_val * 2.0
+                else:
+                    # Trend/transition regime but no aligned breakout this
+                    # bar — hard gate, no fallback signal (this is the
+                    # change from the old system: previously a weak soft
+                    # score could still slip through here).
+                    return None
 
         # ── Shared: risk / targets ────────────────────────────────────────
         risk = abs(price - stop_loss)

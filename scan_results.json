@@ -1,27 +1,29 @@
 {
-  "generated_at": "2026-11-01T22:02:45.918279+00:00",
+  "generated_at": "2026-11-02T01:32:51.349230+00:00",
   "scanner_version": "5.2",
   "session": {
-    "prime": false,
-    "in_range": true,
-    "session": "STANDARD",
-    "hour_denver": 15.9,
-    "time_denver": "03:57 PM MT"
+    "prime": true,
+    "in_range": false,
+    "session": "PRIME \ud83d\udd25",
+    "hour_denver": 19.4,
+    "time_denver": "07:27 PM MT"
   },
   "market_sentiment": {
     "bias": "RISK-OFF",
     "icon": "\ud83d\udd34",
-    "fear_greed_score": 34,
+    "fear_greed_score": 37,
     "fear_greed_label": "Fear",
     "vix": 19.42,
     "vix_level": "moderate",
     "macro_note": "\u26a0\ufe0f US-Iran tensions active. Oil elevated. Verify news before entering."
   },
-  "btc_trend": "bearish",
+  "btc_trend": "neutral",
   "economic_events": {
-    "has_event": false,
-    "flags": [],
-    "note": null
+    "has_event": true,
+    "flags": [
+      "\ud83d\udccb Pre-market \u2014 lower liquidity, wider spreads."
+    ],
+    "note": "\ud83d\udccb Pre-market \u2014 lower liquidity, wider spreads."
   },
   "sector_rotation": {
     "rankings": [
@@ -115,118 +117,46 @@
     ],
     "top_sector": "Health Care",
     "bot_sector": "Communication Services",
-    "updated_at": "2026-11-01T21:57:42.295333+00:00"
+    "updated_at": "2026-11-02T01:27:34.202401+00:00"
   },
   "account_info": {
     "crypto": "$23,000 @ 5x",
     "stocks": "$1,000 @ 1x",
     "risk_pct": "2%"
   },
-  "total_signals": 80,
+  "total_signals": 90,
   "high_conviction": 2,
   "vol_spikes": 2,
   "ema_crossovers": 0,
   "top_scalps": [
-    {
-      "ticker": "SOL-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 94.260002,
-      "direction": "SHORT",
-      "score": 8,
-      "rr_ratio": 5.0,
-      "entry": 94.260002,
-      "stop_loss": 94.941556,
-      "target1": 92.8969,
-      "target2": 91.8746,
-      "target3": 90.8522,
-      "gap_fill": null,
-      "risk_per_unit": 0.681554,
-      "atr": 0.454369,
-      "vwap": 94.43016137502227,
-      "vwap_bias": "below",
-      "rsi": 37.34,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.06,
-      "vol_ratio": 0.06,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:24.8"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 95.0363,
-        "slope": -0.048008,
-        "strength": 0.048008
-      },
-      "position": {
-        "units": 414.8101,
-        "dollar_risk": 56.54,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.482
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 24.8,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [],
-        "count": 0
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:30.302633+00:00"
-    },
     {
       "ticker": "LINK-USD",
       "type": "crypto",
       "sector": "\u2014",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 11.319,
+      "price": 11.385,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 5.0,
-      "entry": 11.319,
-      "stop_loss": 11.45178,
-      "target1": 11.0534,
-      "target2": 10.8543,
-      "target3": 10.6551,
+      "entry": 11.385,
+      "stop_loss": 11.529462,
+      "target1": 11.0961,
+      "target2": 10.8794,
+      "target3": 10.6627,
       "gap_fill": null,
-      "risk_per_unit": 0.13278,
-      "atr": 0.08852,
-      "vwap": 11.581221199141302,
+      "risk_per_unit": 0.144462,
+      "atr": 0.096308,
+      "vwap": 11.51278208409173,
       "vwap_bias": "below",
-      "rsi": 34.01,
+      "rsi": 40.15,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.11,
+      "rvol": 1.36,
+      "vol_ratio": 1.36,
+      "candle_pct": 0.66,
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
@@ -236,31 +166,32 @@
       "mtf_confirmed": true,
       "daily_trend": "bearish",
       "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:20.9"
+        "ADX:21.2",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bearish",
-        "smoothed": 11.5714,
-        "slope": -0.011295,
-        "strength": 0.011295
+        "smoothed": 11.564,
+        "slope": -0.008655,
+        "strength": 0.008655
       },
       "position": {
-        "units": 3454.3687,
-        "dollar_risk": 91.73,
+        "units": 3434.3434,
+        "dollar_risk": 99.23,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 1.1,
-        "atr_pct": 0.782
+        "atr_pct": 0.846
       },
       "timeframe": "1h",
       "regime": "transition",
-      "adx": 20.9,
+      "adx": 21.2,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -269,108 +200,182 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:35.855250+00:00"
+      "scanned_at": "2026-11-02T01:32:39.320472+00:00"
     },
     {
-      "ticker": "MKR-USD",
+      "ticker": "XRP-USD",
       "type": "crypto",
       "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 1542.944458,
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 1.2582,
       "direction": "SHORT",
-      "score": 7,
-      "rr_ratio": 5.0,
-      "entry": 1542.944458,
-      "stop_loss": 1557.949384,
-      "target1": 1512.9346,
-      "target2": 1490.4272,
-      "target3": 1467.9198,
+      "score": 8,
+      "rr_ratio": 25.91,
+      "entry": 1.2582,
+      "stop_loss": 1.258505,
+      "target1": 1.2503,
+      "target2": 1.2472,
+      "target3": 1.2503,
       "gap_fill": null,
-      "risk_per_unit": 15.004926,
-      "atr": 10.003284,
-      "vwap": 1565.2570917037178,
-      "vwap_bias": "below",
-      "rsi": 39.8,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:38.0"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 1557.102,
-        "slope": -0.514636,
-        "strength": 0.514636
-      },
-      "position": {
-        "units": 25.3412,
-        "dollar_risk": 76.05,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.648
-      },
-      "timeframe": "1h",
-      "regime": "trend",
-      "adx": 38.0,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [],
-        "count": 0
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:41.821058+00:00"
-    },
-    {
-      "ticker": "AAVE-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 134.179993,
-      "direction": "SHORT",
-      "score": 6,
-      "rr_ratio": 5.0,
-      "entry": 134.179993,
-      "stop_loss": 135.352756,
-      "target1": 131.8345,
-      "target2": 130.0753,
-      "target3": 128.3162,
-      "gap_fill": null,
-      "risk_per_unit": 1.172764,
-      "atr": 1.271254,
-      "vwap": 133.7584395942841,
+      "risk_per_unit": 0.000305,
+      "atr": 0.006331,
+      "vwap": 1.2500586333579347,
       "vwap_bias": "above",
-      "rsi": 43.46,
+      "rsi": 60.01,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.16,
+      "rvol": 4.82,
+      "vol_ratio": 4.82,
+      "candle_pct": 1.01,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:12.9(CHOP)",
+        "Prime +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 1.2499,
+        "slope": 0.000346,
+        "strength": 0.000346
+      },
+      "position": {
+        "units": 31076.1393,
+        "dollar_risk": 1.9,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.1,
+        "atr_pct": 0.503
+      },
+      "timeframe": "1h",
+      "regime": "chop",
+      "adx": 12.9,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:34.391871+00:00"
+    },
+    {
+      "ticker": "BTC-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 78472.609375,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 3.39,
+      "entry": 78472.609375,
+      "stop_loss": 78311.849532,
+      "target1": 77888.5848,
+      "target2": 77714.5244,
+      "target3": 77928.1663,
+      "gap_fill": null,
+      "risk_per_unit": 160.759843,
+      "atr": 250.479878,
+      "vwap": 77996.95202407983,
+      "vwap_bias": "above",
+      "rsi": 69.28,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 3.16,
+      "vol_ratio": 3.16,
+      "candle_pct": 0.58,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "bullish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:19.4(CHOP)",
+        "Prime +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 77758.5846,
+        "slope": 36.773275,
+        "strength": 36.773275
+      },
+      "position": {
+        "units": 0.4983,
+        "dollar_risk": 16.02,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.319
+      },
+      "timeframe": "1h",
+      "regime": "chop",
+      "adx": 19.4,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:29.158339+00:00"
+    },
+    {
+      "ticker": "BNB-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 713.630005,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 1.64,
+      "entry": 713.630005,
+      "stop_loss": 718.174899,
+      "target1": 709.9235,
+      "target2": 706.2979,
+      "target3": 706.1857,
+      "gap_fill": null,
+      "risk_per_unit": 4.544894,
+      "atr": 3.334167,
+      "vwap": 711.6452153820281,
+      "vwap_bias": "above",
+      "rsi": 61.21,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.13,
+      "vol_ratio": 1.13,
+      "candle_pct": 0.41,
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
@@ -380,31 +385,32 @@
       "mtf_confirmed": true,
       "daily_trend": "bearish",
       "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:27.3"
+        "ADX:18.5(CHOP)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
-        "signal": "bearish",
-        "smoothed": 135.6177,
-        "slope": -0.025587,
-        "strength": 0.025587
+        "signal": "bullish",
+        "smoothed": 707.9395,
+        "slope": 0.334864,
+        "strength": 0.334864
       },
       "position": {
-        "units": 291.3996,
-        "dollar_risk": 68.35,
+        "units": 54.7903,
+        "dollar_risk": 49.8,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.947
+        "atr_scale": 1.2,
+        "atr_pct": 0.467
       },
       "timeframe": "1h",
-      "regime": "trend",
-      "adx": 27.3,
+      "regime": "chop",
+      "adx": 18.5,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -413,7 +419,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:40.274188+00:00"
+      "scanned_at": "2026-11-02T01:32:33.242473+00:00"
     },
     {
       "ticker": "ETH-USD",
@@ -421,63 +427,64 @@
       "sector": "\u2014",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 2261.0,
+      "price": 2290.129883,
       "direction": "LONG",
-      "score": 5,
+      "score": 7,
       "rr_ratio": 5.0,
-      "entry": 2261.0,
-      "stop_loss": 2249.958333,
-      "target1": 2283.0833,
-      "target2": 2299.6458,
-      "target3": 2316.2083,
+      "entry": 2290.129883,
+      "stop_loss": 2275.646896,
+      "target1": 2319.0959,
+      "target2": 2340.8203,
+      "target3": 2362.5448,
       "gap_fill": null,
-      "risk_per_unit": 11.041667,
-      "atr": 7.361111,
-      "vwap": 2262.7986402856363,
-      "vwap_bias": "below",
-      "rsi": 50.64,
+      "risk_per_unit": 14.482987,
+      "atr": 9.655324,
+      "vwap": 2272.835718475103,
+      "vwap_bias": "above",
+      "rsi": 70.47,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.02,
+      "rvol": 5.48,
+      "vol_ratio": 5.48,
+      "candle_pct": 0.87,
       "vol_spike": false,
-      "bb_squeeze": true,
+      "bb_squeeze": false,
       "ema_cross": false,
-      "macd_signal": "bear",
+      "macd_signal": "bull",
       "stochrsi_k": 0.0,
       "mtf_bias": "bearish",
       "mtf_confirmed": false,
       "daily_trend": "bearish",
       "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:21.0",
+        "ADX:21.6",
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bullish",
-        "smoothed": 2260.0976,
-        "slope": 0.235411,
-        "strength": 0.235411
+        "smoothed": 2261.9607,
+        "slope": 1.407368,
+        "strength": 1.407368
       },
       "position": {
-        "units": 17.2932,
-        "dollar_risk": 38.19,
+        "units": 17.0733,
+        "dollar_risk": 49.45,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 1.2,
-        "atr_pct": 0.326
+        "atr_pct": 0.422
       },
       "timeframe": "1h",
       "regime": "transition",
-      "adx": 21.0,
+      "adx": 21.6,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -486,7 +493,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:29.010611+00:00"
+      "scanned_at": "2026-11-02T01:32:30.534700+00:00"
     }
   ],
   "top_swings": [
@@ -498,7 +505,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 1417.540039,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 1417.540039,
       "stop_loss": 1327.720161,
@@ -528,9 +535,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:36.7(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -561,7 +569,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:10.288508+00:00"
+      "scanned_at": "2026-11-02T01:29:05.986198+00:00"
     },
     {
       "ticker": "ABBV",
@@ -571,7 +579,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 294.890015,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 294.890015,
       "stop_loss": 282.056942,
@@ -601,9 +609,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:34.5(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -634,7 +643,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:11.360183+00:00"
+      "scanned_at": "2026-11-02T01:29:07.125656+00:00"
     },
     {
       "ticker": "PFE",
@@ -644,7 +653,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 30.52,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 30.52,
       "stop_loss": 29.370931,
@@ -674,9 +683,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:29.2(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -707,7 +717,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:14.560873+00:00"
+      "scanned_at": "2026-11-02T01:29:10.351746+00:00"
     },
     {
       "ticker": "GILD",
@@ -717,7 +727,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 170.679993,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 170.679993,
       "stop_loss": 161.723106,
@@ -747,9 +757,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:27.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -780,7 +791,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:20.204584+00:00"
+      "scanned_at": "2026-11-02T01:29:16.079947+00:00"
     },
     {
       "ticker": "LIN",
@@ -790,7 +801,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 514.23999,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 514.23999,
       "stop_loss": 497.617841,
@@ -820,9 +831,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:32.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -853,7 +865,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:54.941315+00:00"
+      "scanned_at": "2026-11-02T01:30:54.435207+00:00"
     }
   ],
   "top_setups": [
@@ -865,7 +877,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 1417.540039,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 1417.540039,
       "stop_loss": 1327.720161,
@@ -895,9 +907,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:36.7(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -928,7 +941,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:10.288508+00:00"
+      "scanned_at": "2026-11-02T01:29:05.986198+00:00"
     },
     {
       "ticker": "ABBV",
@@ -938,7 +951,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 294.890015,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 294.890015,
       "stop_loss": 282.056942,
@@ -968,9 +981,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:34.5(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1001,7 +1015,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:11.360183+00:00"
+      "scanned_at": "2026-11-02T01:29:07.125656+00:00"
     },
     {
       "ticker": "PFE",
@@ -1011,7 +1025,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 30.52,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 30.52,
       "stop_loss": 29.370931,
@@ -1041,9 +1055,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:29.2(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1074,7 +1089,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:14.560873+00:00"
+      "scanned_at": "2026-11-02T01:29:10.351746+00:00"
     },
     {
       "ticker": "GILD",
@@ -1084,7 +1099,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 170.679993,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 170.679993,
       "stop_loss": 161.723106,
@@ -1114,9 +1129,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:27.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1147,7 +1163,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:20.204584+00:00"
+      "scanned_at": "2026-11-02T01:29:16.079947+00:00"
     },
     {
       "ticker": "LIN",
@@ -1157,7 +1173,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 514.23999,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 514.23999,
       "stop_loss": 497.617841,
@@ -1187,9 +1203,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:32.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1220,7 +1237,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:54.941315+00:00"
+      "scanned_at": "2026-11-02T01:30:54.435207+00:00"
     }
   ],
   "all_signals": [
@@ -1232,7 +1249,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 1417.540039,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 1417.540039,
       "stop_loss": 1327.720161,
@@ -1262,9 +1279,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:36.7(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1295,7 +1313,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:10.288508+00:00"
+      "scanned_at": "2026-11-02T01:29:05.986198+00:00"
     },
     {
       "ticker": "ABBV",
@@ -1305,7 +1323,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 294.890015,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 294.890015,
       "stop_loss": 282.056942,
@@ -1335,9 +1353,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:34.5(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1368,7 +1387,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:11.360183+00:00"
+      "scanned_at": "2026-11-02T01:29:07.125656+00:00"
     },
     {
       "ticker": "PFE",
@@ -1378,7 +1397,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 30.52,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 30.52,
       "stop_loss": 29.370931,
@@ -1408,9 +1427,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:29.2(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1441,7 +1461,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:14.560873+00:00"
+      "scanned_at": "2026-11-02T01:29:10.351746+00:00"
     },
     {
       "ticker": "GILD",
@@ -1451,7 +1471,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 170.679993,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 170.679993,
       "stop_loss": 161.723106,
@@ -1481,9 +1501,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:27.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1514,7 +1535,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:20.204584+00:00"
+      "scanned_at": "2026-11-02T01:29:16.079947+00:00"
     },
     {
       "ticker": "LIN",
@@ -1524,7 +1545,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 514.23999,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 514.23999,
       "stop_loss": 497.617841,
@@ -1554,9 +1575,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:32.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1587,7 +1609,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:54.941315+00:00"
+      "scanned_at": "2026-11-02T01:30:54.435207+00:00"
     },
     {
       "ticker": "APD",
@@ -1597,7 +1619,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 316.429993,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 316.429993,
       "stop_loss": 306.358293,
@@ -1627,9 +1649,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:30.8(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1660,7 +1683,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:56.097905+00:00"
+      "scanned_at": "2026-11-02T01:30:55.629366+00:00"
     },
     {
       "ticker": "ECL",
@@ -1670,7 +1693,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 302.980011,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 302.980011,
       "stop_loss": 291.022335,
@@ -1700,9 +1723,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:29.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1733,7 +1757,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:57.261568+00:00"
+      "scanned_at": "2026-11-02T01:30:56.808610+00:00"
     },
     {
       "ticker": "DOW",
@@ -1743,7 +1767,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 34.700001,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 34.700001,
       "stop_loss": 32.70262,
@@ -1773,9 +1797,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:31.4(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1806,7 +1831,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:04.204215+00:00"
+      "scanned_at": "2026-11-02T01:31:03.664695+00:00"
     },
     {
       "ticker": "DUK",
@@ -1816,7 +1841,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 127.389999,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 127.389999,
       "stop_loss": 123.529351,
@@ -1826,7 +1851,7 @@
       "gap_fill": null,
       "risk_per_unit": 3.860648,
       "atr": 1.930324,
-      "vwap": 122.37250669576056,
+      "vwap": 122.37250669576055,
       "vwap_bias": "above",
       "rsi": 69.73,
       "rsi_divergence": {
@@ -1846,9 +1871,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:40.3(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1879,7 +1905,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:19.624628+00:00"
+      "scanned_at": "2026-11-02T01:31:19.196390+00:00"
     },
     {
       "ticker": "EXC",
@@ -1889,7 +1915,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 46.16,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 46.16,
       "stop_loss": 44.518422,
@@ -1919,9 +1945,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:30.8(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -1952,7 +1979,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:22.222576+00:00"
+      "scanned_at": "2026-11-02T01:31:22.222779+00:00"
     },
     {
       "ticker": "XEL",
@@ -1962,7 +1989,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 79.82,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 79.82,
       "stop_loss": 76.989459,
@@ -1972,7 +1999,7 @@
       "gap_fill": null,
       "risk_per_unit": 2.830541,
       "atr": 1.41527,
-      "vwap": 77.16917260524816,
+      "vwap": 77.16917260524815,
       "vwap_bias": "above",
       "rsi": 68.54,
       "rsi_divergence": {
@@ -1992,9 +2019,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:34.7(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2025,7 +2053,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:23.324293+00:00"
+      "scanned_at": "2026-11-02T01:31:23.493271+00:00"
     },
     {
       "ticker": "AEE",
@@ -2035,7 +2063,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 110.540001,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 110.540001,
       "stop_loss": 107.143725,
@@ -2065,9 +2093,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:36.8(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2098,7 +2127,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:27.268940+00:00"
+      "scanned_at": "2026-11-02T01:31:27.474672+00:00"
     },
     {
       "ticker": "WEC",
@@ -2108,7 +2137,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 116.07,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 116.07,
       "stop_loss": 111.967887,
@@ -2118,7 +2147,7 @@
       "gap_fill": null,
       "risk_per_unit": 4.102113,
       "atr": 2.051056,
-      "vwap": 110.36949698616102,
+      "vwap": 110.369496986161,
       "vwap_bias": "above",
       "rsi": 74.08,
       "rsi_divergence": {
@@ -2138,9 +2167,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:41.7(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2171,7 +2201,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:28.428163+00:00"
+      "scanned_at": "2026-11-02T01:31:28.637987+00:00"
     },
     {
       "ticker": "EVRG",
@@ -2181,7 +2211,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 85.93,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 85.93,
       "stop_loss": 83.339181,
@@ -2211,9 +2241,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:32.1(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2244,7 +2275,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:31.765208+00:00"
+      "scanned_at": "2026-11-02T01:31:31.964114+00:00"
     },
     {
       "ticker": "LNT",
@@ -2254,7 +2285,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 71.650002,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 71.650002,
       "stop_loss": 69.177297,
@@ -2284,9 +2315,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:33.6(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2317,7 +2349,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:33.320719+00:00"
+      "scanned_at": "2026-11-02T01:31:33.561636+00:00"
     },
     {
       "ticker": "EXEL",
@@ -2327,7 +2359,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 69.389999,
       "direction": "LONG",
-      "score": 13,
+      "score": 14,
       "rr_ratio": 5.0,
       "entry": 69.389999,
       "stop_loss": 65.612743,
@@ -2357,9 +2389,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:35.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -2390,7 +2423,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:02:10.853145+00:00"
+      "scanned_at": "2026-11-02T01:32:11.375646+00:00"
     },
     {
       "ticker": "WMT",
@@ -2400,7 +2433,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 123.510002,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 123.510002,
       "stop_loss": 118.664422,
@@ -2430,9 +2463,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:40.8(TREND+ADX)"
+        "ADX:40.8(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2462,7 +2496,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:57:46.234427+00:00"
+      "scanned_at": "2026-11-02T01:27:38.412250+00:00"
     },
     {
       "ticker": "POOL",
@@ -2472,7 +2506,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 205.949997,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 205.949997,
       "stop_loss": 193.253119,
@@ -2502,9 +2536,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:41.6(TREND+ADX)"
+        "ADX:41.6(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2534,7 +2569,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:58:41.959540+00:00"
+      "scanned_at": "2026-11-02T01:28:36.393332+00:00"
     },
     {
       "ticker": "MO",
@@ -2544,7 +2579,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 78.029999,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 78.029999,
       "stop_loss": 74.624436,
@@ -2574,9 +2609,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:27.7(TREND+ADX)"
+        "ADX:27.7(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2606,7 +2642,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:58:59.612151+00:00"
+      "scanned_at": "2026-11-02T01:28:55.115907+00:00"
     },
     {
       "ticker": "SCHW",
@@ -2616,7 +2652,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 88.050003,
       "direction": "SHORT",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 88.050003,
       "stop_loss": 91.953972,
@@ -2646,9 +2682,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:44.7(TREND+ADX)"
+        "ADX:44.7(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2678,7 +2715,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:38.887043+00:00"
+      "scanned_at": "2026-11-02T01:29:35.304592+00:00"
     },
     {
       "ticker": "ALL",
@@ -2688,7 +2725,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 259.869995,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 259.869995,
       "stop_loss": 248.551557,
@@ -2718,9 +2755,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:30.3(TREND+ADX)"
+        "ADX:30.3(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2750,7 +2788,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:45.012325+00:00"
+      "scanned_at": "2026-11-02T01:29:41.580723+00:00"
     },
     {
       "ticker": "MKTX",
@@ -2760,7 +2798,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 165.300003,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 165.300003,
       "stop_loss": 164.491709,
@@ -2770,7 +2808,7 @@
       "gap_fill": null,
       "risk_per_unit": 0.808294,
       "atr": 0.404147,
-      "vwap": 164.7296177721421,
+      "vwap": 164.72961777214206,
       "vwap_bias": "above",
       "rsi": 73.58,
       "rsi_divergence": {
@@ -2790,9 +2828,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:61.6(TREND+ADX)"
+        "ADX:61.6(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2822,7 +2861,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:59:58.189458+00:00"
+      "scanned_at": "2026-11-02T01:29:55.714588+00:00"
     },
     {
       "ticker": "UPS",
@@ -2832,7 +2871,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 108.25,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 108.25,
       "stop_loss": 103.500578,
@@ -2862,9 +2901,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:40.4(TREND+ADX)"
+        "ADX:40.4(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2894,7 +2934,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:04.203825+00:00"
+      "scanned_at": "2026-11-02T01:30:01.515701+00:00"
     },
     {
       "ticker": "UNP",
@@ -2904,7 +2944,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 304.0,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 304.0,
       "stop_loss": 292.628555,
@@ -2934,9 +2974,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:39.9(TREND+ADX)"
+        "ADX:39.9(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -2966,7 +3007,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:08.234175+00:00"
+      "scanned_at": "2026-11-02T01:30:05.464439+00:00"
     },
     {
       "ticker": "RSG",
@@ -2976,7 +3017,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 244.039993,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 244.039993,
       "stop_loss": 233.411504,
@@ -3006,9 +3047,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:35.5(TREND+ADX)"
+        "ADX:35.5(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3038,7 +3080,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:10.872292+00:00"
+      "scanned_at": "2026-11-02T01:30:07.979866+00:00"
     },
     {
       "ticker": "PKG",
@@ -3048,7 +3090,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 256.820007,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 256.820007,
       "stop_loss": 246.097838,
@@ -3078,9 +3120,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:26.2(TREND+ADX)"
+        "ADX:26.2(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3110,7 +3153,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:29.523822+00:00"
+      "scanned_at": "2026-11-02T01:30:26.868758+00:00"
     },
     {
       "ticker": "ROP",
@@ -3120,7 +3163,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 466.600006,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 466.600006,
       "stop_loss": 441.722604,
@@ -3150,9 +3193,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:40.9(TREND+ADX)"
+        "ADX:40.9(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3182,7 +3226,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:00:33.950203+00:00"
+      "scanned_at": "2026-11-02T01:30:31.454511+00:00"
     },
     {
       "ticker": "PSA",
@@ -3192,7 +3236,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 324.769989,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 324.769989,
       "stop_loss": 311.222659,
@@ -3202,7 +3246,7 @@
       "gap_fill": null,
       "risk_per_unit": 13.54733,
       "atr": 6.773665,
-      "vwap": 304.07224872225424,
+      "vwap": 304.0722487222543,
       "vwap_bias": "above",
       "rsi": 72.39,
       "rsi_divergence": {
@@ -3222,9 +3266,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:34.0(TREND+ADX)"
+        "ADX:34.0(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3254,7 +3299,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:08.298490+00:00"
+      "scanned_at": "2026-11-02T01:31:07.765869+00:00"
     },
     {
       "ticker": "EXR",
@@ -3264,7 +3309,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 151.320007,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 151.320007,
       "stop_loss": 145.109115,
@@ -3294,9 +3339,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:37.5(TREND+ADX)"
+        "ADX:37.5(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3326,7 +3372,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:15.488491+00:00"
+      "scanned_at": "2026-11-02T01:31:14.967269+00:00"
     },
     {
       "ticker": "SLV",
@@ -3336,7 +3382,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 44.599998,
       "direction": "SHORT",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 44.599998,
       "stop_loss": 47.827511,
@@ -3366,9 +3412,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:32.3(TREND+ADX)"
+        "ADX:32.3(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3398,7 +3445,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:40.175560+00:00"
+      "scanned_at": "2026-11-02T01:31:40.612481+00:00"
     },
     {
       "ticker": "XLV",
@@ -3408,7 +3455,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 184.869995,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 184.869995,
       "stop_loss": 178.691488,
@@ -3438,9 +3485,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:31.5(TREND+ADX)"
+        "ADX:31.5(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3470,7 +3518,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:01:43.204646+00:00"
+      "scanned_at": "2026-11-02T01:31:43.638593+00:00"
     },
     {
       "ticker": "OPEN",
@@ -3480,7 +3528,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 1.8,
       "direction": "SHORT",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 5.0,
       "entry": 1.8,
       "stop_loss": 2.106688,
@@ -3510,9 +3558,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:35.4(TREND+ADX)"
+        "ADX:35.4(TREND+ADX)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -3542,7 +3591,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T22:02:02.811684+00:00"
+      "scanned_at": "2026-11-02T01:32:03.345239+00:00"
     },
     {
       "ticker": "FTNT",
@@ -3552,7 +3601,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 136.080002,
       "direction": "LONG",
-      "score": 12,
+      "score": 13,
       "rr_ratio": 3.29,
       "entry": 136.080002,
       "stop_loss": 124.521148,
@@ -3590,8 +3639,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -3622,7 +3672,7 @@
         "count": 0
       },
       "high_conviction": true,
-      "scanned_at": "2026-11-01T21:58:11.252542+00:00"
+      "scanned_at": "2026-11-02T01:28:03.982848+00:00"
     },
     {
       "ticker": "NOW",
@@ -3632,7 +3682,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 105.120003,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 10.91,
       "entry": 105.120003,
       "stop_loss": 100.993002,
@@ -3670,8 +3720,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -3701,8 +3752,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:06.408088+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:27:58.890222+00:00"
     },
     {
       "ticker": "ILMN",
@@ -3712,7 +3763,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 235.990005,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.46,
       "entry": 235.990005,
       "stop_loss": 226.078995,
@@ -3750,8 +3801,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2191 +1"
       ],
       "sr_levels": {},
@@ -3781,8 +3833,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T21:59:34.373620+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:29:30.763296+00:00"
     },
     {
       "ticker": "CVX",
@@ -3792,7 +3844,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 235.520004,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 235.520004,
       "stop_loss": 226.36357,
@@ -3822,9 +3874,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:33.9(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -3854,8 +3907,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T21:57:58.134824+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:27:50.673005+00:00"
     },
     {
       "ticker": "EPAM",
@@ -3865,7 +3918,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 140.509995,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 140.509995,
       "stop_loss": 129.455586,
@@ -3895,9 +3948,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:34.0(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -3927,8 +3981,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:19.174707+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:28:12.689205+00:00"
     },
     {
       "ticker": "GDDY",
@@ -3938,7 +3992,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 117.239998,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 117.239998,
       "stop_loss": 107.556912,
@@ -3968,9 +4022,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:30.9(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4000,8 +4055,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:26.820706+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:28:20.319347+00:00"
     },
     {
       "ticker": "XOM",
@@ -4011,7 +4066,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 187.25,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 187.25,
       "stop_loss": 179.312628,
@@ -4041,9 +4096,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:31.1(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4073,8 +4129,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:41.258250+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:30:39.547739+00:00"
     },
     {
       "ticker": "COP",
@@ -4084,7 +4140,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 154.029999,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 154.029999,
       "stop_loss": 147.067174,
@@ -4114,9 +4170,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:35.5(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4146,8 +4203,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:42.436896+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:30:40.688814+00:00"
     },
     {
       "ticker": "EOG",
@@ -4157,7 +4214,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 165.539993,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 165.539993,
       "stop_loss": 158.203631,
@@ -4187,9 +4244,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:27.3(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4219,8 +4277,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:43.547684+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:30:41.867691+00:00"
     },
     {
       "ticker": "APA",
@@ -4230,7 +4288,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 52.82,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 52.82,
       "stop_loss": 49.727354,
@@ -4260,9 +4318,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:33.6(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4292,8 +4351,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:53.139414+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:30:52.651754+00:00"
     },
     {
       "ticker": "VNOM",
@@ -4303,7 +4362,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 47.68,
       "direction": "LONG",
-      "score": 11,
+      "score": 12,
       "rr_ratio": 5.0,
       "entry": 47.68,
       "stop_loss": 45.584207,
@@ -4333,9 +4392,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:26.9(TREND+ADX)",
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4365,8 +4425,8 @@
         "headlines": [],
         "count": 0
       },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:26.790543+00:00"
+      "high_conviction": true,
+      "scanned_at": "2026-11-02T01:32:27.430890+00:00"
     },
     {
       "ticker": "WING",
@@ -4376,7 +4436,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 149.729996,
       "direction": "SHORT",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 10.85,
       "entry": 149.729996,
       "stop_loss": 152.145962,
@@ -4414,8 +4474,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [],
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "Prime +1"
+      ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
@@ -4444,7 +4506,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:05.114351+00:00"
+      "scanned_at": "2026-11-02T01:32:05.660147+00:00"
     },
     {
       "ticker": "NXPI",
@@ -4454,7 +4516,7 @@
       "trade_type": "\ud83d\udd04 Mean Rev",
       "price": 259.609985,
       "direction": "SHORT",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 7.68,
       "entry": 259.609985,
       "stop_loss": 265.265366,
@@ -4484,9 +4546,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:18.1(CHOP)",
+        "Prime +1",
         "Sector\u2193 +1"
       ],
       "sr_levels": {},
@@ -4517,7 +4580,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:12.360369+00:00"
+      "scanned_at": "2026-11-02T01:28:05.095190+00:00"
     },
     {
       "ticker": "PNR",
@@ -4527,7 +4590,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 66.260002,
       "direction": "SHORT",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 7.25,
       "entry": 66.260002,
       "stop_loss": 67.78222,
@@ -4565,8 +4628,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [],
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "Prime +1"
+      ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
@@ -4595,7 +4660,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:38.320463+00:00"
+      "scanned_at": "2026-11-02T01:30:36.341546+00:00"
     },
     {
       "ticker": "NI",
@@ -4605,7 +4670,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 44.57,
       "direction": "LONG",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 5.0,
       "entry": 44.57,
       "stop_loss": 43.058443,
@@ -4635,9 +4700,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:42.2(TREND+ADX)",
+        "Prime +1",
         "Sector\u2191 +1",
         "CounterTrend(bearish) -3"
       ],
@@ -4669,7 +4735,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:30.602404+00:00"
+      "scanned_at": "2026-11-02T01:31:30.756201+00:00"
     },
     {
       "ticker": "HII",
@@ -4679,7 +4745,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 316.880005,
       "direction": "SHORT",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 2.72,
       "entry": 316.880005,
       "stop_loss": 330.69801,
@@ -4717,8 +4783,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [],
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "Prime +1"
+      ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
@@ -4747,7 +4815,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:22.039693+00:00"
+      "scanned_at": "2026-11-02T01:30:19.335531+00:00"
     },
     {
       "ticker": "SOFI",
@@ -4757,7 +4825,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 16.76,
       "direction": "SHORT",
-      "score": 10,
+      "score": 11,
       "rr_ratio": 2.08,
       "entry": 16.76,
       "stop_loss": 17.863572,
@@ -4795,8 +4863,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
-      "penalty_notes": [],
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "Prime +1"
+      ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
@@ -4825,7 +4895,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:51.245481+00:00"
+      "scanned_at": "2026-11-02T01:31:51.530709+00:00"
     },
     {
       "ticker": "FFIV",
@@ -4835,7 +4905,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 338.339996,
       "direction": "LONG",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 11.32,
       "entry": 338.339996,
       "stop_loss": 327.644589,
@@ -4873,8 +4943,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1"
       ],
       "sr_levels": {},
@@ -4905,7 +4976,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:21.405614+00:00"
+      "scanned_at": "2026-11-02T01:28:15.014729+00:00"
     },
     {
       "ticker": "FMC",
@@ -4915,7 +4986,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 6.2,
       "direction": "SHORT",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 6.53,
       "entry": 6.2,
       "stop_loss": 6.422114,
@@ -4953,8 +5024,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2191 -1"
       ],
       "sr_levels": {},
@@ -4985,7 +5057,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:01.879672+00:00"
+      "scanned_at": "2026-11-02T01:31:01.378528+00:00"
     },
     {
       "ticker": "ADM",
@@ -4995,7 +5067,7 @@
       "trade_type": "\ud83d\udd04 Mean Rev",
       "price": 76.910004,
       "direction": "LONG",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 5.63,
       "entry": 76.910004,
       "stop_loss": 75.599738,
@@ -5025,9 +5097,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:17.2(CHOP)"
+        "ADX:17.2(CHOP)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -5057,7 +5130,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:59:02.186225+00:00"
+      "scanned_at": "2026-11-02T01:28:57.731963+00:00"
     },
     {
       "ticker": "HD",
@@ -5067,7 +5140,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 329.200012,
       "direction": "LONG",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 5.0,
       "entry": 329.200012,
       "stop_loss": 314.839076,
@@ -5097,9 +5170,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:35.0(TREND+ADX)",
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
@@ -5130,7 +5204,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:57:56.924700+00:00"
+      "scanned_at": "2026-11-02T01:27:49.502377+00:00"
     },
     {
       "ticker": "QQQ",
@@ -5140,7 +5214,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 690.48999,
       "direction": "SHORT",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 5.0,
       "entry": 690.48999,
       "stop_loss": 715.928007,
@@ -5170,9 +5244,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
         "ADX:27.2(TREND+ADX)",
+        "Prime +1",
         "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
@@ -5203,7 +5278,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:37.035380+00:00"
+      "scanned_at": "2026-11-02T01:31:37.473027+00:00"
     },
     {
       "ticker": "LKQ",
@@ -5213,7 +5288,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 18.559999,
       "direction": "LONG",
-      "score": 9,
+      "score": 10,
       "rr_ratio": 1.96,
       "entry": 18.559999,
       "stop_loss": 16.570124,
@@ -5251,8 +5326,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
@@ -5283,7 +5359,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:47.941544+00:00"
+      "scanned_at": "2026-11-02T01:28:42.736627+00:00"
     },
     {
       "ticker": "IP",
@@ -5293,7 +5369,7 @@
       "trade_type": "\ud83d\udd04 Mean Rev",
       "price": 36.369999,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 57.66,
       "entry": 36.369999,
       "stop_loss": 36.272708,
@@ -5323,9 +5399,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:17.9(CHOP)"
+        "ADX:17.9(CHOP)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -5355,7 +5432,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:30.709161+00:00"
+      "scanned_at": "2026-11-02T01:30:28.089571+00:00"
     },
     {
       "ticker": "GEN",
@@ -5365,7 +5442,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 29.129999,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 11.23,
       "entry": 29.129999,
       "stop_loss": 29.555781,
@@ -5403,8 +5480,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 +1",
         "CounterTrend(bullish) -3"
       ],
@@ -5436,7 +5514,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:15.437287+00:00"
+      "scanned_at": "2026-11-02T01:28:08.397594+00:00"
     },
     {
       "ticker": "PHM",
@@ -5446,7 +5524,7 @@
       "trade_type": "\ud83d\udd04 Mean Rev",
       "price": 124.739998,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 10.89,
       "entry": 124.739998,
       "stop_loss": 126.365294,
@@ -5476,9 +5554,10 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:18.9(CHOP)"
+        "ADX:18.9(CHOP)",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
@@ -5508,79 +5587,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:40.484375+00:00"
-    },
-    {
-      "ticker": "SOL-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 94.260002,
-      "direction": "SHORT",
-      "score": 8,
-      "rr_ratio": 5.0,
-      "entry": 94.260002,
-      "stop_loss": 94.941556,
-      "target1": 92.8969,
-      "target2": 91.8746,
-      "target3": 90.8522,
-      "gap_fill": null,
-      "risk_per_unit": 0.681554,
-      "atr": 0.454369,
-      "vwap": 94.43016137502227,
-      "vwap_bias": "below",
-      "rsi": 37.34,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.06,
-      "vol_ratio": 0.06,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:24.8"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 95.0363,
-        "slope": -0.048008,
-        "strength": 0.048008
-      },
-      "position": {
-        "units": 414.8101,
-        "dollar_risk": 56.54,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.482
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 24.8,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [],
-        "count": 0
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:30.302633+00:00"
+      "scanned_at": "2026-11-02T01:28:34.843741+00:00"
     },
     {
       "ticker": "LINK-USD",
@@ -5588,28 +5595,28 @@
       "sector": "\u2014",
       "signal_type": "MOMENTUM \ud83d\udcc8",
       "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 11.319,
+      "price": 11.385,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 5.0,
-      "entry": 11.319,
-      "stop_loss": 11.45178,
-      "target1": 11.0534,
-      "target2": 10.8543,
-      "target3": 10.6551,
+      "entry": 11.385,
+      "stop_loss": 11.529462,
+      "target1": 11.0961,
+      "target2": 10.8794,
+      "target3": 10.6627,
       "gap_fill": null,
-      "risk_per_unit": 0.13278,
-      "atr": 0.08852,
-      "vwap": 11.581221199141302,
+      "risk_per_unit": 0.144462,
+      "atr": 0.096308,
+      "vwap": 11.51278208409173,
       "vwap_bias": "below",
-      "rsi": 34.01,
+      "rsi": 40.15,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.11,
+      "rvol": 1.36,
+      "vol_ratio": 1.36,
+      "candle_pct": 0.66,
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
@@ -5619,31 +5626,32 @@
       "mtf_confirmed": true,
       "daily_trend": "bearish",
       "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:20.9"
+        "ADX:21.2",
+        "Prime +1"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
         "signal": "bearish",
-        "smoothed": 11.5714,
-        "slope": -0.011295,
-        "strength": 0.011295
+        "smoothed": 11.564,
+        "slope": -0.008655,
+        "strength": 0.008655
       },
       "position": {
-        "units": 3454.3687,
-        "dollar_risk": 91.73,
+        "units": 3434.3434,
+        "dollar_risk": 99.23,
         "pos_value": 39100.0,
         "account": "crypto",
         "leverage": 5,
         "atr_scale": 1.1,
-        "atr_pct": 0.782
+        "atr_pct": 0.846
       },
       "timeframe": "1h",
       "regime": "transition",
-      "adx": 20.9,
+      "adx": 21.2,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -5652,7 +5660,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:35.855250+00:00"
+      "scanned_at": "2026-11-02T01:32:39.320472+00:00"
     },
     {
       "ticker": "CCI",
@@ -5662,7 +5670,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 88.690002,
       "direction": "SHORT",
-      "score": 8,
+      "score": 9,
       "rr_ratio": 2.65,
       "entry": 88.690002,
       "stop_loss": 92.410621,
@@ -5700,8 +5708,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
@@ -5732,7 +5741,80 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:07.139048+00:00"
+      "scanned_at": "2026-11-02T01:31:06.583010+00:00"
+    },
+    {
+      "ticker": "XRP-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 1.2582,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 25.91,
+      "entry": 1.2582,
+      "stop_loss": 1.258505,
+      "target1": 1.2503,
+      "target2": 1.2472,
+      "target3": 1.2503,
+      "gap_fill": null,
+      "risk_per_unit": 0.000305,
+      "atr": 0.006331,
+      "vwap": 1.2500586333579347,
+      "vwap_bias": "above",
+      "rsi": 60.01,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 4.82,
+      "vol_ratio": 4.82,
+      "candle_pct": 1.01,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:12.9(CHOP)",
+        "Prime +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 1.2499,
+        "slope": 0.000346,
+        "strength": 0.000346
+      },
+      "position": {
+        "units": 31076.1393,
+        "dollar_risk": 1.9,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.1,
+        "atr_pct": 0.503
+      },
+      "timeframe": "1h",
+      "regime": "chop",
+      "adx": 12.9,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:34.391871+00:00"
     },
     {
       "ticker": "CAT",
@@ -5742,7 +5824,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 622.75,
       "direction": "LONG",
-      "score": 7,
+      "score": 8,
       "rr_ratio": 5.97,
       "entry": 622.75,
       "stop_loss": 607.566343,
@@ -5780,8 +5862,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
@@ -5812,79 +5895,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:57:49.883078+00:00"
-    },
-    {
-      "ticker": "MKR-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 1542.944458,
-      "direction": "SHORT",
-      "score": 7,
-      "rr_ratio": 5.0,
-      "entry": 1542.944458,
-      "stop_loss": 1557.949384,
-      "target1": 1512.9346,
-      "target2": 1490.4272,
-      "target3": 1467.9198,
-      "gap_fill": null,
-      "risk_per_unit": 15.004926,
-      "atr": 10.003284,
-      "vwap": 1565.2570917037178,
-      "vwap_bias": "below",
-      "rsi": 39.8,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.0,
-      "vol_spike": false,
-      "bb_squeeze": false,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:38.0"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bearish",
-        "smoothed": 1557.102,
-        "slope": -0.514636,
-        "strength": 0.514636
-      },
-      "position": {
-        "units": 25.3412,
-        "dollar_risk": 76.05,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.648
-      },
-      "timeframe": "1h",
-      "regime": "trend",
-      "adx": 38.0,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [],
-        "count": 0
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:41.821058+00:00"
+      "scanned_at": "2026-11-02T01:27:41.972294+00:00"
     },
     {
       "ticker": "GKOS",
@@ -5894,7 +5905,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 237.600006,
       "direction": "SHORT",
-      "score": 7,
+      "score": 8,
       "rr_ratio": 3.86,
       "entry": 237.600006,
       "stop_loss": 252.144709,
@@ -5932,8 +5943,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2191 -1",
         "CounterTrend(bullish) -3"
       ],
@@ -5965,7 +5977,526 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:07.646509+00:00"
+      "scanned_at": "2026-11-02T01:32:08.080603+00:00"
+    },
+    {
+      "ticker": "BTC-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 78472.609375,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 3.39,
+      "entry": 78472.609375,
+      "stop_loss": 78311.849532,
+      "target1": 77888.5848,
+      "target2": 77714.5244,
+      "target3": 77928.1663,
+      "gap_fill": null,
+      "risk_per_unit": 160.759843,
+      "atr": 250.479878,
+      "vwap": 77996.95202407983,
+      "vwap_bias": "above",
+      "rsi": 69.28,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 3.16,
+      "vol_ratio": 3.16,
+      "candle_pct": 0.58,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "bullish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:19.4(CHOP)",
+        "Prime +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 77758.5846,
+        "slope": 36.773275,
+        "strength": 36.773275
+      },
+      "position": {
+        "units": 0.4983,
+        "dollar_risk": 16.02,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.319
+      },
+      "timeframe": "1h",
+      "regime": "chop",
+      "adx": 19.4,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:29.158339+00:00"
+    },
+    {
+      "ticker": "BNB-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev (1H)",
+      "price": 713.630005,
+      "direction": "SHORT",
+      "score": 8,
+      "rr_ratio": 1.64,
+      "entry": 713.630005,
+      "stop_loss": 718.174899,
+      "target1": 709.9235,
+      "target2": 706.2979,
+      "target3": 706.1857,
+      "gap_fill": null,
+      "risk_per_unit": 4.544894,
+      "atr": 3.334167,
+      "vwap": 711.6452153820281,
+      "vwap_bias": "above",
+      "rsi": 61.21,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.13,
+      "vol_ratio": 1.13,
+      "candle_pct": 0.41,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": true,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:18.5(CHOP)",
+        "Prime +1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 707.9395,
+        "slope": 0.334864,
+        "strength": 0.334864
+      },
+      "position": {
+        "units": 54.7903,
+        "dollar_risk": 49.8,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.467
+      },
+      "timeframe": "1h",
+      "regime": "chop",
+      "adx": 18.5,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:33.242473+00:00"
+    },
+    {
+      "ticker": "TRGP",
+      "type": "stock",
+      "sector": "Energy",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 314.98999,
+      "direction": "SHORT",
+      "score": 7,
+      "rr_ratio": 64.62,
+      "entry": 314.98999,
+      "stop_loss": 314.399438,
+      "target1": 293.769,
+      "target2": 284.61,
+      "target3": 276.8283,
+      "gap_fill": null,
+      "risk_per_unit": 0.590552,
+      "atr": 7.70839,
+      "vwap": 296.8684806594432,
+      "vwap_bias": "above",
+      "rsi": 69.08,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.34,
+      "vol_ratio": 1.34,
+      "candle_pct": 1.24,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 1.0,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:9.7(CHOP)",
+        "Prime +1",
+        "Sector\u2193 +1",
+        "CounterTrend(bullish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 290.9989,
+        "slope": 1.208923,
+        "strength": 1.208923
+      },
+      "position": {
+        "units": 1.0794,
+        "dollar_risk": 0.64,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.447
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 9.7,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:30:48.930308+00:00"
+    },
+    {
+      "ticker": "AMZN",
+      "type": "stock",
+      "sector": "Consumer Discretionary",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 240.350006,
+      "direction": "LONG",
+      "score": 7,
+      "rr_ratio": 50.31,
+      "entry": 240.350006,
+      "stop_loss": 239.851751,
+      "target1": 254.3905,
+      "target2": 260.5715,
+      "target3": 265.4187,
+      "gap_fill": null,
+      "risk_per_unit": 0.498255,
+      "atr": 7.255809,
+      "vwap": 250.72717294506708,
+      "vwap_bias": "below",
+      "rsi": 38.26,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 2.51,
+      "vol_ratio": 2.51,
+      "candle_pct": 1.41,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.146,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:15.3(CHOP)",
+        "Prime +1",
+        "CounterTrend(bearish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 253.3703,
+        "slope": -0.573854,
+        "strength": 0.573854
+      },
+      "position": {
+        "units": 1.4146,
+        "dollar_risk": 0.7,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.7,
+        "atr_pct": 3.019
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 15.3,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:27:36.251794+00:00"
+    },
+    {
+      "ticker": "LYV",
+      "type": "stock",
+      "sector": "Communication Services",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 177.889999,
+      "direction": "SHORT",
+      "score": 7,
+      "rr_ratio": 21.48,
+      "entry": 177.889999,
+      "stop_loss": 178.327495,
+      "target1": 172.422,
+      "target2": 170.0387,
+      "target3": 168.4936,
+      "gap_fill": null,
+      "risk_per_unit": 0.437496,
+      "atr": 3.796015,
+      "vwap": 173.2866215602695,
+      "vwap_bias": "above",
+      "rsi": 62.36,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.12,
+      "vol_ratio": 1.12,
+      "candle_pct": 0.03,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.855,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:9.1(CHOP)",
+        "Prime +1",
+        "Sector\u2193 +1",
+        "CounterTrend(bullish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 172.2078,
+        "slope": 0.2464,
+        "strength": 0.2464
+      },
+      "position": {
+        "units": 1.9113,
+        "dollar_risk": 0.84,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.134
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 9.1,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:28:26.843858+00:00"
+    },
+    {
+      "ticker": "HPQ",
+      "type": "stock",
+      "sector": "Technology",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 28.780001,
+      "direction": "LONG",
+      "score": 7,
+      "rr_ratio": 9.55,
+      "entry": 28.780001,
+      "stop_loss": 28.208629,
+      "target1": 31.54,
+      "target2": 32.9738,
+      "target3": 34.2356,
+      "gap_fill": null,
+      "risk_per_unit": 0.571372,
+      "atr": 1.545795,
+      "vwap": 31.30003015214572,
+      "vwap_bias": "below",
+      "rsi": 37.43,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 2.38,
+      "vol_ratio": 2.38,
+      "candle_pct": 9.58,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.302,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": true,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:17.6(CHOP)",
+        "Prime +1",
+        "Sector\u2193 -1"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 31.7092,
+        "slope": -0.119392,
+        "strength": 0.119392
+      },
+      "position": {
+        "units": 11.8138,
+        "dollar_risk": 6.75,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.7,
+        "atr_pct": 5.371
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 17.6,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:28:10.529625+00:00"
+    },
+    {
+      "ticker": "HAL",
+      "type": "stock",
+      "sector": "Energy",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 36.169998,
+      "direction": "SHORT",
+      "score": 7,
+      "rr_ratio": 9.42,
+      "entry": 36.169998,
+      "stop_loss": 36.69737,
+      "target1": 33.727,
+      "target2": 32.3864,
+      "target3": 31.2009,
+      "gap_fill": null,
+      "risk_per_unit": 0.527372,
+      "atr": 0.963574,
+      "vwap": 34.02746787915182,
+      "vwap_bias": "above",
+      "rsi": 67.93,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.79,
+      "vol_ratio": 0.79,
+      "candle_pct": 0.75,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 1.0,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:16.0(CHOP)",
+        "Prime +1",
+        "Sector\u2193 +1",
+        "CounterTrend(bullish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 33.7824,
+        "slope": 0.106818,
+        "strength": 0.106818
+      },
+      "position": {
+        "units": 9.4001,
+        "dollar_risk": 4.96,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.664
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 16.0,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:30:47.399237+00:00"
     },
     {
       "ticker": "GOOGL",
@@ -5975,7 +6506,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 279.839996,
       "direction": "LONG",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 7.46,
       "entry": 279.839996,
       "stop_loss": 273.798185,
@@ -6013,8 +6544,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -6046,7 +6578,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:00.423228+00:00"
+      "scanned_at": "2026-11-02T01:27:52.988072+00:00"
     },
     {
       "ticker": "GOOG",
@@ -6056,7 +6588,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 278.220001,
       "direction": "LONG",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 7.36,
       "entry": 278.220001,
       "stop_loss": 272.284847,
@@ -6094,8 +6626,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -6127,70 +6660,72 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:01.549055+00:00"
+      "scanned_at": "2026-11-02T01:27:54.192049+00:00"
     },
     {
-      "ticker": "AAVE-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 134.179993,
+      "ticker": "MHK",
+      "type": "stock",
+      "sector": "Consumer Discretionary",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 139.410004,
       "direction": "SHORT",
-      "score": 6,
-      "rr_ratio": 5.0,
-      "entry": 134.179993,
-      "stop_loss": 135.352756,
-      "target1": 131.8345,
-      "target2": 130.0753,
-      "target3": 128.3162,
+      "score": 7,
+      "rr_ratio": 7.04,
+      "entry": 139.410004,
+      "stop_loss": 135.60787,
+      "target1": 123.022,
+      "target2": 117.5454,
+      "target3": 112.6292,
       "gap_fill": null,
-      "risk_per_unit": 1.172764,
-      "atr": 1.271254,
-      "vwap": 133.7584395942841,
+      "risk_per_unit": 3.802134,
+      "atr": 5.442324,
+      "vwap": 125.11321008306953,
       "vwap_bias": "above",
-      "rsi": 43.46,
+      "rsi": 67.5,
       "rsi_divergence": {
         "bullish": false,
         "bearish": false
       },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.16,
+      "rvol": 2.23,
+      "vol_ratio": 2.23,
+      "candle_pct": 7.25,
       "vol_spike": false,
       "bb_squeeze": false,
       "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": true,
-      "daily_trend": "bearish",
+      "macd_signal": "bull",
+      "stochrsi_k": 0.969,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
       "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
-        "ADX:27.3"
+        "ADX:19.2(CHOP)",
+        "Prime +1",
+        "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
       "has_earnings": false,
       "green_lights": {
-        "signal": "bearish",
-        "smoothed": 135.6177,
-        "slope": -0.025587,
-        "strength": 0.025587
+        "signal": "bullish",
+        "smoothed": 124.0171,
+        "slope": 0.624957,
+        "strength": 0.624957
       },
       "position": {
-        "units": 291.3996,
-        "dollar_risk": 68.35,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.1,
-        "atr_pct": 0.947
+        "units": 2.4388,
+        "dollar_risk": 9.27,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.7,
+        "atr_pct": 3.904
       },
-      "timeframe": "1h",
-      "regime": "trend",
-      "adx": 27.3,
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 19.2,
       "news_sentiment": {
         "score": 0,
         "adj": 0,
@@ -6199,7 +6734,304 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:40.274188+00:00"
+      "scanned_at": "2026-11-02T01:28:47.907781+00:00"
+    },
+    {
+      "ticker": "DVN",
+      "type": "stock",
+      "sector": "Energy",
+      "signal_type": "BB REVERSION \ud83d\udd04",
+      "trade_type": "\ud83d\udd04 Mean Rev",
+      "price": 52.150002,
+      "direction": "SHORT",
+      "score": 7,
+      "rr_ratio": 5.39,
+      "entry": 52.150002,
+      "stop_loss": 52.997005,
+      "target1": 49.966,
+      "target2": 48.6559,
+      "target3": 47.5825,
+      "gap_fill": null,
+      "risk_per_unit": 0.847003,
+      "atr": 1.369296,
+      "vwap": 50.55067320167484,
+      "vwap_bias": "above",
+      "rsi": 63.79,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.09,
+      "vol_ratio": 1.09,
+      "candle_pct": 1.92,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.818,
+      "mtf_bias": "bullish",
+      "mtf_confirmed": false,
+      "daily_trend": "neutral",
+      "funding_rate": null,
+      "btc_trend": null,
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:18.7(CHOP)",
+        "Prime +1",
+        "Sector\u2193 +1",
+        "CounterTrend(bullish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 49.4302,
+        "slope": 0.152532,
+        "strength": 0.152532
+      },
+      "position": {
+        "units": 6.5197,
+        "dollar_risk": 5.52,
+        "pos_value": 340.0,
+        "account": "stocks",
+        "leverage": 1,
+        "atr_scale": 0.85,
+        "atr_pct": 2.626
+      },
+      "timeframe": "1d",
+      "regime": "chop",
+      "adx": 18.7,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:30:46.221342+00:00"
+    },
+    {
+      "ticker": "ETH-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 2290.129883,
+      "direction": "LONG",
+      "score": 7,
+      "rr_ratio": 5.0,
+      "entry": 2290.129883,
+      "stop_loss": 2275.646896,
+      "target1": 2319.0959,
+      "target2": 2340.8203,
+      "target3": 2362.5448,
+      "gap_fill": null,
+      "risk_per_unit": 14.482987,
+      "atr": 9.655324,
+      "vwap": 2272.835718475103,
+      "vwap_bias": "above",
+      "rsi": 70.47,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 5.48,
+      "vol_ratio": 5.48,
+      "candle_pct": 0.87,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:21.6",
+        "Prime +1",
+        "CounterTrend(bearish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 2261.9607,
+        "slope": 1.407368,
+        "strength": 1.407368
+      },
+      "position": {
+        "units": 17.0733,
+        "dollar_risk": 49.45,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.2,
+        "atr_pct": 0.422
+      },
+      "timeframe": "1h",
+      "regime": "transition",
+      "adx": 21.6,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:30.534700+00:00"
+    },
+    {
+      "ticker": "AAVE-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 136.070007,
+      "direction": "LONG",
+      "score": 7,
+      "rr_ratio": 5.0,
+      "entry": 136.070007,
+      "stop_loss": 133.998564,
+      "target1": 140.2129,
+      "target2": 143.3201,
+      "target3": 146.4272,
+      "gap_fill": null,
+      "risk_per_unit": 2.071444,
+      "atr": 1.380963,
+      "vwap": 134.08919861528642,
+      "vwap_bias": "above",
+      "rsi": 53.6,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 1.03,
+      "vol_ratio": 1.03,
+      "candle_pct": 1.03,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:26.0",
+        "Prime +1",
+        "CounterTrend(bearish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 135.6726,
+        "slope": 0.046891,
+        "strength": 0.046891
+      },
+      "position": {
+        "units": 1110.3367,
+        "dollar_risk": 460.0,
+        "pos_value": 30216.7,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.0,
+        "atr_pct": 1.015
+      },
+      "timeframe": "1h",
+      "regime": "trend",
+      "adx": 26.0,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:43.887962+00:00"
+    },
+    {
+      "ticker": "MKR-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 1559.494995,
+      "direction": "LONG",
+      "score": 7,
+      "rr_ratio": 5.0,
+      "entry": 1559.494995,
+      "stop_loss": 1543.088544,
+      "target1": 1592.3079,
+      "target2": 1616.9176,
+      "target3": 1641.5273,
+      "gap_fill": null,
+      "risk_per_unit": 16.406451,
+      "atr": 10.937634,
+      "vwap": 1556.661791214518,
+      "vwap_bias": "above",
+      "rsi": 52.74,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 0.14,
+      "vol_ratio": 0.14,
+      "candle_pct": 1.06,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bear",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:38.5",
+        "Prime +1",
+        "CounterTrend(bearish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bullish",
+        "smoothed": 1557.2551,
+        "slope": 0.151304,
+        "strength": 0.151304
+      },
+      "position": {
+        "units": 25.0722,
+        "dollar_risk": 82.27,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.1,
+        "atr_pct": 0.701
+      },
+      "timeframe": "1h",
+      "regime": "trend",
+      "adx": 38.5,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:45.490417+00:00"
     },
     {
       "ticker": "HUBB",
@@ -6209,7 +7041,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 422.440002,
       "direction": "LONG",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 4.64,
       "entry": 422.440002,
       "stop_loss": 414.47478,
@@ -6227,7 +7059,7 @@
       },
       "risk_per_unit": 7.965223,
       "atr": 15.250693,
-      "vwap": 448.6952978261028,
+      "vwap": 448.69529782610266,
       "vwap_bias": "below",
       "rsi": 31.92,
       "rsi_divergence": {
@@ -6247,8 +7079,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
@@ -6279,7 +7112,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:25.377605+00:00"
+      "scanned_at": "2026-11-02T01:30:22.594359+00:00"
     },
     {
       "ticker": "RCL",
@@ -6289,7 +7122,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 307.179993,
       "direction": "SHORT",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 2.72,
       "entry": 307.179993,
       "stop_loss": 316.936792,
@@ -6327,8 +7160,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
@@ -6359,7 +7193,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:44.248973+00:00"
+      "scanned_at": "2026-11-02T01:28:39.019138+00:00"
     },
     {
       "ticker": "MAS",
@@ -6369,7 +7203,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 80.639999,
       "direction": "SHORT",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 2.42,
       "entry": 80.639999,
       "stop_loss": 82.898212,
@@ -6407,8 +7241,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
@@ -6439,7 +7274,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:26.534337+00:00"
+      "scanned_at": "2026-11-02T01:30:23.739713+00:00"
     },
     {
       "ticker": "SOXX",
@@ -6449,7 +7284,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 471.51001,
       "direction": "LONG",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 2.4,
       "entry": 471.51001,
       "stop_loss": 453.889502,
@@ -6487,8 +7322,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bearish) -3"
       ],
       "sr_levels": {},
@@ -6519,7 +7355,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:45.929913+00:00"
+      "scanned_at": "2026-11-02T01:31:46.211782+00:00"
     },
     {
       "ticker": "FTV",
@@ -6529,7 +7365,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 65.230003,
       "direction": "SHORT",
-      "score": 6,
+      "score": 7,
       "rr_ratio": 1.58,
       "entry": 65.230003,
       "stop_loss": 67.510387,
@@ -6567,8 +7403,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "CounterTrend(bullish) -3"
       ],
       "sr_levels": {},
@@ -6599,7 +7436,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:00:14.193290+00:00"
+      "scanned_at": "2026-11-02T01:30:11.415282+00:00"
     },
     {
       "ticker": "REGN",
@@ -6609,7 +7446,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 927.890015,
       "direction": "SHORT",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 7.0,
       "entry": 927.890015,
       "stop_loss": 943.478966,
@@ -6647,8 +7484,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2191 -1",
         "CounterTrend(bullish) -3"
       ],
@@ -6680,7 +7518,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:59:18.154578+00:00"
+      "scanned_at": "2026-11-02T01:29:14.073312+00:00"
     },
     {
       "ticker": "NFLX",
@@ -6690,7 +7528,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 62.080002,
       "direction": "LONG",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 5.18,
       "entry": 62.080002,
       "stop_loss": 60.803911,
@@ -6728,8 +7566,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -6761,80 +7600,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:27.916491+00:00"
-    },
-    {
-      "ticker": "ETH-USD",
-      "type": "crypto",
-      "sector": "\u2014",
-      "signal_type": "MOMENTUM \ud83d\udcc8",
-      "trade_type": "\u26a1 Crypto Scalp (1H)",
-      "price": 2261.0,
-      "direction": "LONG",
-      "score": 5,
-      "rr_ratio": 5.0,
-      "entry": 2261.0,
-      "stop_loss": 2249.958333,
-      "target1": 2283.0833,
-      "target2": 2299.6458,
-      "target3": 2316.2083,
-      "gap_fill": null,
-      "risk_per_unit": 11.041667,
-      "atr": 7.361111,
-      "vwap": 2262.7986402856363,
-      "vwap_bias": "below",
-      "rsi": 50.64,
-      "rsi_divergence": {
-        "bullish": false,
-        "bearish": false
-      },
-      "rvol": 0.0,
-      "vol_ratio": 0.0,
-      "candle_pct": 0.02,
-      "vol_spike": false,
-      "bb_squeeze": true,
-      "ema_cross": false,
-      "macd_signal": "bear",
-      "stochrsi_k": 0.0,
-      "mtf_bias": "bearish",
-      "mtf_confirmed": false,
-      "daily_trend": "bearish",
-      "funding_rate": null,
-      "btc_trend": "bearish",
-      "session": "STANDARD",
-      "penalty_notes": [
-        "ADX:21.0",
-        "CounterTrend(bearish) -3"
-      ],
-      "sr_levels": {},
-      "has_earnings": false,
-      "green_lights": {
-        "signal": "bullish",
-        "smoothed": 2260.0976,
-        "slope": 0.235411,
-        "strength": 0.235411
-      },
-      "position": {
-        "units": 17.2932,
-        "dollar_risk": 38.19,
-        "pos_value": 39100.0,
-        "account": "crypto",
-        "leverage": 5,
-        "atr_scale": 1.2,
-        "atr_pct": 0.326
-      },
-      "timeframe": "1h",
-      "regime": "transition",
-      "adx": 21.0,
-      "news_sentiment": {
-        "score": 0,
-        "adj": 0,
-        "label": "neutral",
-        "headlines": [],
-        "count": 0
-      },
-      "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:29.010611+00:00"
+      "scanned_at": "2026-11-02T01:28:21.392291+00:00"
     },
     {
       "ticker": "BTBT",
@@ -6844,7 +7610,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 0.8,
       "direction": "LONG",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 4.37,
       "entry": 0.8,
       "stop_loss": 0.769599,
@@ -6882,8 +7648,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -6915,7 +7682,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:02:00.207585+00:00"
+      "scanned_at": "2026-11-02T01:32:00.734841+00:00"
     },
     {
       "ticker": "GEHC",
@@ -6925,7 +7692,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 76.57,
       "direction": "SHORT",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 2.41,
       "entry": 76.57,
       "stop_loss": 78.836611,
@@ -6963,8 +7730,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2191 -1",
         "CounterTrend(bullish) -3"
       ],
@@ -6996,7 +7764,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:59:32.073207+00:00"
+      "scanned_at": "2026-11-02T01:29:28.277643+00:00"
     },
     {
       "ticker": "WDC",
@@ -7006,7 +7774,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 366.109985,
       "direction": "LONG",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 2.35,
       "entry": 366.109985,
       "stop_loss": 353.622076,
@@ -7044,8 +7812,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -7077,7 +7846,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:24.722531+00:00"
+      "scanned_at": "2026-11-02T01:28:18.097871+00:00"
     },
     {
       "ticker": "HUT",
@@ -7087,7 +7856,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 59.400002,
       "direction": "LONG",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 1.64,
       "entry": 59.400002,
       "stop_loss": 55.096939,
@@ -7125,8 +7894,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -7158,7 +7928,7 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T22:01:58.313809+00:00"
+      "scanned_at": "2026-11-02T01:31:58.816027+00:00"
     },
     {
       "ticker": "STX",
@@ -7168,7 +7938,7 @@
       "trade_type": "\ud83d\udcc5 Swing (days-weeks)",
       "price": 644.580017,
       "direction": "LONG",
-      "score": 5,
+      "score": 6,
       "rr_ratio": 1.6,
       "entry": 644.580017,
       "stop_loss": 609.74931,
@@ -7206,8 +7976,9 @@
       "daily_trend": "neutral",
       "funding_rate": null,
       "btc_trend": null,
-      "session": "STANDARD",
+      "session": "PRIME \ud83d\udd25",
       "penalty_notes": [
+        "Prime +1",
         "Sector\u2193 -1",
         "CounterTrend(bearish) -3"
       ],
@@ -7239,7 +8010,81 @@
         "count": 0
       },
       "high_conviction": false,
-      "scanned_at": "2026-11-01T21:58:25.765422+00:00"
+      "scanned_at": "2026-11-02T01:28:19.326307+00:00"
+    },
+    {
+      "ticker": "SOL-USD",
+      "type": "crypto",
+      "sector": "\u2014",
+      "signal_type": "MOMENTUM \ud83d\udcc8",
+      "trade_type": "\u26a1 Crypto Scalp (1H)",
+      "price": 95.110001,
+      "direction": "LONG",
+      "score": 5,
+      "rr_ratio": 5.0,
+      "entry": 95.110001,
+      "stop_loss": 94.577882,
+      "target1": 96.1742,
+      "target2": 96.9724,
+      "target3": 97.7706,
+      "gap_fill": null,
+      "risk_per_unit": 0.532118,
+      "atr": 0.600565,
+      "vwap": 94.46261579814319,
+      "vwap_bias": "above",
+      "rsi": 52.72,
+      "rsi_divergence": {
+        "bullish": false,
+        "bearish": false
+      },
+      "rvol": 3.88,
+      "vol_ratio": 3.88,
+      "candle_pct": 1.21,
+      "vol_spike": false,
+      "bb_squeeze": false,
+      "ema_cross": false,
+      "macd_signal": "bull",
+      "stochrsi_k": 0.0,
+      "mtf_bias": "bearish",
+      "mtf_confirmed": false,
+      "daily_trend": "bearish",
+      "funding_rate": null,
+      "btc_trend": "neutral",
+      "session": "PRIME \ud83d\udd25",
+      "penalty_notes": [
+        "ADX:21.9",
+        "Prime +1",
+        "CounterTrend(bearish) -3"
+      ],
+      "sr_levels": {},
+      "has_earnings": false,
+      "green_lights": {
+        "signal": "bearish",
+        "smoothed": 95.0149,
+        "slope": -0.011567,
+        "strength": 0.011567
+      },
+      "position": {
+        "units": 411.1029,
+        "dollar_risk": 43.75,
+        "pos_value": 39100.0,
+        "account": "crypto",
+        "leverage": 5,
+        "atr_scale": 1.1,
+        "atr_pct": 0.631
+      },
+      "timeframe": "1h",
+      "regime": "transition",
+      "adx": 21.9,
+      "news_sentiment": {
+        "score": 0,
+        "adj": 0,
+        "label": "neutral",
+        "headlines": [],
+        "count": 0
+      },
+      "high_conviction": false,
+      "scanned_at": "2026-11-02T01:32:31.934192+00:00"
     }
   ]
 }
